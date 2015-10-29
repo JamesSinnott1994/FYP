@@ -4,6 +4,7 @@
 #include "stdafx.h" 
 #include "Menu.h"
 #include "Player.h"
+#include "LevelManager.h"
 
 ////////////////////////////////////////////////////////////
 ///Entrypoint of application 
@@ -30,6 +31,9 @@ int main()
 
 	// Menu
 	Menu menu(window.getViewport(window.getView()).width, window.getViewport(window.getView()).height);
+
+	// Level Manager
+	LevelManager::GetInstance()->Init();
 
 	#pragma endregion
 
@@ -74,6 +78,7 @@ int main()
 
 				// Draw
 				player.Draw(window);
+				LevelManager::GetInstance()->Draw(window);
 				break;
 		}
 

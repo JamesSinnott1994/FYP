@@ -1,19 +1,29 @@
-﻿Build started 28/10/2015 20:05:44.
-     1>Project "C:\Users\Windows 8\Desktop\FYP Player\FYP\FYP\FYP.vcxproj" on node 2 (Build target(s)).
+﻿Build started 29/10/2015 21:37:19.
+     1>Project "C:\Users\Windows 8\Desktop\FPY Master\FYP\FYP\FYP.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\FYP.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Player.cpp
-         Player.cpp
-     1>c:\users\windows 8\desktop\fyp player\fyp\fyp\player.cpp(43): warning C4305: 'argument' : truncation from 'double' to 'float'
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\FYP.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Game.cpp Level.cpp LevelManager.cpp Platform.cpp PlatformManager.cpp
+         PlatformManager.cpp
+         Platform.cpp
+     1>c:\users\windows 8\desktop\fpy master\fyp\fyp\platform.cpp(11): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\windows 8\desktop\fpy master\fyp\fyp\platform.cpp(13): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         LevelManager.cpp
+         Level.cpp
+         Game.cpp
+         Generating Code...
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Windows 8\Desktop\FYP Player\FYP\Debug\FYP.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\SFML-2.3.2\lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Windows 8\Desktop\FYP Player\FYP\Debug\FYP.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Windows 8\Desktop\FYP Player\FYP\Debug\FYP.lib" /MACHINE:X86 Debug\AnimatedSprite.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Windows 8\Desktop\FPY Master\FYP\Debug\FYP.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\SFML-2.3.2\lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Windows 8\Desktop\FPY Master\FYP\Debug\FYP.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Windows 8\Desktop\FPY Master\FYP\Debug\FYP.lib" /MACHINE:X86 Debug\AnimatedSprite.obj
          Debug\Animation.obj
          Debug\Game.obj
+         Debug\Level.obj
+         Debug\LevelManager.obj
          Debug\Menu.obj
+         Debug\Platform.obj
+         Debug\PlatformManager.obj
          Debug\Player.obj
          Debug\stdafx.obj
-         FYP.vcxproj -> C:\Users\Windows 8\Desktop\FYP Player\FYP\Debug\FYP.exe
-     1>Done Building Project "C:\Users\Windows 8\Desktop\FYP Player\FYP\FYP\FYP.vcxproj" (Build target(s)).
+         FYP.vcxproj -> C:\Users\Windows 8\Desktop\FPY Master\FYP\Debug\FYP.exe
+     1>Done Building Project "C:\Users\Windows 8\Desktop\FPY Master\FYP\FYP\FYP.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:11.71
+Time Elapsed 00:00:04.62
