@@ -47,7 +47,7 @@ void PlatformManager::Draw(sf::RenderWindow &window)
 {
 	for each(Platform plat in platforms)
 	{
-		platforms.begin()->Draw(window);
+		plat.Draw(window);
 	}
 }
 

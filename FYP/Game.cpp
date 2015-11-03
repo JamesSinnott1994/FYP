@@ -5,6 +5,7 @@
 #include "Menu.h"
 #include "Player.h"
 #include "LevelManager.h"
+#include "CollisionManager.h"
 
 ////////////////////////////////////////////////////////////
 ///Entrypoint of application 
@@ -34,6 +35,9 @@ int main()
 
 	// Level Manager
 	LevelManager::GetInstance()->Init();
+
+	// Collision Manager
+	CollisionManager cm;
 
 	#pragma endregion
 
@@ -75,6 +79,7 @@ int main()
 			case PLAY:
 				// Update
 				player.Update(Event);
+				cm.PlayerScoreCollision();
 
 				// Draw
 				player.Draw(window);

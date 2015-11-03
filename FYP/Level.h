@@ -2,6 +2,7 @@
 #define LEVEL_H
 
 #include "PlatformManager.h"
+#include "PickupManager.h"
 
 class Level
 {
