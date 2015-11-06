@@ -47,7 +47,7 @@ Player::Player(int windowWidth, int windowHeight)
 
 	m_animatedSprite->setAnimation(*m_currentAnimation);
 
-	m_animatedSprite->setPosition(sf::Vector2f(m_animatedSprite->getGlobalBounds().width, windowHeight - m_animatedSprite->getGlobalBounds().height));
+	m_animatedSprite->setPosition(sf::Vector2f(m_animatedSprite->getGlobalBounds().width, windowHeight - (m_animatedSprite->getGlobalBounds().height+22)));
 
 	//std::cout << m_animatedSprite->getGlobalBounds().width << std::endl;
 	//std::cout << m_animatedSprite->getGlobalBounds().height << std::endl;

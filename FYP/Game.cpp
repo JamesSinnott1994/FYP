@@ -23,7 +23,7 @@ int main()
 
 	// Game states
 	const int MENU = 0, PLAY = 1;
-	int gameState = MENU;
+	int gameState = PLAY;
 
 	#pragma region Create class Instances
 
