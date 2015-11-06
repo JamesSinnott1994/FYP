@@ -6,6 +6,8 @@ Player::Player(int windowWidth, int windowHeight)
 	//m_texture.loadFromFile("Images/spritesheet1.png");
 	m_texture.loadFromFile("Images/doublespritesheet.png");
 
+	m_texture2.loadFromFile("Images/Jump.png");
+
 	// set up the animations for all four directions (set spritesheet and push frames)
 
 	m_walkingAnimationRight.setSpriteSheet(m_texture);
@@ -32,6 +34,9 @@ Player::Player(int windowWidth, int windowHeight)
 	m_walkingAnimationLeft.addFrame(sf::IntRect(192, 107, -83, 107));
 	m_walkingAnimationLeft.addFrame(sf::IntRect(84, 107, -84, 107));
 
+	m_jumpAnimation.setSpriteSheet(m_texture2);
+	m_walkingAnimationLeft.addFrame(sf::IntRect(0, 0, 74, 106));
+
 	m_currentAnimation = &m_walkingAnimationRight;
 
 	m_animationSpeed = 80.f;
@@ -51,6 +56,19 @@ Player::Player(int windowWidth, int windowHeight)
 
 	//std::cout << m_animatedSprite->getGlobalBounds().width << std::endl;
 	//std::cout << m_animatedSprite->getGlobalBounds().height << std::endl;
+
+	m_jumpKeyPressed = false;
+
+	yVelocity = 250;
+
+	collidingWithPlatform = true;
+
+	onTopOfPlatform = true;
+
+	time = 0;
+	timer = 0;
+
+	score = 0;
 }
 
 void Player::Update(sf::Event Event)
@@ -59,18 +77,61 @@ void Player::Update(sf::Event Event)
 
 	// if a key was pressed set the correct animation and move correctly
 	sf::Vector2f movement(0.f, 0.f);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		m_currentAnimation = &m_walkingAnimationLeft;
 		movement.x -= m_animationSpeed;
 		m_noKeyWasPressed = false;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)|| sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		m_currentAnimation = &m_walkingAnimationRight;
 		movement.x += m_animationSpeed;
 		m_noKeyWasPressed = false;
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && getCollidingWithPlatform())
+	{
+		m_currentAnimation = &m_walkingAnimationRight;
+		m_jumpKeyPressed = true;
+		m_noKeyWasPressed = false;
+	}
+	//std::cout << yVelocity << std::endl;
+
+	if (m_jumpKeyPressed)
+	{
+		movement.y -= yVelocity;
+
+		yVelocity -= 3;
+
+		time++;
+
+		if (getCollidingWithPlatform() && time > 60)
+		{
+			yVelocity = 250;
+			m_jumpKeyPressed = false;
+			time = 0;
+		}
+	}
+
+	// If in air and not colliding with top of platform
+	if (getCollidingWithPlatform() && !getOnTopOfPlatform())
+	{
+		m_jumpKeyPressed = false;
+		movement.y += yVelocity;
+	}
+
+	if (getCollidingWithPlatform())
+	{
+		yVelocity = 250;
+	}
+
+	// If not colliding with platform and jump key is not pressed
+	if (!getCollidingWithPlatform() && !m_jumpKeyPressed)
+	{
+		movement.y += yVelocity;
+		//yVelocity -= 1;
+	}
+
 	m_animatedSprite->play(*m_currentAnimation);
 	m_animatedSprite->move(movement * frameTime.asSeconds());
 
@@ -88,4 +149,43 @@ void Player::Update(sf::Event Event)
 void Player::Draw(sf::RenderWindow &window)
 {
 	window.draw(*m_animatedSprite);
+
+	//// Create a sprite
+	//sf::RectangleShape rect;
+	//rect.setPosition(sf::Vector2f(m_animatedSprite->getPosition().x, m_animatedSprite->getPosition().y));
+	//rect.setSize(sf::Vector2f(m_animatedSprite->getGlobalBounds().width, m_animatedSprite->getGlobalBounds().height));
+	//rect.setFillColor(sf::Color(255, 255, 255, 200));
+	//window.draw(rect);
+}
+
+AnimatedSprite* Player::getSprite()
+{
+	return m_animatedSprite;
+}
+
+bool Player::getCollidingWithPlatform()
+{
+	return collidingWithPlatform;
+}
+void Player::setCollidingWithPlatform(bool mycollidingWithPlatform)
+{
+	collidingWithPlatform = mycollidingWithPlatform;
+}
+
+bool Player::getOnTopOfPlatform()
+{
+	return onTopOfPlatform;
+}
+void Player::setOnTopOfPlatform(bool myonTopOfPlatform)
+{
+	onTopOfPlatform = myonTopOfPlatform;
+}
+
+int Player::getScore()
+{
+	return score;
+}
+void Player::setScore(int myScore)
+{
+	score = myScore;
 }

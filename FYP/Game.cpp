@@ -6,6 +6,8 @@
 #include "Player.h"
 #include "LevelManager.h"
 #include "CollisionManager.h"
+#include "Score2.h"
+#include "Level.h"
 
 ////////////////////////////////////////////////////////////
 ///Entrypoint of application 
@@ -23,7 +25,7 @@ int main()
 
 	// Game states
 	const int MENU = 0, PLAY = 1;
-	int gameState = PLAY;
+	int gameState = MENU;
 
 	#pragma region Create class Instances
 
@@ -33,8 +35,22 @@ int main()
 	// Menu
 	Menu menu(window.getViewport(window.getView()).width, window.getViewport(window.getView()).height);
 
+	// Score2
+	std::vector<Score2> scores2Vector;// A vector of score objects
+	Score2 score(400, 550);
+	scores2Vector.push_back(score);
+	Score2 score2(450, 550);
+	scores2Vector.push_back(score2);
+	Score2 score3(700,200);
+	scores2Vector.push_back(score3);
+
 	// Level Manager
 	LevelManager::GetInstance()->Init();
+
+	// Level
+	sf::Texture texture;
+	texture.loadFromFile("Images/space.png");
+	Level level(texture);
 
 	// Collision Manager
 	CollisionManager cm;
@@ -79,11 +95,18 @@ int main()
 			case PLAY:
 				// Update
 				player.Update(Event);
-				cm.PlayerScoreCollision();
+				cm.PlayerScoreCollision(player, scores2Vector);
+				cm.PlayerPlatformCollision(player);
 
 				// Draw
+				level.DrawBackground(window);
 				player.Draw(window);
 				LevelManager::GetInstance()->Draw(window);
+
+				for (std::vector<Score2>::iterator it = scores2Vector.begin(); it != scores2Vector.end(); ++it)
+				{
+					it->Draw(window);
+				}
 				break;
 		}
 

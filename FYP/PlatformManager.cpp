@@ -55,3 +55,8 @@ void PlatformManager::Update()
 {
 
 }
+
+std::list<Platform> PlatformManager::platformObjectList()
+{
+	return platforms;
+}

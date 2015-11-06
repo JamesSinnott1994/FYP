@@ -12,6 +12,8 @@ public:
 
 	static PlatformManager* GetInstance();
 
+	std::list<Platform> platformObjectList();
+
 	~PlatformManager()
 	{
 		instanceFlag = false;

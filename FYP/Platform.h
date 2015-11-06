@@ -9,6 +9,8 @@ public:
 	Platform(int x, int y, int width, int height);
 
 	void Draw(sf::RenderWindow &window);
+
+	sf::RectangleShape getRectangle();
 private:
 	sf::RectangleShape m_platformRect;
 };
