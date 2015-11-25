@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "PlatformManager.h"
 
-#include <fstream>
-
 bool PlatformManager::instanceFlag = false;
 PlatformManager* PlatformManager::instance = NULL;
 
@@ -20,43 +18,28 @@ PlatformManager* PlatformManager::GetInstance()
 	}
 }
 
-void PlatformManager::Init()
+void PlatformManager::addPlatform(SDL_Rect pRect, b2World* world, string type)
 {
-	// Need to read in platform positions here
-
-	// For reading from text file
-	std::ifstream myFile;
-
-	// Position for nodes
-	int xPos = 0;
-	int yPos = 0;
-	int width = 0;
-	int height = 0;
-
-	myFile.open("Text/PlatformsLevelOne.txt");
-	while (myFile >> xPos >> yPos >> width >> height)
+	if (type == "topPlatform")
 	{
-		Platform platform(xPos, yPos, width, height);
-		platforms.push_back(platform);
+		m_platformTexture = Sprite::loadTexture("Images/platform.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+		m_platformSource = { 0, 0, 106, 29 };
 	}
-	myFile.close();
-
-}
-
-void PlatformManager::Draw(sf::RenderWindow &window)
-{
-	for each(Platform plat in platforms)
+	else
 	{
-		plat.Draw(window);
+		m_platformTexture = Sprite::loadTexture("Images/bottomPlatform.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+		m_platformSource = { 0, 0, 106, 29 };
 	}
+
+	Platform* temp = new Platform(m_platformTexture, pRect, world, m_platformSource);
+
+	m_platforms.push_back(temp);
 }
 
-void PlatformManager::Update()
+void PlatformManager::Draw()
 {
-
-}
-
-std::list<Platform> PlatformManager::platformObjectList()
-{
-	return platforms;
+	for each(Platform* plat in m_platforms)
+	{
+		plat->Draw();
+	}
 }

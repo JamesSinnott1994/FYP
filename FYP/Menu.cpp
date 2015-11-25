@@ -3,191 +3,148 @@
 
 Menu::Menu(int windowWidth, int windowHeight)
 {
-	// Load main menu background image
-	m_mainMenuTexture.loadFromFile("Images/MainMenuBackground.jpg");
-	m_mainMenuSprite = sf::Sprite(m_mainMenuTexture);
+	// Create background image
+	m_backGroundImage = new Sprite();
+	m_backGroundImage->Init("Images/MainMenuBackground.png",
+		SDL_Rect{ windowWidth / 2, windowHeight / 2, windowWidth, windowHeight }, SDL_Rect{ 0, 0, 1280, 960 });
+	m_backGroundImage->SetOffset(SDL_Point{ windowWidth / 2, windowHeight / 2 });
 
-	// Scale image to window
-	m_mainMenuSprite.setScale(windowWidth / m_mainMenuSprite.getLocalBounds().width, 
-		windowHeight / m_mainMenuSprite.getLocalBounds().height);
+	// Create Play button
+	float playBtnWidth = 167;
+	float playBtnHeight = 144;
+	float playBtnXPos = windowWidth / 2 - (playBtnWidth / 2);
+	float playBtnYPos = windowHeight - playBtnHeight;
+	m_playButton.Init(SDL_Rect{ playBtnXPos, playBtnYPos, playBtnWidth, playBtnHeight },
+		SDL_Rect{ 0, 0, 167, 144 }, "Images/PlayBtnNotOver.png");
 
-	#pragma region Setup Buttons
+	// Create Options button
+	float optionsBtnWidth = 229;
+	float optionsBtnHeight = 62;
+	float optionsBtnXPos = windowWidth / 5 - (optionsBtnWidth / 2);
+	float optionsBtnYPos = windowHeight - optionsBtnHeight;
+	m_optionsButton.Init(SDL_Rect{ optionsBtnXPos, optionsBtnYPos, optionsBtnWidth, optionsBtnHeight },
+		SDL_Rect{ 0, 0, 229, 62 }, "Images/OptionsBtnNotOver.png");
 
-		// Load buttons
-		m_playBtnNotOverTexture.loadFromFile("Images/PlayBtnNotOver.png");
-		m_playBtnOverTexture.loadFromFile("Images/PlayBtnOver.png");
-		m_playButtonSprite = sf::Sprite(m_playBtnNotOverTexture);
-		m_playButtonSprite.setPosition(sf::Vector2f((windowWidth / 2) - (m_playButtonSprite.getLocalBounds().width / 2),
-			windowHeight*0.75f));
+	// Create Exit button
+	float exitBtnWidth = 127;
+	float exitBtnHeight = 62;
+	float exitBtnXPos = windowWidth - (exitBtnWidth * 2);
+	float exitBtnYPos = windowHeight - exitBtnHeight;
+	m_exitButton.Init(SDL_Rect{ exitBtnXPos, exitBtnYPos, exitBtnWidth, exitBtnHeight },
+		SDL_Rect{ 0, 0, 127, 62 }, "Images/ExitBtnNotOver.png");
 
-		m_optionsBtnNotOverTexture.loadFromFile("Images/OptionsBtnNotOver.png");
-		m_optionsBtnOverTexture.loadFromFile("Images/OptionsBtnOver.png");
-		m_optionsButtonSprite = sf::Sprite(m_optionsBtnNotOverTexture);
-		m_optionsButtonSprite.setPosition(sf::Vector2f((windowWidth * 0.2f) - (m_optionsButtonSprite.getLocalBounds().width / 2),
-			windowHeight*0.8f));
+	// Prevents constant draw when over buttons
+	m_playImageOver = false;
+	m_optionsImageOver = false;
+	m_exitImageOver = false;
+}
 
-		m_exitBtnNotOverTexture.loadFromFile("Images/ExitBtnNotOver.png");
-		m_exitBtnOverTexture.loadFromFile("Images/ExitBtnOver.png");
-		m_exitButtonSprite = sf::Sprite(m_exitBtnNotOverTexture);
-		m_exitButtonSprite.setPosition(sf::Vector2f((windowWidth * 0.8f) - (m_exitButtonSprite.getLocalBounds().width / 2),
-			windowHeight*0.8f));
+void Menu::Draw()
+{
+	Renderer::GetInstance()->ClearRenderer();
+	m_backGroundImage->DrawNoCamOffset();
+	m_playButton.Draw();
+	m_optionsButton.Draw();
+	m_exitButton.Draw();
+	Renderer::GetInstance()->RenderScreen();
+}
 
-		// Scale buttons according to window size
-		m_playButtonSprite.setScale(windowWidth*0.00125f, windowHeight*0.00125f);
-		m_optionsButtonSprite.setScale(windowWidth*0.00125f, windowHeight*0.00125f);
-		m_exitButtonSprite.setScale(windowWidth*0.00125f, windowHeight*0.00125f);
+int Menu::Update(SDL_Event e)
+{
+	#pragma region Mouseover
+
+		// Mouseover Play button
+		if (m_playButton.IsOver(e.button.x, e.button.y))
+		{
+			if (!m_playImageOver)
+			{
+				m_playButton.Init(SDL_Rect{ m_playButton.GetRectangle().x, m_playButton.GetRectangle().y, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h },
+					SDL_Rect{ 0, 0, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h }, "Images/PlayBtnOver.png");
+			}
+			m_playImageOver = true;
+		}
+		else
+		{
+			if (m_playImageOver)
+			{
+				m_playButton.Init(SDL_Rect{ m_playButton.GetRectangle().x, m_playButton.GetRectangle().y, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h },
+					SDL_Rect{ 0, 0, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h }, "Images/PlayBtnNotOver.png");
+			}
+			m_playImageOver = false;
+		}
+
+		// Mouseover Options button
+		if (m_optionsButton.IsOver(e.button.x, e.button.y))
+		{
+			if (!m_optionsImageOver)
+			{
+				m_optionsButton.Init(SDL_Rect{ m_optionsButton.GetRectangle().x, m_optionsButton.GetRectangle().y, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h },
+					SDL_Rect{ 0, 0, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h }, "Images/OptionsBtnOver.png");
+			}
+			m_optionsImageOver = true;
+		}
+		else
+		{
+			if (m_optionsImageOver)
+			{
+				m_optionsButton.Init(SDL_Rect{ m_optionsButton.GetRectangle().x, m_optionsButton.GetRectangle().y, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h },
+					SDL_Rect{ 0, 0, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h }, "Images/OptionsBtnNotOver.png");
+			}
+			m_optionsImageOver = false;
+		}
+
+		// Mouseover Exit button
+		if (m_exitButton.IsOver(e.button.x, e.button.y))
+		{
+			if (!m_exitImageOver)
+			{
+				m_exitButton.Init(SDL_Rect{ m_exitButton.GetRectangle().x, m_exitButton.GetRectangle().y, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h },
+					SDL_Rect{ 0, 0, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h }, "Images/ExitBtnOver.png");
+			}
+			m_exitImageOver = true;
+		}
+		else
+		{
+			if (m_exitImageOver)
+			{
+				m_exitButton.Init(SDL_Rect{ m_exitButton.GetRectangle().x, m_exitButton.GetRectangle().y, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h },
+					SDL_Rect{ 0, 0, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h }, "Images/ExitBtnNotOver.png");
+			}
+			m_exitImageOver = false;
+		}
 
 	#pragma endregion
 
-	// Booleans
-	m_mouseClicked = false;
-	m_playBtnClicked = false;
-}
+	#pragma region Mousedown
 
-void Menu::Update(sf::RenderWindow &window, int windowWidth, int windowHeight, sf::Event Event)
-{
-	sf::Vector2f mousePosition = sf::Vector2f((float)sf::Mouse::getPosition(window).x, (float)sf::Mouse::getPosition(window).y);
+		// Mousedown
+		if (e.type == SDL_MOUSEBUTTONDOWN)
+		{
+			//If the left mouse button was pressed
+			if (e.button.button == SDL_BUTTON_LEFT)
+			{
+				//Get the mouse offsets
+				int mouse_x = e.button.x;
+				int mouse_y = e.button.y;
 
-	CheckMouseClicked(Event);
-	PlayButtonClicked(mousePosition, window, windowWidth, windowHeight);
-	OptionsButtonClicked(mousePosition, window, windowWidth, windowHeight);
-	ExitButtonClicked(mousePosition, window, windowWidth, windowHeight);
-}
 
-void Menu::CheckMouseClicked(sf::Event Event)
-{
-	if (Event.type == sf::Event::MouseButtonPressed)
-	{
-		SetMouseClicked(true);
-	}
-	if (Event.type == sf::Event::MouseButtonReleased)
-	{
-		SetMouseClicked(false);
-	}
-}
+				// Check if button clicked
+				if (m_playButton.IsClicked(mouse_x, mouse_y))
+				{
+					return PLAY;
+				}
+				else if (m_optionsButton.IsClicked(mouse_x, mouse_y))
+				{
+					return OPTIONS;
+				}
+				else if (m_exitButton.IsClicked(mouse_x, mouse_y))
+				{
+					return EXIT;
+				}
+			}
+		}
 
-#pragma region Button Clicked Methods
+	#pragma endregion
 
-// Checks if mouse is over button and if button is clicked
-void Menu::PlayButtonClicked(sf::Vector2f mousePosition, sf::RenderWindow &window, int windowWidth, int windowHeight)
-{
-	if (mousePosition.x >= m_playButtonSprite.getGlobalBounds().left
-		&& mousePosition.x <= m_playButtonSprite.getGlobalBounds().left + m_playButtonSprite.getGlobalBounds().width
-		&& mousePosition.y >= m_playButtonSprite.getGlobalBounds().top
-		&& mousePosition.y <= m_playButtonSprite.getGlobalBounds().top + m_playButtonSprite.getGlobalBounds().height
-		&& GetMouseClicked() == false)
-	{
-		m_playButtonSprite = sf::Sprite(m_playBtnOverTexture);
-		m_playButtonSprite.setPosition(sf::Vector2f((windowWidth / 2) - (m_playButtonSprite.getLocalBounds().width / 2),
-			windowHeight*0.75f));
-		m_playButtonSprite.setScale(windowWidth*0.00125f, windowHeight*0.00125f);
-	}
-	else if (mousePosition.x >= m_playButtonSprite.getGlobalBounds().left
-		&& mousePosition.x <= m_playButtonSprite.getGlobalBounds().left + m_playButtonSprite.getGlobalBounds().width
-		&& mousePosition.y >= m_playButtonSprite.getGlobalBounds().top
-		&& mousePosition.y <= m_playButtonSprite.getGlobalBounds().top + m_playButtonSprite.getGlobalBounds().height
-		&& GetMouseClicked() == true)
-	{
-		SetPlayBtnClicked(true);
-	}
-	else
-	{
-		m_playButtonSprite = sf::Sprite(m_playBtnNotOverTexture);
-		m_playButtonSprite.setPosition(sf::Vector2f((windowWidth / 2) - (m_playButtonSprite.getLocalBounds().width / 2),
-			windowHeight*0.75f));
-		m_playButtonSprite.setScale(windowWidth*0.00125f, windowHeight*0.00125f);
-	}
-}
-
-// Checks if mouse is over button and if button is clicked
-void Menu::OptionsButtonClicked(sf::Vector2f mousePosition, sf::RenderWindow &window, int windowWidth, int windowHeight)
-{
-	if (mousePosition.x >= m_optionsButtonSprite.getGlobalBounds().left
-		&& mousePosition.x <= m_optionsButtonSprite.getGlobalBounds().left + m_optionsButtonSprite.getGlobalBounds().width
-		&& mousePosition.y >= m_optionsButtonSprite.getGlobalBounds().top
-		&& mousePosition.y <= m_optionsButtonSprite.getGlobalBounds().top + m_optionsButtonSprite.getGlobalBounds().height
-		&& GetMouseClicked() == false)
-	{
-		m_optionsButtonSprite = sf::Sprite(m_optionsBtnOverTexture);
-		m_optionsButtonSprite.setPosition(sf::Vector2f((windowWidth * 0.2f) - (m_optionsButtonSprite.getLocalBounds().width / 2),
-			windowHeight*0.8f));
-		m_optionsButtonSprite.setScale(windowWidth*0.00125f, windowHeight*0.00125f);
-	}
-	else if (mousePosition.x >= m_optionsButtonSprite.getGlobalBounds().left
-		&& mousePosition.x <= m_optionsButtonSprite.getGlobalBounds().left + m_optionsButtonSprite.getGlobalBounds().width
-		&& mousePosition.y >= m_optionsButtonSprite.getGlobalBounds().top
-		&& mousePosition.y <= m_optionsButtonSprite.getGlobalBounds().top + m_optionsButtonSprite.getGlobalBounds().height
-		&& GetMouseClicked() == true)
-	{
-		window.close();
-	}
-	else
-	{
-		m_optionsButtonSprite = sf::Sprite(m_optionsBtnNotOverTexture);
-		m_optionsButtonSprite.setPosition(sf::Vector2f((windowWidth * 0.2f) - (m_optionsButtonSprite.getLocalBounds().width / 2),
-			windowHeight*0.8f));
-		m_optionsButtonSprite.setScale(windowWidth*0.00125f, windowHeight*0.00125f);
-	}
-}
-
-// Checks if mouse is over button and if button is clicked
-void Menu::ExitButtonClicked(sf::Vector2f mousePosition, sf::RenderWindow &window, int windowWidth, int windowHeight)
-{
-	if (mousePosition.x >= m_exitButtonSprite.getGlobalBounds().left
-		&& mousePosition.x <= m_exitButtonSprite.getGlobalBounds().left + m_exitButtonSprite.getGlobalBounds().width
-		&& mousePosition.y >= m_exitButtonSprite.getGlobalBounds().top
-		&& mousePosition.y <= m_exitButtonSprite.getGlobalBounds().top + m_exitButtonSprite.getGlobalBounds().height
-		&& GetMouseClicked() == false)
-	{
-		m_exitButtonSprite = sf::Sprite(m_exitBtnOverTexture);
-		m_exitButtonSprite.setPosition(sf::Vector2f((windowWidth * 0.8f) - (m_exitButtonSprite.getLocalBounds().width / 2),
-			windowHeight*0.8f));
-		m_exitButtonSprite.setScale(windowWidth*0.00125f, windowHeight*0.00125f);
-	}
-	else if (mousePosition.x >= m_exitButtonSprite.getGlobalBounds().left
-		&& mousePosition.x <= m_exitButtonSprite.getGlobalBounds().left + m_exitButtonSprite.getGlobalBounds().width
-		&& mousePosition.y >= m_exitButtonSprite.getGlobalBounds().top
-		&& mousePosition.y <= m_exitButtonSprite.getGlobalBounds().top + m_exitButtonSprite.getGlobalBounds().height
-		&& GetMouseClicked() == true)
-	{
-		window.close();
-	}
-	else
-	{
-		m_exitButtonSprite = sf::Sprite(m_exitBtnNotOverTexture);
-		m_exitButtonSprite.setPosition(sf::Vector2f((windowWidth * 0.8f) - (m_exitButtonSprite.getLocalBounds().width / 2),
-			windowHeight*0.8f));
-		m_exitButtonSprite.setScale(windowWidth*0.00125f, windowHeight*0.00125f);
-	}
-}
-
-#pragma endregion
-
-void Menu::Draw(sf::RenderWindow &window)
-{
-	window.draw(m_mainMenuSprite);
-	window.draw(m_playButtonSprite);
-	window.draw(m_optionsButtonSprite);
-	window.draw(m_exitButtonSprite);
-}
-
-// Getter/Setter methods
-bool Menu::GetMouseClicked() const
-{
-	return m_mouseClicked;
-}
-
-void Menu::SetMouseClicked(bool myMouseClicked)
-{
-	m_mouseClicked = myMouseClicked;
-}
-
-bool Menu::GetPlayBtnClicked() const
-{
-	return m_playBtnClicked;
-}
-
-void Menu::SetPlayBtnClicked(bool myPlayBtnClicked)
-{
-	m_playBtnClicked = myPlayBtnClicked;
+	return MENU;
 }

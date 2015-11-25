@@ -1,31 +1,36 @@
 #ifndef PLATFORMMANAGER_H
 #define PLATFORMMANAGER_H
 
+#include <list>
 #include "Platform.h"
 
 class PlatformManager
 {
 public:
-	void Init();
-	void Draw(sf::RenderWindow &window);
-	void Update();
-
 	static PlatformManager* GetInstance();
-
-	std::list<Platform> platformObjectList();
-
 	~PlatformManager()
 	{
 		instanceFlag = false;
 	}
+
+	void addPlatform(SDL_Rect pRect, b2World* world, string type);
+
+	void Draw();
+
 private:
 	PlatformManager()
 	{
-		platforms = std::list<Platform>();
+		m_platforms = list<Platform*>();
 	}
-	std::list<Platform> platforms;
+
 	static bool instanceFlag;
 	static PlatformManager* instance;
+
+	list<Platform*> m_platforms;
+
+	SDL_Texture* m_platformTexture;
+
+	SDL_Rect m_platformSource;
 };
 
 #endif

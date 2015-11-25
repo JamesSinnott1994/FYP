@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0F526393-04E7-42E1-BD88-D2A197DAC5A6}</ProjectGuid>
+    <ProjectGuid>{AEB25CC8-DD42-4C63-ADDF-5B9F54A9D9DF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>FYP</RootNamespace>
   </PropertyGroup>
@@ -41,6 +41,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\SDL2\include;C:\SDL2_image-2.0.0\include;C:\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>C:\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\lib\x86;C:\SDL2\lib\x86;C:\SDL2_image-2.0.0\lib\x86;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -52,12 +54,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SFML_SDK)\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SFML_SDK)\lib;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>./lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Box2D.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -69,49 +72,43 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SFML_SDK)\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SFML_SDK)\lib;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AnimatedSprite.h" />
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="KeyBoardInput.h" />
     <ClInclude Include="Level.h" />
-    <ClInclude Include="LevelManager.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="PickupManager.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlatformManager.h" />
+    <ClInclude Include="Play.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Score.h" />
-    <ClInclude Include="Score2.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AnimatedSprite.cpp" />
-    <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="CollisionManager.cpp" />
-    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="FYP.cpp" />
+    <ClCompile Include="KeyBoardInput.cpp" />
     <ClCompile Include="Level.cpp" />
-    <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="PickupManager.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="PlatformManager.cpp" />
+    <ClCompile Include="Play.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Score.cpp" />
-    <ClCompile Include="Score2.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

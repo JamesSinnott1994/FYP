@@ -1,41 +1,65 @@
 #include "stdafx.h"
 #include "Level.h"
 
-Level::Level(std::string levelNum)
+const int Level::SCALE = 32;
+const int Level::MAXLEVELS = 3;
+int Level::currentlevel = 0;
+
+Level::Level()
 {
-	// Load platforms for the specific level
-	PlatformManager::GetInstance()->Init();
-	PickupManager::GetInstance()->Init();
+	currentlevel = 0;
 }
 
-Level::Level(sf::Texture texture)
+// This is where we load the various game entities
+// e.g. platforms, pickups etc
+void Level::LoadLevel(string name, b2World* world)
 {
-	m_texture = texture;
-	setTexture(m_texture);
+	vector<string> map = Level::loadALevelFromTextFile(name);
+	const int charactersAcross = 25;
+	const int charactersDown = 20;
 
-	m_sprite.setTexture(m_texture);
+	// Go through each each row
+	for (int y = 0; y < charactersDown; y++)
+	{
+		// Go through each character of each row
+		for (int x = 0; x < charactersAcross; x++)
+		{
+			char c = (char)map[y][x];
 
-	// Scale image to window
-	m_sprite.setScale(800 / m_sprite.getLocalBounds().width,
-		600 / m_sprite.getLocalBounds().height);
+			if (c == 'B')// 'B' for blank
+			{
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
+			}
+			else if (c == 'P')// 'P' for top platform
+			{
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE*3, SCALE };
+				PlatformManager::GetInstance()->addPlatform(temp, world, "topPlatform");
+			}
+			else if (c == 'p')// 'p' for bottom platform
+			{
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE*3, SCALE };
+				PlatformManager::GetInstance()->addPlatform(temp, world, "bottomPlatform");
+			}
+
+		}// End inner for loop
+	}// End outer for loop
 }
 
-void Level::Draw(sf::RenderWindow &window)
+void Level::draw(Renderer Render)
 {
-	PlatformManager::GetInstance()->Draw(window);
-	PickupManager::GetInstance()->Draw(window);
+	
 }
+vector<string> Level::loadALevelFromTextFile(string name)
+{
+	vector<string > mystringvector;
+	ifstream myfile;
+	myfile.open(name);
+	string c = "";
+	while (myfile >> c)
+	{
+		mystringvector.push_back(c);
+	}
 
-void Level::DrawBackground(sf::RenderWindow &window)
-{
-	window.draw(m_sprite);
-}
-
-void Level::setTexture(sf::Texture myTexture)
-{
-	m_texture = myTexture;
-}
-sf::Texture Level::getTexture()
-{
-	return m_texture;
+	myfile.close();
+	return mystringvector;
 }

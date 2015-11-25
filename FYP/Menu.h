@@ -1,41 +1,33 @@
 #ifndef MENU_H
-#define MENU_h
+#define MENU_H
+
+#include "Sprite.h"
+#include "Button.h"
 
 class Menu
 {
 public:
-	Menu(int windowWidth, int windowHeight);
-	void Update(sf::RenderWindow &window, int windowWidth, int windowHeight, sf::Event Event);
-	void CheckMouseClicked(sf::Event Event);
-	void PlayButtonClicked(sf::Vector2f mousePosition, sf::RenderWindow &window, int windowWidth, int windowHeight);
-	void OptionsButtonClicked(sf::Vector2f mousePosition, sf::RenderWindow &window, int windowWidth, int windowHeight);
-	void ExitButtonClicked(sf::Vector2f mousePosition, sf::RenderWindow &window, int windowWidth, int windowHeight);
-	void Draw(sf::RenderWindow &window);
+	Menu(int, int);
 
-	// Getter/Setter methods
-	bool GetMouseClicked() const;
-	void SetMouseClicked(bool myMouseClicked);
+	void Draw();
+	int Update(SDL_Event e);
 
-	bool GetPlayBtnClicked() const;
-	void SetPlayBtnClicked(bool myPlayBtnClicked);
+	// Menu states for buttons
+	const int MENU = 0;
+	const int PLAY = 1;
+	const int OPTIONS = 2;
+	const int EXIT = 3;
+
+	// Prevents constant draw when over buttons
+	bool m_playImageOver;
+	bool m_optionsImageOver;
+	bool m_exitImageOver;
 private:
-	sf::Texture m_mainMenuTexture;
-	sf::Sprite m_mainMenuSprite;
+	Sprite* m_backGroundImage;
 
-	sf::Texture m_playBtnNotOverTexture;
-	sf::Texture m_playBtnOverTexture;
-	sf::Sprite m_playButtonSprite;
-
-	sf::Texture m_optionsBtnNotOverTexture;
-	sf::Texture m_optionsBtnOverTexture;
-	sf::Sprite m_optionsButtonSprite;
-
-	sf::Texture m_exitBtnNotOverTexture;
-	sf::Texture m_exitBtnOverTexture;
-	sf::Sprite m_exitButtonSprite;
-
-	bool m_mouseClicked;
-	bool m_playBtnClicked;
+	Button m_playButton;
+	Button m_optionsButton;
+	Button m_exitButton;
 };
 
 #endif

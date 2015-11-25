@@ -1,191 +1,231 @@
 #include "stdafx.h"
 #include "Player.h"
 
-Player::Player(int windowWidth, int windowHeight)
+Player::Player()
 {
-	//m_texture.loadFromFile("Images/spritesheet1.png");
-	m_texture.loadFromFile("Images/doublespritesheet.png");
-
-	m_texture2.loadFromFile("Images/Jump.png");
-
-	// set up the animations for all four directions (set spritesheet and push frames)
-
-	m_walkingAnimationRight.setSpriteSheet(m_texture);
-	m_walkingAnimationRight.addFrame(sf::IntRect(0, 0, 76, 107));
-	m_walkingAnimationRight.addFrame(sf::IntRect(90, 0, 69, 107));
-	m_walkingAnimationRight.addFrame(sf::IntRect(175, 0, 75, 107));
-	m_walkingAnimationRight.addFrame(sf::IntRect(264, 0, 84, 107));
-	m_walkingAnimationRight.addFrame(sf::IntRect(362, 0, 87, 107));
-	m_walkingAnimationRight.addFrame(sf::IntRect(465, 0, 74, 107));
-	m_walkingAnimationRight.addFrame(sf::IntRect(555, 0, 70, 107));
-	m_walkingAnimationRight.addFrame(sf::IntRect(638, 0, 73, 107));
-	m_walkingAnimationRight.addFrame(sf::IntRect(719, 0, 83, 107));
-	m_walkingAnimationRight.addFrame(sf::IntRect(826, 0, 84, 107));
-
-	m_walkingAnimationLeft.setSpriteSheet(m_texture);
-	m_walkingAnimationLeft.addFrame(sf::IntRect(913, 107, -76, 107));
-	m_walkingAnimationLeft.addFrame(sf::IntRect(822, 107, -69, 107));
-	m_walkingAnimationLeft.addFrame(sf::IntRect(736, 107, -75, 107));
-	m_walkingAnimationLeft.addFrame(sf::IntRect(646, 107, -84, 107));
-	m_walkingAnimationLeft.addFrame(sf::IntRect(548, 107, -87, 107));
-	m_walkingAnimationLeft.addFrame(sf::IntRect(446, 107, -74, 107));
-	m_walkingAnimationLeft.addFrame(sf::IntRect(354, 107, -70, 107));
-	m_walkingAnimationLeft.addFrame(sf::IntRect(272, 107, -73, 107));
-	m_walkingAnimationLeft.addFrame(sf::IntRect(192, 107, -83, 107));
-	m_walkingAnimationLeft.addFrame(sf::IntRect(84, 107, -84, 107));
-
-	m_jumpAnimation.setSpriteSheet(m_texture2);
-	m_walkingAnimationLeft.addFrame(sf::IntRect(0, 0, 74, 106));
-
-	m_currentAnimation = &m_walkingAnimationRight;
-
-	m_animationSpeed = 80.f;
-	m_noKeyWasPressed = true;
-
-	sf::Vector2i screenDimensions = sf::Vector2i(windowWidth, windowHeight);
-
-	// Initialize AnimatedSprite
-	m_animatedSprite = new AnimatedSprite(sf::seconds(0.2), true, false);
-	m_animatedSprite->setPosition(sf::Vector2f(50, 50));
-
-	m_animatedSprite->setScale(0.75f, 0.75f);
-
-	m_animatedSprite->setAnimation(*m_currentAnimation);
-
-	m_animatedSprite->setPosition(sf::Vector2f(m_animatedSprite->getGlobalBounds().width, windowHeight - (m_animatedSprite->getGlobalBounds().height+22)));
-
-	//std::cout << m_animatedSprite->getGlobalBounds().width << std::endl;
-	//std::cout << m_animatedSprite->getGlobalBounds().height << std::endl;
-
-	m_jumpKeyPressed = false;
-
-	yVelocity = 250;
-
-	collidingWithPlatform = true;
-
-	onTopOfPlatform = true;
-
-	time = 0;
-	timer = 0;
-
-	score = 0;
+	
 }
 
-void Player::Update(sf::Event Event)
+void Player::Init(SDL_Rect pRect, b2World *pWorld)
 {
-	sf::Time frameTime = m_frameClock.restart();
+	// Position
+	m_rect = pRect;
 
-	// if a key was pressed set the correct animation and move correctly
-	sf::Vector2f movement(0.f, 0.f);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	// Box2D stuff
+	m_bodyDef.type = b2_dynamicBody;
+	m_bodyDef.position.Set(pRect.x, pRect.y);
+	m_body = pWorld->CreateBody(&m_bodyDef);
+
+	m_shape.SetAsBox(pRect.w / 2, (pRect.h / 2) - 2);
+	m_bodyFixtureDef.shape = &m_shape;
+
+	m_body->CreateFixture(&m_bodyFixtureDef);
+
+	// Player Initial idle sprite
+	m_playerIdleSprite = new Sprite();
+	m_source = { 0, 0, 77, 107 };
+	m_playerIdleSprite->Init("Images/PlayerIdleRight.png", pRect, m_source);
+	m_playerIdleSprite->SetOffset(SDL_Point{ 38.5f, 53.5f });
+	m_idle = true;
+	m_drawn = true;
+
+	// Initial direction
+	m_movingLeft = false;
+	m_movingRight = true;
+
+	// Player running animation
+	m_playerRunningSprite = new Sprite();
+	m_source = { 0, 0, 912, 107 };
+	m_playerRunningSprite->Init("Images/PlayerRunningRight.png", pRect, m_source);
+	m_playerRunningSprite->SetOffset(SDL_Point{ 38.5f, 53.5f });
+	m_runningFrames = 0;
+	m_runningAnimationTime = 0;
+	gSpriteRunningClipsRight[RUNNING_ANIMATION_FRAMES];
+	gSpriteRunningClipsLeft[RUNNING_ANIMATION_FRAMES];
+	m_running = false;
+
+	// Jump
+	m_canJump = false;
+
+	SpriteClips();
+}
+
+void Player::SpriteClips()
+{
+	// Running sprite clips
+	gSpriteRunningClipsRight[0] = { 0, 3, 74, 103 };
+	gSpriteRunningClipsRight[1] = { 91, 1, 68, 105 };
+	gSpriteRunningClipsRight[2] = { 176, 0, 74, 106 };
+	gSpriteRunningClipsRight[3] = { 266, 2, 82, 104 };
+	gSpriteRunningClipsRight[4] = { 364, 4, 84, 102 };
+	gSpriteRunningClipsRight[5] = { 466, 3, 72, 103 };
+	gSpriteRunningClipsRight[6] = { 557, 1, 68, 105 };
+	gSpriteRunningClipsRight[7] = { 639, 1, 73, 105 };
+	gSpriteRunningClipsRight[8] = { 720, 2, 82, 104 };
+	gSpriteRunningClipsRight[9] = { 827, 4, 83, 102 };
+
+	gSpriteRunningClipsLeft[0] = { 837, 3, 74, 103 };
+	gSpriteRunningClipsLeft[1] = { 752, 1, 68, 105 };
+	gSpriteRunningClipsLeft[2] = { 662, 0, 73, 106 };
+	gSpriteRunningClipsLeft[3] = { 563, 2, 82, 104 };
+	gSpriteRunningClipsLeft[4] = { 463, 4, 84, 102 };
+	gSpriteRunningClipsLeft[5] = { 373, 3, 72, 103 };
+	gSpriteRunningClipsLeft[6] = { 286, 1, 68, 105 };
+	gSpriteRunningClipsLeft[7] = { 199, 1, 73, 105 };
+	gSpriteRunningClipsLeft[8] = { 109, 2, 82, 104 };
+	gSpriteRunningClipsLeft[9] = { 1, 4, 83, 102 };
+}
+
+void Player::Draw()
+{
+	//Render current frame
+	if (m_movingRight)
+		currentRunnerClip = &gSpriteRunningClipsRight[m_runningFrames / 10];
+	else if (m_movingLeft)
+		currentRunnerClip = &gSpriteRunningClipsLeft[m_runningFrames / 10];
+
+	if (m_idle)
 	{
-		m_currentAnimation = &m_walkingAnimationLeft;
-		movement.x -= m_animationSpeed;
-		m_noKeyWasPressed = false;
+		m_playerIdleSprite->Draw(1);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)|| sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	else if (m_running)
 	{
-		m_currentAnimation = &m_walkingAnimationRight;
-		movement.x += m_animationSpeed;
-		m_noKeyWasPressed = false;
+		m_playerRunningSprite->SetSourceRect(*currentRunnerClip);
+		m_playerRunningSprite->Draw(1);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && getCollidingWithPlatform())
+}
+
+void Player::Update()
+{
+	cout << m_canJump << endl;
+
+	// Can jump if y-velocity is 0
+	if (m_body->GetLinearVelocity().y == 0)
 	{
-		m_currentAnimation = &m_walkingAnimationRight;
-		m_jumpKeyPressed = true;
-		m_noKeyWasPressed = false;
+		m_canJump = true;
 	}
-	//std::cout << yVelocity << std::endl;
 
-	if (m_jumpKeyPressed)
+	else
 	{
-		movement.y -= yVelocity;
+		// Cannot jump
+		m_canJump = false;
+		m_bodyFixtureDef.friction = 0;
+	}
 
-		yVelocity -= 3;
+	// Call move
+	Move();
 
-		time++;
-
-		if (getCollidingWithPlatform() && time > 60)
+	// Draw player when idle
+	if (m_idle)
+	{
+		if (m_movingLeft && !m_drawn)
 		{
-			yVelocity = 250;
-			m_jumpKeyPressed = false;
-			time = 0;
+			m_source = { 0, 0, 77, 107 };
+			m_playerIdleSprite->Init("Images/PlayerIdleLeft.png", m_rect, m_source);
+			m_playerIdleSprite->SetOffset(SDL_Point{ 38.5f, 53.5f });
+			m_drawn = true;
+		}
+		else if (m_movingRight && !m_drawn)
+		{
+			m_source = { 0, 0, 77, 107 };
+			m_playerIdleSprite->Init("Images/PlayerIdleRight.png", m_rect, m_source);
+			m_playerIdleSprite->SetOffset(SDL_Point{ 38.5f, 53.5f });
+			m_drawn = true;
 		}
 	}
 
-	// If in air and not colliding with top of platform
-	if (getCollidingWithPlatform() && !getOnTopOfPlatform())
+	// Update sprite position
+	m_rect.x = m_body->GetPosition().x;
+	m_rect.y = m_body->GetPosition().y;
+	m_playerIdleSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+	m_playerRunningSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+
+	//Cycle animation
+	if (m_runningFrames / 10 >= RUNNING_ANIMATION_FRAMES)
 	{
-		m_jumpKeyPressed = false;
-		movement.y += yVelocity;
+		m_runningFrames = 0;
 	}
+}
 
-	if (getCollidingWithPlatform())
+void Player::Move()
+{
+	// Key presses
+	// Move left
+	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a) || KeyBoardInput::GetInstance()->isKeyPressed(SDLK_LEFT))
 	{
-		yVelocity = 250;
-	}
+		m_body->SetLinearVelocity(b2Vec2(-2, m_body->GetLinearVelocity().y));
 
-	// If not colliding with platform and jump key is not pressed
-	if (!getCollidingWithPlatform() && !m_jumpKeyPressed)
+		// Change sprite image if not already moving left
+		if (!m_movingLeft)
+		{
+			m_source = { 0, 0, 912, 107 };
+			m_playerRunningSprite->Init("Images/PlayerRunningLeft.png", m_rect, m_source);
+			m_playerRunningSprite->SetOffset(SDL_Point{ 38.5f, 53.5f });
+		}
+
+		// Change booleans
+		m_movingLeft = true;
+		m_movingRight = false;
+		m_running = true;
+		m_idle = false;
+		m_drawn = false;
+
+		// Increase running frames
+		m_runningAnimationTime++;
+		if (m_runningAnimationTime >= 60)
+		{
+			++m_runningFrames;
+			m_runningAnimationTime = 0;
+		}
+	}
+	// Move right
+	else if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d) || KeyBoardInput::GetInstance()->isKeyPressed(SDLK_RIGHT))
 	{
-		movement.y += yVelocity;
-		//yVelocity -= 1;
+		m_body->SetLinearVelocity(b2Vec2(2, m_body->GetLinearVelocity().y));
+
+		// Change sprite image if not already moving right
+		if (!m_movingRight)
+		{
+			m_source = { 0, 3, 912, 107 };
+			m_playerRunningSprite->Init("Images/PlayerRunningRight.png", m_rect, m_source);
+			m_playerRunningSprite->SetOffset(SDL_Point{ 38.5f, 53.5f });
+		}
+
+		// Change booleans
+		m_movingLeft = false;
+		m_movingRight = true;
+		m_running = true;
+		m_idle = false;
+		m_drawn = false;
+
+		// Increase running frames
+		m_runningAnimationTime++;
+		if (m_runningAnimationTime >= 60)
+		{
+			++m_runningFrames;
+			m_runningAnimationTime = 0;
+		}
 	}
-
-	m_animatedSprite->play(*m_currentAnimation);
-	m_animatedSprite->move(movement * frameTime.asSeconds());
-
-	// if no key was pressed stop the animation
-	if (m_noKeyWasPressed)
+	// Jump
+	else if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_SPACE) && m_canJump)
 	{
-		m_animatedSprite->stop();
+		Jump();
 	}
-	m_noKeyWasPressed = true;
-
-	// update AnimatedSprite
-	m_animatedSprite->update(frameTime);
+	else
+	{
+		m_running = false;
+		m_idle = true;
+		m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y));
+	}
 }
 
-void Player::Draw(sf::RenderWindow &window)
+void Player::Jump()
 {
-	window.draw(*m_animatedSprite);
-
-	//// Create a sprite
-	//sf::RectangleShape rect;
-	//rect.setPosition(sf::Vector2f(m_animatedSprite->getPosition().x, m_animatedSprite->getPosition().y));
-	//rect.setSize(sf::Vector2f(m_animatedSprite->getGlobalBounds().width, m_animatedSprite->getGlobalBounds().height));
-	//rect.setFillColor(sf::Color(255, 255, 255, 200));
-	//window.draw(rect);
+	float impulse = -1 * 6.0f;
+	m_body->ApplyLinearImpulse(b2Vec2(0, impulse), m_body->GetWorldCenter(), true);
 }
 
-AnimatedSprite* Player::getSprite()
+b2Body *Player::getBody()
 {
-	return m_animatedSprite;
-}
-
-bool Player::getCollidingWithPlatform()
-{
-	return collidingWithPlatform;
-}
-void Player::setCollidingWithPlatform(bool mycollidingWithPlatform)
-{
-	collidingWithPlatform = mycollidingWithPlatform;
-}
-
-bool Player::getOnTopOfPlatform()
-{
-	return onTopOfPlatform;
-}
-void Player::setOnTopOfPlatform(bool myonTopOfPlatform)
-{
-	onTopOfPlatform = myonTopOfPlatform;
-}
-
-int Player::getScore()
-{
-	return score;
-}
-void Player::setScore(int myScore)
-{
-	score = myScore;
+	return m_body;
 }

@@ -1,44 +1,36 @@
 #include "stdafx.h"
 #include "Platform.h"
 
-Platform::Platform(int x, int y, int width, int height)
+Platform::Platform()
 {
-	sf::Texture pTexture;
-	pTexture.loadFromFile("Images/platform.png");
 
-	////////////////////
-
-	m_platformRect.setPosition(sf::Vector2f(x, y));
-
-	m_platformRect.setSize(sf::Vector2f(width, height));
-
-	m_platformRect.setOutlineThickness(3);
-
-	m_platformRect.setOutlineColor(sf::Color::Black);
-
-	//m_platformRect.setFillColor(sf::Color(100, 100, 200));
-
-	m_platformRect.setTexture(&pTexture);
 }
 
-void Platform::Draw(sf::RenderWindow &window)
+Platform::Platform(SDL_Texture* text, SDL_Rect pRect, b2World* wWorld, SDL_Rect src)
 {
-	sf::Texture pTexture;
-	pTexture.loadFromFile("Images/platform.png");
+	m_rect = pRect;
 
-	m_platformRect.setTexture(&pTexture);
+	// Define the ground body.
+	m_bodyDef.position.Set(pRect.x, pRect.y);
+	m_bodyDef.type = b2_staticBody;
 
-	window.draw(m_platformRect);
+	// Define the ground box shape.
+	// The extents are the half-widths of the box.
+	m_shape.SetAsBox(pRect.w / 2, pRect.h / 2);
+	m_bodyFixtureDef.shape = &m_shape;
 
-	//// Create a sprite
-	//sf::RectangleShape rect;
-	//rect.setPosition(sf::Vector2f(m_platformRect.getPosition().x, m_platformRect.getPosition().y));
-	//rect.setSize(sf::Vector2f(m_platformRect.getSize().x, m_platformRect.getSize().y));
-	//rect.setFillColor(sf::Color(255, 255, 255, 200));
-	//window.draw(rect);
+	// Call the body factory which allocates memory for the ground body
+	// from a pool and creates the ground box shape (also from a pool).
+	// The body is also added to the world.
+	m_body = wWorld->CreateBody(&m_bodyDef);
+
+	// Add the ground fixture to the ground body.
+	m_body->CreateFixture(&m_bodyFixtureDef);
+	m_sprite.Init(text, pRect, src);
+	m_sprite.SetOffset(SDL_Point{ 48, 16 });
 }
 
-sf::RectangleShape Platform::getRectangle()
+void Platform::Draw()
 {
-	return m_platformRect;
+	m_sprite.Draw(1);
 }

@@ -1,58 +1,54 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "AnimatedSprite.h"
+#include "sdl.h"
+#include "Box2D\Box2D.h"
+#include "Sprite.h"
+#include "KeyBoardInput.h"
 
-class Player
-{
+class Player{
 public:
-	Player(int windowWidth, int windowHeight);
+	Player();
 
-	void Update(sf::Event Event);
-	void Draw(sf::RenderWindow &window);
+	void Init(SDL_Rect, b2World*);
+	void Draw();
+	void Update();
+	void Move();
+	void Jump();
 
-	AnimatedSprite* getSprite();
+	void SpriteClips();
 
-	bool getCollidingWithPlatform();
-	void setCollidingWithPlatform(bool);
+	b2Body* getBody();
 
-	bool getOnTopOfPlatform();
-	void setOnTopOfPlatform(bool);
-
-	int getScore();
-	void setScore(int);
+	bool m_movingLeft;
+	bool m_movingRight;
 private:
-	bool collidingWithPlatform;
+	SDL_Rect m_rect;
+	SDL_Rect m_source;
 
-	bool onTopOfPlatform;
+	// Box2D stuff
+	b2BodyDef m_bodyDef;
+	b2Body* m_body;
+	b2PolygonShape m_shape;
+	b2FixtureDef m_bodyFixtureDef;
 
-	int score;
+	// Idle sprite
+	Sprite* m_playerIdleSprite;
+	bool m_idle;
+	bool m_drawn;
 
-	sf::Vector2f position;
-	sf::Vector2f velocity;
+	// Running animation
+	Sprite* m_playerRunningSprite;
+	const int RUNNING_ANIMATION_FRAMES = 10;
+	SDL_Rect gSpriteRunningClipsRight[10];
+	SDL_Rect gSpriteRunningClipsLeft[10];
+	SDL_Rect* currentRunnerClip;
+	int m_runningFrames;
+	int m_runningAnimationTime;
+	bool m_running;
 
-	sf::Texture m_texture;
-	sf::Texture m_texture2;
-
-	Animation m_walkingAnimationDown;
-	Animation m_walkingAnimationLeft;
-	Animation m_walkingAnimationRight;
-	Animation m_jumpAnimation;
-	
-	Animation* m_currentAnimation;
-
-	AnimatedSprite* m_animatedSprite;
-
-	float m_animationSpeed;
-	bool m_noKeyWasPressed;
-
-	bool m_jumpKeyPressed;
-	float yVelocity;
-
-	int time;
-	int timer;
-
-	sf::Clock m_frameClock;
+	// Jump
+	bool m_canJump;
 };
 
 #endif
