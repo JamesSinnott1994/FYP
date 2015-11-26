@@ -5,11 +5,11 @@ Play::Play(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT):world(w), playerDead
 {
 	// Load player
 	m_player = new Player();
-	m_player->Init(SDL_Rect{ 200, 300, 77, 107 }, world);
+	m_player->Init(SDL_Rect{ 200, 500, 77, 107 }, world);
 
 	// Load background image
 	m_backGroundImage = new Sprite();
-	m_backGroundImage->Init("Images/space.png", SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, SDL_Rect{ 0, 0, 600, 360 });
+	m_backGroundImage->Init("Images/space.png", SDL_Rect{ 0, 0, SCREEN_WIDTH*2, SCREEN_HEIGHT }, SDL_Rect{ 0, 0, 600, 360 });
 
 	// Load level
 	Level::LoadLevel("Text/Level1.txt", world);
@@ -49,6 +49,7 @@ void Play::AddAssetsToRenderer()
 	m_backGroundImage->Draw(4);
 	m_player->Draw();
 	PlatformManager::GetInstance()->Draw();
+	PickupManager::GetInstance()->Draw();
 }
 
 void Play::UpdateCameraPos()

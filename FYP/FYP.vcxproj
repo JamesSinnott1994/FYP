@@ -85,14 +85,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Health.h" />
     <ClInclude Include="KeyBoardInput.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="PickupManager.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlatformManager.h" />
     <ClInclude Include="Play.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Score.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -100,14 +103,17 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="FYP.cpp" />
+    <ClCompile Include="Health.cpp" />
     <ClCompile Include="KeyBoardInput.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="PickupManager.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="PlatformManager.cpp" />
     <ClCompile Include="Play.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

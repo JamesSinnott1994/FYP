@@ -10,8 +10,10 @@
 #include "Player.h"
 #include "Sprite.h"
 #include "Level.h"
+#include "PickupManager.h"
 
-class Play{
+class Play
+{
 private:
 	b2World* world;
 	Player* m_player;

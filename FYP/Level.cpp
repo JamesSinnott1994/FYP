@@ -15,7 +15,7 @@ Level::Level()
 void Level::LoadLevel(string name, b2World* world)
 {
 	vector<string> map = Level::loadALevelFromTextFile(name);
-	const int charactersAcross = 25;
+	const int charactersAcross = 34;
 	const int charactersDown = 20;
 
 	// Go through each each row
@@ -39,6 +39,16 @@ void Level::LoadLevel(string name, b2World* world)
 			{
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE*3, SCALE };
 				PlatformManager::GetInstance()->addPlatform(temp, world, "bottomPlatform");
+			}
+			else if (c == 'S')// 'S' for score
+			{
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
+				PickupManager::GetInstance()->addScorePickups(temp, world);
+			}
+			else if (c == 'H')// 'H' for health
+			{
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
+				PickupManager::GetInstance()->addHealthPickups(temp, world);
 			}
 
 		}// End inner for loop

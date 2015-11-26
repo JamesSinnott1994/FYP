@@ -16,7 +16,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld)
 	m_bodyDef.position.Set(pRect.x, pRect.y);
 	m_body = pWorld->CreateBody(&m_bodyDef);
 
-	m_shape.SetAsBox(pRect.w / 2, (pRect.h / 2) - 2);
+	m_shape.SetAsBox(pRect.w / 2 - 20, (pRect.h / 2) - 2);
 	m_bodyFixtureDef.shape = &m_shape;
 
 	m_body->CreateFixture(&m_bodyFixtureDef);
@@ -47,11 +47,19 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld)
 	// Jump
 	m_canJump = false;
 
+	// Score
+	m_score = 0;
+
+	// Health
+	m_health = 100;
+
 	SpriteClips();
 }
 
 void Player::SpriteClips()
 {
+	float scale = 2;
+
 	// Running sprite clips
 	gSpriteRunningClipsRight[0] = { 0, 3, 74, 103 };
 	gSpriteRunningClipsRight[1] = { 91, 1, 68, 105 };
@@ -97,7 +105,16 @@ void Player::Draw()
 
 void Player::Update()
 {
-	cout << m_canJump << endl;
+	cout << m_score << endl;
+
+	if (CheckScoreCollision())
+	{
+		m_score += 5;
+	}
+	else if (CheckHealthCollision())
+	{
+		m_health += 50;
+	}
 
 	// Can jump if y-velocity is 0
 	if (m_body->GetLinearVelocity().y == 0)
@@ -145,6 +162,16 @@ void Player::Update()
 	{
 		m_runningFrames = 0;
 	}
+}
+
+bool Player::CheckScoreCollision()
+{
+	return PickupManager::GetInstance()->CheckScoreCollision(m_body);
+}
+
+bool Player::CheckHealthCollision()
+{
+	return PickupManager::GetInstance()->CheckHealthCollision(m_body);
 }
 
 void Player::Move()
@@ -229,3 +256,17 @@ b2Body *Player::getBody()
 {
 	return m_body;
 }
+
+#pragma region Get/Set Score
+
+int Player::GetScore()
+{
+	return m_score;
+}
+void Player::SetScore(int myScore)
+{
+	m_score = myScore;
+}
+
+#pragma endregion
+

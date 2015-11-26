@@ -5,6 +5,7 @@
 #include "Box2D\Box2D.h"
 #include "Sprite.h"
 #include "KeyBoardInput.h"
+#include "PickupManager.h"
 
 class Player{
 public:
@@ -22,6 +23,17 @@ public:
 
 	bool m_movingLeft;
 	bool m_movingRight;
+
+	// Score
+	int GetScore();
+	void SetScore(int);
+
+	// Health
+	int GetHealth();
+	void SetHealth(int);
+
+	bool CheckScoreCollision();
+	bool CheckHealthCollision();
 private:
 	SDL_Rect m_rect;
 	SDL_Rect m_source;
@@ -49,6 +61,12 @@ private:
 
 	// Jump
 	bool m_canJump;
+
+	// Score
+	int m_score;
+
+	// Health
+	int m_health;
 };
 
 #endif

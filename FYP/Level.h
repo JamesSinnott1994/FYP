@@ -8,6 +8,7 @@
 #include <iostream> 
 #include <vector>;
 #include "PlatformManager.h"
+#include "PickupManager.h"
 
 class Level
 {
