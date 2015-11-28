@@ -9,6 +9,7 @@
 #include "Sprite.h"
 #include "Menu.h"
 #include "Play.h"
+#include "SoundManager.h"
 
 // Window width and height
 const int windowWidth = 800;
@@ -113,5 +114,10 @@ void Init()
 {
 	menu = new Menu(windowWidth, windowHeight);
 	play = new Play(world, windowWidth, windowHeight);
+
+	if (!SoundManager::GetInstance()->load_files())
+	{
+		printf("Sounds Did not load ");
+	}
 }
 

@@ -6,6 +6,7 @@
 #include "Box2D\Box2D.h"
 #include "Sprite.h"
 #include "Renderer.h"
+#include "SoundManager.h"
 
 class Health
 {

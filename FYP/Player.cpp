@@ -8,6 +8,8 @@ Player::Player()
 
 void Player::Init(SDL_Rect pRect, b2World *pWorld)
 {
+	world = pWorld;
+
 	// Position
 	m_rect = pRect;
 
@@ -53,13 +55,15 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld)
 	// Health
 	m_health = 100;
 
+	// Bullets
+	m_timeToShoot = 0;
+	m_shootTimer = 120;
+
 	SpriteClips();
 }
 
 void Player::SpriteClips()
 {
-	float scale = 2;
-
 	// Running sprite clips
 	gSpriteRunningClipsRight[0] = { 0, 3, 74, 103 };
 	gSpriteRunningClipsRight[1] = { 91, 1, 68, 105 };
@@ -101,11 +105,21 @@ void Player::Draw()
 		m_playerRunningSprite->SetSourceRect(*currentRunnerClip);
 		m_playerRunningSprite->Draw(1);
 	}
+
+	// Draw bullets
+	if (m_bullets.size() > 0)
+	{
+		for each(Bullet* bullet in m_bullets)
+		{
+			bullet->Draw();
+		}
+	}
 }
 
 void Player::Update()
 {
-	cout << m_score << endl;
+	// Update time to shoot
+	m_timeToShoot++;
 
 	if (CheckScoreCollision())
 	{
@@ -150,7 +164,7 @@ void Player::Update()
 			m_drawn = true;
 		}
 	}
-
+	
 	// Update sprite position
 	m_rect.x = m_body->GetPosition().x;
 	m_rect.y = m_body->GetPosition().y;
@@ -161,6 +175,23 @@ void Player::Update()
 	if (m_runningFrames / 10 >= RUNNING_ANIMATION_FRAMES)
 	{
 		m_runningFrames = 0;
+	}
+
+	// Update bullets
+	if (m_bullets.size() > 0)
+	{
+		// Iterate through list of bullets
+		for (m_bulletIterator = m_bullets.begin(); m_bulletIterator != m_bullets.end(); ++m_bulletIterator)
+		{
+			(*m_bulletIterator)->Update();
+
+			// Remove bullet if out of bounds
+			if ((*m_bulletIterator)->OutOfBounds(m_rect))
+			{
+				m_bullets.erase(m_bulletIterator);
+				break;
+			}
+		}
 	}
 }
 
@@ -180,7 +211,7 @@ void Player::Move()
 	// Move left
 	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a) || KeyBoardInput::GetInstance()->isKeyPressed(SDLK_LEFT))
 	{
-		m_body->SetLinearVelocity(b2Vec2(-2, m_body->GetLinearVelocity().y));
+		m_body->SetLinearVelocity(b2Vec2(-2, m_body->GetLinearVelocity().y-0.000001f));
 
 		// Change sprite image if not already moving left
 		if (!m_movingLeft)
@@ -208,7 +239,7 @@ void Player::Move()
 	// Move right
 	else if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d) || KeyBoardInput::GetInstance()->isKeyPressed(SDLK_RIGHT))
 	{
-		m_body->SetLinearVelocity(b2Vec2(2, m_body->GetLinearVelocity().y));
+		m_body->SetLinearVelocity(b2Vec2(2, m_body->GetLinearVelocity().y - 0.000001f));
 
 		// Change sprite image if not already moving right
 		if (!m_movingRight)
@@ -238,6 +269,15 @@ void Player::Move()
 	{
 		Jump();
 	}
+	else if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_j))
+	{
+		if (m_timeToShoot >= m_shootTimer)
+		{
+			Shoot();
+			m_timeToShoot = 0;
+			SoundManager::GetInstance()->play(SoundManager::GUNSHOT);
+		}
+	}
 	else
 	{
 		m_running = false;
@@ -250,6 +290,22 @@ void Player::Jump()
 {
 	float impulse = -1 * 6.0f;
 	m_body->ApplyLinearImpulse(b2Vec2(0, impulse), m_body->GetWorldCenter(), true);
+}
+
+void Player::Shoot()
+{
+	SDL_Texture* m_bulletTexture = Sprite::loadTexture("Images/Bullet.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+	SDL_Rect m_bulletSource = { 0, 0, 63, 64 };
+	SDL_Rect m_bulletPos;
+
+	if (m_movingRight)
+		m_bulletPos = { m_rect.x + m_rect.w - 22, m_rect.y - 24, 10, 10 };
+	else
+		m_bulletPos = { m_rect.x - 32, m_rect.y - 24, 10, 10 };
+
+	Bullet* bullet = new Bullet(m_bulletTexture, m_bulletPos, world, m_bulletSource, m_movingRight);
+
+	m_bullets.push_back(bullet);
 }
 
 b2Body *Player::getBody()

@@ -48,6 +48,7 @@ bool Score::CheckCollision(b2Body* playerBody)
 	{
 		m_alive = false;
 		myBody->GetWorld()->DestroyBody(myBody);
+		SoundManager::GetInstance()->play(SoundManager::SCORE_PICKUP);
 	}
 
 	return collided;

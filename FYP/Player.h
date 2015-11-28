@@ -6,6 +6,7 @@
 #include "Sprite.h"
 #include "KeyBoardInput.h"
 #include "PickupManager.h"
+#include "Bullet.h"
 
 class Player{
 public:
@@ -16,6 +17,7 @@ public:
 	void Update();
 	void Move();
 	void Jump();
+	void Shoot();
 
 	void SpriteClips();
 
@@ -67,6 +69,15 @@ private:
 
 	// Health
 	int m_health;
+
+	// Bullets
+	list<Bullet*> m_bullets;
+	int m_timeToShoot;
+	int m_shootTimer;
+	std::list<Bullet*>::iterator m_bulletIterator;
+
+	// Box2D
+	b2World* world;
 };
 
 #endif
