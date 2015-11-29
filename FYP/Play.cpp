@@ -13,6 +13,58 @@ Play::Play(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT):world(w), playerDead
 
 	// Load level
 	Level::LoadLevel("Text/Level1.txt", world);
+
+	initializeTTF();
+	loadTTFMedia();
+}
+
+bool Play::initializeTTF()
+{
+	//Loading success flag
+	bool success = true;
+
+	//Initialize PNG loading
+	int imgFlags = IMG_INIT_PNG;
+	if (!(IMG_Init(imgFlags) & imgFlags))
+	{
+		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+		success = false;
+	}
+
+	//Initialize SDL_ttf
+	if (TTF_Init() == -1)
+	{
+		printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+		success = false;
+	}
+
+	return success;
+}
+
+bool Play::loadTTFMedia()
+{
+	//Loading success flag
+	bool success = true;
+
+	//Open the font
+	gFont = TTF_OpenFont("Font/ARDESTINE.ttf", 28);
+	if (gFont == NULL)
+	{
+		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
+		success = false;
+	}
+	else
+	{
+		//Render text
+		SDL_Color textColor = { 255, 165, 0 };
+		if (!gTextTexture.loadFromRenderedText("Score: " + to_string(m_player->GetScore()), textColor, gFont))
+		{
+			printf("Failed to render text texture!\n");
+			success = false;
+		}
+	}
+
+	return success;
 }
 
 void Play::Init()
@@ -33,6 +85,12 @@ void Play::Update()
 	
 	//Update game entities.
 	m_player->Update();
+
+	if (m_player->CheckScoreCollision())
+	{
+		m_player->SetScore(m_player->GetScore() + 5);
+		loadTTFMedia();
+	}
 }
 
 void Play::Draw() {
@@ -50,6 +108,9 @@ void Play::AddAssetsToRenderer()
 	m_player->Draw();
 	PlatformManager::GetInstance()->Draw();
 	PickupManager::GetInstance()->Draw();
+
+	// Draw text aat position
+	gTextTexture.render( 20, 10 );
 }
 
 void Play::UpdateCameraPos()

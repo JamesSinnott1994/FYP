@@ -121,11 +121,7 @@ void Player::Update()
 	// Update time to shoot
 	m_timeToShoot++;
 
-	if (CheckScoreCollision())
-	{
-		m_score += 5;
-	}
-	else if (CheckHealthCollision())
+	if (CheckHealthCollision())
 	{
 		m_health += 50;
 	}

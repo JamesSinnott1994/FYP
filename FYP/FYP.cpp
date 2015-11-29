@@ -10,6 +10,10 @@
 #include "Menu.h"
 #include "Play.h"
 #include "SoundManager.h"
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <stdio.h>
 
 // Window width and height
 const int windowWidth = 800;
