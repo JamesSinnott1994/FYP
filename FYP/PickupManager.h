@@ -16,6 +16,7 @@ public:
 
 	void Draw();
 	void Update();
+	void Reset();
 
 	void addScorePickups(SDL_Rect pRect, b2World* world);
 	void addHealthPickups(SDL_Rect pRect, b2World* world);

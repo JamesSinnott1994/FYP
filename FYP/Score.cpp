@@ -41,13 +41,19 @@ void Score::Update()
 
 }
 
+void Score::Reset()
+{
+	m_alive = true;
+	myBody->SetActive(true);
+}
+
 bool Score::CheckCollision(b2Body* playerBody)
 {
 	bool collided = (b2TestOverlap(myBody->GetFixtureList()->GetAABB(0), playerBody->GetFixtureList()->GetAABB(0)));
 	if (collided)
 	{
 		m_alive = false;
-		myBody->GetWorld()->DestroyBody(myBody);
+		myBody->SetActive(false);
 		SoundManager::GetInstance()->play(SoundManager::SCORE_PICKUP);
 	}
 

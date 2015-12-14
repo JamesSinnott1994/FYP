@@ -34,6 +34,14 @@ void ObstacleManager::Update()
 	}
 }
 
+void ObstacleManager::Reset()
+{
+	for each(Mine* mine in m_mines)
+	{
+		mine->Reset();
+	}
+}
+
 void ObstacleManager::addMineObstacles(SDL_Rect pRect, b2World* world)
 {
 	Mine* temp = new Mine(m_mineTexture, pRect, world, m_mineSource);
@@ -50,7 +58,6 @@ bool ObstacleManager::CheckMineCollision(b2Body*playerBody)
 		{
 			if ((*m_mineIterator)->CheckCollision(playerBody))
 			{
-				m_mines.erase(m_mineIterator);
 				return true;
 			}
 		}

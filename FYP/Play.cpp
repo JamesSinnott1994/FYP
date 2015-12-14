@@ -3,6 +3,9 @@
 
 Play::Play(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT):world(w), playerDead(false), levelComplete(false), framecounter(0)
 {
+	// Timer
+	timer = new Timer();
+
 	// Which speed to use
 	string whichSpeed = "labtopSpeed";
 
@@ -118,6 +121,30 @@ void Play::Update()
 
 	ObstacleManager::GetInstance()->Update();
 	//Teleporter::GetInstance()->Update();
+
+	// Call Reset() if player not alive
+	if (!m_player->GetAlive())
+	{
+		Reset();
+	}
+}
+
+void Play::Reset()
+{
+	// Start timer if not already started
+	if (!timer->isStarted())
+	{
+		timer->start();
+	}
+	// Reset after 2 seconds
+	if (timer->getTicks() / 1000 >= 2)
+	{
+		timer->reset();
+		m_player->Reset();
+		loadTTFMedia();
+		PickupManager::GetInstance()->Reset();
+		ObstacleManager::GetInstance()->Reset();
+	}
 }
 
 void Play::Draw() 

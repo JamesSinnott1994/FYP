@@ -14,7 +14,7 @@ using namespace std;
 class SoundManager
 {
 public:
-	static const int SCORE_PICKUP = 0, GUNSHOT = 1, HEALTH = 2;
+	static const int SCORE_PICKUP = 0, GUNSHOT = 1, HEALTH = 2, MINE = 3;
 
 	static SoundManager* GetInstance();
 	void play(int);
@@ -37,6 +37,7 @@ private:
 	Mix_Chunk* scorePickup = NULL;
 	Mix_Chunk* gunshot = NULL;
 	Mix_Chunk* health = NULL;
+	Mix_Chunk* mine = NULL;
 
 	static bool instanceFlag;
 	static SoundManager* instance;

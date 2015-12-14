@@ -15,6 +15,7 @@ public:
 
 	void Draw();
 	void Update();
+	void Reset();
 
 	void addMineObstacles(SDL_Rect pRect, b2World* world);
 

@@ -25,9 +25,10 @@ bool SoundManager::load_files()
 	scorePickup = Mix_LoadWAV("Sound/Pickup.wav");
 	gunshot = Mix_LoadWAV("Sound/Gunshot.wav");
 	health = Mix_LoadWAV("Sound/Health.wav");
+	mine = Mix_LoadWAV("Sound/MineExplosion.wav");
 
 	//If there was a problem loading the sound effects
-	if (scorePickup == NULL || gunshot == NULL || health == NULL)
+	if (scorePickup == NULL || gunshot == NULL || health == NULL || mine == NULL)
 	{
 		return false;
 	}
@@ -61,6 +62,9 @@ void SoundManager::play(int i)
 		break;
 	case HEALTH:
 		Mix_PlayChannel(HEALTH, health, 0);
+		break;
+	case MINE:
+		Mix_PlayChannel(MINE, mine, 0);
 		break;
 	}
 }

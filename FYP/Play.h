@@ -13,6 +13,7 @@
 #include "PickupManager.h"
 #include "HealthBar.h"
 #include "Teleporter.h"
+#include "Timer.h"
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -46,6 +47,9 @@ private:
 	float speedToUse;
 
 	Level* level;
+
+	// Timer
+	Timer* timer;
 public:
 	Play(b2World*,int w, int h);
 	~Play(){
@@ -53,6 +57,7 @@ public:
 	void Init();
 	void AddAssetsToRenderer();
 	void Update();
+	void Reset();
 	void Draw();
 	void UpdateCameraPos();
 

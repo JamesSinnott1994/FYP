@@ -16,6 +16,7 @@ public:
 	// Public member functions
 	void Draw();
 	void Update();// bool hit);
+	void Reset();
 
 	bool CheckCollision(b2Body* playerBody);
 

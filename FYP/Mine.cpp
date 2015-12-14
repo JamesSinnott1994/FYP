@@ -46,14 +46,20 @@ void Mine::Update()
 	}
 }
 
+void Mine::Reset()
+{
+	m_alive = true;
+	myBody->SetActive(true);
+}
+
 bool Mine::CheckCollision(b2Body* playerBody)
 {
 	bool collided = (b2TestOverlap(myBody->GetFixtureList()->GetAABB(0), playerBody->GetFixtureList()->GetAABB(0)));
 	if (collided)
 	{
 		m_alive = false;
-		myBody->GetWorld()->DestroyBody(myBody);
-		SoundManager::GetInstance()->play(SoundManager::SCORE_PICKUP);
+		myBody->SetActive(false);
+		SoundManager::GetInstance()->play(SoundManager::MINE);
 		m_startAnimation = true;
 	}
 

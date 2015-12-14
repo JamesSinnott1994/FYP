@@ -36,6 +36,19 @@ void PickupManager::Update()
 
 }
 
+void PickupManager::Reset()
+{
+	for each(Score* score in m_scores)
+	{
+		score->Reset();
+	}
+
+	for each(Health* health in m_healthPickups)
+	{
+		health->Reset();
+	}
+}
+
 void PickupManager::addScorePickups(SDL_Rect pRect, b2World* world)
 {
 	Score* temp = new Score(m_scoreTexture, pRect, world, m_scoreSource);
@@ -59,7 +72,6 @@ bool PickupManager::CheckScoreCollision(b2Body*playerBody)
 		{
 			if ((*m_scoreIterator)->CheckCollision(playerBody))
 			{
-				m_scores.erase(m_scoreIterator);
 				return true;
 			}
 		}
@@ -76,7 +88,6 @@ bool PickupManager::CheckHealthCollision(b2Body*playerBody)
 		{
 			if ((*m_healthIterator)->CheckCollision(playerBody))
 			{
-				m_healthPickups.erase(m_healthIterator);
 				return true;
 			}
 		}

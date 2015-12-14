@@ -12,6 +12,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType)
 
 	// Position
 	m_rect = pRect;
+	m_startRect = pRect;
 
 	// Box2D stuff
 	m_bodyDef.type = b2_dynamicBody;
@@ -54,24 +55,20 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType)
 
 	// Health
 	m_health = 100;
+	m_alive = true;
 
 	// Bullets
-	m_timeToShoot = 0;
+	m_timeToShoot = 500;
 	m_shootTimerLab = 600;
 	m_shootTimerLaptop = 120;
 
-	if (speedType == "labSpeed")
-	{
-		m_shootTimerLimit = m_shootTimerLab;
-		m_runningAnimationLimit = 60;
-	}
-	else
-	{
-		m_shootTimerLimit = m_shootTimerLaptop;
-		m_runningAnimationLimit = 5;
-	}
+	m_runningAnimationLimit = 10;
 
 	SpriteClips();
+
+	// Timer
+	timer = new Timer();
+	timer->start();
 }
 
 void Player::SpriteClips()
@@ -102,20 +99,23 @@ void Player::SpriteClips()
 
 void Player::Draw()
 {
-	//Render current frame
-	if (m_movingRight)
-		currentRunnerClip = &gSpriteRunningClipsRight[m_runningFrames / 10];
-	else if (m_movingLeft)
-		currentRunnerClip = &gSpriteRunningClipsLeft[m_runningFrames / 10];
+	if (m_alive)
+	{
+		//Render current frame
+		if (m_movingRight)
+			currentRunnerClip = &gSpriteRunningClipsRight[m_runningFrames / 10];
+		else if (m_movingLeft)
+			currentRunnerClip = &gSpriteRunningClipsLeft[m_runningFrames / 10];
 
-	if (m_idle)
-	{
-		m_playerIdleSprite->Draw(1);
-	}
-	else if (m_running)
-	{
-		m_playerRunningSprite->SetSourceRect(*currentRunnerClip);
-		m_playerRunningSprite->Draw(1);
+		if (m_idle)
+		{
+			m_playerIdleSprite->Draw(1);
+		}
+		else if (m_running)
+		{
+			m_playerRunningSprite->SetSourceRect(*currentRunnerClip);
+			m_playerRunningSprite->Draw(1);
+		}
 	}
 
 	// Draw bullets
@@ -130,10 +130,12 @@ void Player::Draw()
 
 void Player::Update()
 {
-	// Update time to shoot
-	m_timeToShoot++;
-
 	CheckCollisions();
+
+	if (m_health <= 0)
+	{
+		m_alive = false;
+	}
 
 	// Can jump if y-velocity is 0
 	if (m_body->GetLinearVelocity().y == 0)
@@ -148,8 +150,17 @@ void Player::Update()
 		m_bodyFixtureDef.friction = 0;
 	}
 
+	// Out of bounds from falling
+	if (m_body->GetPosition().y >= 800)
+	{
+		m_health = 0;
+	}
+
 	// Call move
-	Move();
+	if (m_alive)
+	{
+		Move();
+	}
 
 	// Draw player when idle
 	if (m_idle)
@@ -286,9 +297,10 @@ void Player::Move()
 		m_drawn = false;
 
 		// Increase running frames
-		m_runningAnimationTime++;
-		if (m_runningAnimationTime >= m_runningAnimationLimit)
+		//m_runningAnimationTime++;
+		if (timer->getTicks() >= m_runningAnimationLimit)
 		{
+			timer->resetTicks();
 			++m_runningFrames;
 			m_runningAnimationTime = 0;
 		}
@@ -314,9 +326,10 @@ void Player::Move()
 		m_drawn = false;
 
 		// Increase running frames
-		m_runningAnimationTime++;
-		if (m_runningAnimationTime >= m_runningAnimationLimit)
+		//m_runningAnimationTime++;
+		if (timer->getTicks() >= m_runningAnimationLimit)
 		{
+			timer->resetTicks();
 			++m_runningFrames;
 			m_runningAnimationTime = 0;
 		}
@@ -328,10 +341,10 @@ void Player::Move()
 	}
 	else if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_j))
 	{
-		if (m_timeToShoot >= m_shootTimerLimit)
+		if (timer->getTicks() >= m_timeToShoot)
 		{
+			timer->resetTicks();
 			Shoot();
-			m_timeToShoot = 0;
 			SoundManager::GetInstance()->play(SoundManager::GUNSHOT);
 		}
 	}
@@ -370,6 +383,15 @@ b2Body *Player::getBody()
 	return m_body;
 }
 
+void Player::Reset()
+{
+	// Reset variables
+	m_body->SetTransform(b2Vec2(m_startRect.x, m_startRect.y), 0);
+	m_alive = true;
+	m_health = 100;
+	m_score = 0;
+}
+
 #pragma region Get/Set Score
 
 int Player::GetScore()
@@ -395,4 +417,18 @@ void Player::SetHealth(int myHealth)
 }
 
 #pragma endregion
+
+#pragma region Get/Set Alive
+
+bool Player::GetAlive()
+{
+	return m_alive;
+}
+void Player::SetAlive(bool myAlive)
+{
+	m_alive = myAlive;
+}
+
+#pragma endregion
+
 

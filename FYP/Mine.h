@@ -16,6 +16,7 @@ public:
 
 	void Draw();
 	void Update();
+	void Reset();
 
 	bool CheckCollision(b2Body* playerBody);
 

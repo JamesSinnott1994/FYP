@@ -9,6 +9,7 @@
 #include "ObstacleManager.h"
 #include "Bullet.h"
 #include "Teleporter.h"
+#include "Timer.h"
 
 class Player{
 public:
@@ -20,6 +21,7 @@ public:
 	void Move();
 	void Jump();
 	void Shoot();
+	void Reset();
 
 	void CheckCollisions();
 
@@ -38,12 +40,17 @@ public:
 	int GetHealth();
 	void SetHealth(int);
 
+	// Alive
+	bool GetAlive();
+	void SetAlive(bool);
+
 	bool CheckScoreCollision();
 	bool CheckHealthCollision();
 	bool CheckMineCollision();
 	bool CheckTeleporterCollision();
 private:
 	SDL_Rect m_rect;
+	SDL_Rect m_startRect;
 	SDL_Rect m_source;
 
 	// Box2D stuff
@@ -76,6 +83,7 @@ private:
 
 	// Health
 	int m_health;
+	bool m_alive;
 
 	// Bullets
 	list<Bullet*> m_bullets;
@@ -87,6 +95,9 @@ private:
 
 	// Box2D
 	b2World* world;
+
+	// Timer
+	Timer* timer;
 };
 
 #endif
