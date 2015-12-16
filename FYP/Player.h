@@ -23,6 +23,7 @@ public:
 	void Jump();
 	void Shoot();
 	void Reset();
+	void LevelComplete();
 	void FinishedLevel();
 
 	void CheckCollisions();

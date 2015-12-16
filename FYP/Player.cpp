@@ -45,7 +45,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType)
 	m_runningAnimationTime = 0;
 	m_runningAnimationLimit = 0;
 	m_runningAnimationLimitLab = 60;
-	m_runningAnimationLimitLaptop = 10;
+	m_runningAnimationLimitLaptop = 3;
 	gSpriteRunningClipsRight[RUNNING_ANIMATION_FRAMES];
 	gSpriteRunningClipsLeft[RUNNING_ANIMATION_FRAMES];
 	m_running = false;
@@ -75,7 +75,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType)
 	m_bloodAnimationTime = 0;
 	m_bloodAnimationLimit = 0;
 	m_bloodAnimationLimitLab = 30;
-	m_bloodAnimationLimitLaptop = 5;
+	m_bloodAnimationLimitLaptop = 3;
 	bloodSpriteClips[BLOOD_ANIMATION_FRAMES];
 	m_stopBloodAnimation = false;
 
@@ -440,6 +440,15 @@ void Player::Reset()
 	m_health = 100;
 	m_score = 0;
 
+}
+
+void Player::LevelComplete()
+{
+	// Reset variables
+	m_body->SetTransform(b2Vec2(m_startRect.x, m_startRect.y), 0);
+	m_alive = true;
+	m_reachedTeleporter = false;
+	m_stopBloodAnimation = false;
 }
 
 void Player::FinishedLevel()

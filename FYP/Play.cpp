@@ -7,7 +7,7 @@ Play::Play(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT):world(w), playerDead
 	timer = new Timer();
 
 	// Which speed to use
-	whichSpeed = "labSpeed";
+	whichSpeed = "laptopSpeed";
 
 	// Load player
 	m_player = new Player();
@@ -165,7 +165,7 @@ void Play::LevelComplete()
 	PickupManager::GetInstance()->Destroy();
 	ObstacleManager::GetInstance()->Destroy();
 	PlatformManager::GetInstance()->Destroy();
-	m_player->Reset();
+	m_player->LevelComplete();
 
 	string levelText = "Text/Level" + to_string(level->GetLevelNum()) + ".txt";
 	level->LoadLevel(levelText, world, whichSpeed);
