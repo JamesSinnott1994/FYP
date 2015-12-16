@@ -30,6 +30,11 @@ Platform::Platform(SDL_Texture* text, SDL_Rect pRect, b2World* wWorld, SDL_Rect 
 	m_sprite.SetOffset(SDL_Point{ 48, 16 });
 }
 
+void Platform::Destroy()
+{
+	m_body->GetWorld()->DestroyBody(m_body);
+}
+
 void Platform::Draw()
 {
 	m_sprite.Draw(1);

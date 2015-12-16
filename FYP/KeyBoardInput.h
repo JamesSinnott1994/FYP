@@ -9,7 +9,6 @@
 class KeyBoardInput
 {
 public:
-
 	void updateKeyboard(SDL_Event e);
 	bool isKeyPressed(SDL_Keycode key);
 	void clearKeys();

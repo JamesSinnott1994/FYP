@@ -16,6 +16,7 @@ public:
 	void addPlatform(SDL_Rect pRect, b2World* world, string type);
 
 	void Draw();
+	void Destroy();
 
 private:
 	PlatformManager()

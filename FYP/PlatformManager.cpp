@@ -43,3 +43,16 @@ void PlatformManager::Draw()
 		plat->Draw();
 	}
 }
+
+void PlatformManager::Destroy()
+{
+	for each(Platform* plat in m_platforms)
+	{
+		plat->Destroy();
+	}
+
+	if (m_platforms.size() > 0)
+	{
+		m_platforms.clear();
+	}
+}

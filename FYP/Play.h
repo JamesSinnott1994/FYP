@@ -50,6 +50,8 @@ private:
 
 	// Timer
 	Timer* timer;
+
+	string whichSpeed;
 public:
 	Play(b2World*,int w, int h);
 	~Play(){
@@ -59,6 +61,7 @@ public:
 	void Update();
 	void Reset();
 	void Draw();
+	void LevelComplete();
 	void UpdateCameraPos();
 
 	bool initializeTTF();

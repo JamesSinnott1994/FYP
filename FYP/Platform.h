@@ -10,6 +10,7 @@ public:
 	Platform(SDL_Texture*, SDL_Rect, b2World*, SDL_Rect src);
 
 	void Draw();
+	void Destroy();
 
 private:
 	b2Body* m_body;

@@ -7,7 +7,7 @@ Play::Play(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT):world(w), playerDead
 	timer = new Timer();
 
 	// Which speed to use
-	string whichSpeed = "labtopSpeed";
+	whichSpeed = "labSpeed";
 
 	// Load player
 	m_player = new Player();
@@ -38,6 +38,8 @@ Play::Play(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT):world(w), playerDead
 	{
 		speedToUse = laptopSpeed;
 	}
+
+	levelComplete = false;
 }
 
 bool Play::initializeTTF()
@@ -109,23 +111,31 @@ void Play::Update()
 	int32 velocityIterations = 6;
 	int32 positionIterations = 2;
 	world->Step(timeStep, velocityIterations, positionIterations);
-	
-	//Update game entities.
-	m_player->Update();
-
-	if (m_player->CheckScoreCollision())
-	{
-		m_player->SetScore(m_player->GetScore() + 10);
-		loadTTFMedia();
-	}
-
-	ObstacleManager::GetInstance()->Update();
-	//Teleporter::GetInstance()->Update();
 
 	// Call Reset() if player not alive
 	if (!m_player->GetAlive())
 	{
 		Reset();
+	}
+
+	// Call LevelComplete() if player has reached teleporter
+	if (m_player->GetReachedTeleporter() && !levelComplete)
+	{
+		LevelComplete();
+	}
+	else
+	{
+		//Update game entities.
+		m_player->Update();
+
+		if (m_player->CheckScoreCollision())
+		{
+			m_player->SetScore(m_player->GetScore() + 10);
+			loadTTFMedia();
+		}
+
+		ObstacleManager::GetInstance()->Update();
+		Teleporter::GetInstance()->Update();
 	}
 }
 
@@ -147,6 +157,25 @@ void Play::Reset()
 	}
 }
 
+void Play::LevelComplete()
+{
+	level->SetLevelNum(level->GetLevelNum() + 1);
+
+	// Destroy objects
+	PickupManager::GetInstance()->Destroy();
+	ObstacleManager::GetInstance()->Destroy();
+	PlatformManager::GetInstance()->Destroy();
+	m_player->Reset();
+
+	string levelText = "Text/Level" + to_string(level->GetLevelNum()) + ".txt";
+	level->LoadLevel(levelText, world, whichSpeed);
+
+	m_player->SetReachedTeleporter(false);
+	levelComplete = true;
+
+	loadTTFMedia();
+}
+
 void Play::Draw() 
 {
 	Renderer::GetInstance()->ClearRenderer();
@@ -161,7 +190,7 @@ void Play::AddAssetsToRenderer()
 {
 	m_backGroundImage->Draw(4);
 	m_player->Draw();
-	//Teleporter::GetInstance()->Draw();
+	Teleporter::GetInstance()->Draw();
 	PlatformManager::GetInstance()->Draw();
 	PickupManager::GetInstance()->Draw();
 	ObstacleManager::GetInstance()->Draw();

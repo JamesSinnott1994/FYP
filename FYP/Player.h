@@ -11,7 +11,8 @@
 #include "Teleporter.h"
 #include "Timer.h"
 
-class Player{
+class Player
+{
 public:
 	Player();
 
@@ -22,6 +23,7 @@ public:
 	void Jump();
 	void Shoot();
 	void Reset();
+	void FinishedLevel();
 
 	void CheckCollisions();
 
@@ -43,6 +45,10 @@ public:
 	// Alive
 	bool GetAlive();
 	void SetAlive(bool);
+
+	// ReachedTeleporter
+	bool GetReachedTeleporter();
+	void SetReachedTeleporter(bool);
 
 	bool CheckScoreCollision();
 	bool CheckHealthCollision();
@@ -73,7 +79,24 @@ private:
 	int m_runningFrames;
 	int m_runningAnimationTime;
 	int m_runningAnimationLimit;
+	int m_runningAnimationLimitLab;
+	int m_runningAnimationLimitLaptop;
 	bool m_running;
+
+	// Blood splatter
+	Sprite* m_bloodSprite;
+	const int BLOOD_ANIMATION_FRAMES = 6;
+	SDL_Rect bloodSpriteClips[10];
+	SDL_Rect* currentBloodClip;
+	int m_bloodFrames;
+	int m_bloodAnimationTime;
+	int m_bloodAnimationLimit;
+	int m_bloodAnimationLimitLab;
+	int m_bloodAnimationLimitLaptop;
+	bool m_stopBloodAnimation;
+
+	// For game
+	bool m_reachedTeleporter;
 
 	// Jump
 	bool m_canJump;
@@ -95,9 +118,6 @@ private:
 
 	// Box2D
 	b2World* world;
-
-	// Timer
-	Timer* timer;
 };
 
 #endif

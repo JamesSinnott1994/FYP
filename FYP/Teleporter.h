@@ -14,9 +14,11 @@ public:
 
 	Teleporter();
 
-	void Init(SDL_Rect pRect, b2World *pWorld, string speedType);
+	void Init(SDL_Rect pRect, b2World *pWorld);
 	void Draw();
 	void Update();
+	void Destroy();
+	void SetPosition(SDL_Rect position);
 
 	void SpriteClips();
 

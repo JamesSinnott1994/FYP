@@ -47,6 +47,11 @@ void Score::Reset()
 	myBody->SetActive(true);
 }
 
+void Score::Destroy()
+{
+	myBody->GetWorld()->DestroyBody(myBody);
+}
+
 bool Score::CheckCollision(b2Body* playerBody)
 {
 	bool collided = (b2TestOverlap(myBody->GetFixtureList()->GetAABB(0), playerBody->GetFixtureList()->GetAABB(0)));

@@ -49,6 +49,31 @@ void PickupManager::Reset()
 	}
 }
 
+void PickupManager::Destroy()
+{
+	for each(Score* score in m_scores)
+	{
+		score->Destroy();
+	}
+
+	for each(Health* health in m_healthPickups)
+	{
+		health->Destroy();
+	}
+
+	// Iterate through list of bullets
+	if (m_scores.size() > 0)
+	{
+		m_scores.clear();
+	}
+
+	// Iterate through list of bullets
+	if (m_healthPickups.size() > 0)
+	{
+		m_healthPickups.clear();
+	}
+}
+
 void PickupManager::addScorePickups(SDL_Rect pRect, b2World* world)
 {
 	Score* temp = new Score(m_scoreTexture, pRect, world, m_scoreSource);

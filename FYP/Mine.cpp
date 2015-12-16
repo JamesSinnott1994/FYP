@@ -52,6 +52,11 @@ void Mine::Reset()
 	myBody->SetActive(true);
 }
 
+void Mine::Destroy()
+{
+	myBody->GetWorld()->DestroyBody(myBody);
+}
+
 bool Mine::CheckCollision(b2Body* playerBody)
 {
 	bool collided = (b2TestOverlap(myBody->GetFixtureList()->GetAABB(0), playerBody->GetFixtureList()->GetAABB(0)));

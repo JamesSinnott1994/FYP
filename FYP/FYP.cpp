@@ -8,6 +8,8 @@
 #include "KeyBoardInput.h"
 #include "Sprite.h"
 #include "Menu.h"
+#include "Options.h"
+#include "Instructions.h"
 #include "Play.h"
 #include "SoundManager.h"
 #include <SDL.h>
@@ -25,6 +27,8 @@ b2World* world = new b2World(gravity);// = new b2World(gravity);
 
 // Class instances
 Menu* menu;
+Options* options;
+Instructions* instructions;
 Play* play;
 
 // Methods
@@ -39,8 +43,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	SDL_Window* window = NULL;
 
 	// Game state
-	const int MENU = 0, PLAY = 1;
-	int gameState = PLAY;
+	const int MENU = 0, OPTIONS = 1, INSTRUCTIONS = 2, PLAY = 3;
+	int gameState = MENU;
 
 
 	//SDL
@@ -92,7 +96,21 @@ int _tmain(int argc, _TCHAR* argv[])
 					menu->Draw();
 					if (menu->Update(e) == 3)// Exit button clicked
 						quit = true;
+					else if (menu->Update(e) == 2)
+						gameState = OPTIONS;
 					else if (menu->Update(e) == 1)// Play button clicked
+						gameState = INSTRUCTIONS;
+					break;
+
+				case OPTIONS:
+					options->Draw();
+					if (options->Update(e) == 1)
+						gameState = MENU;
+					break;
+
+				case INSTRUCTIONS:
+					instructions->Draw();
+					if (instructions->Update() == 1)
 						gameState = PLAY;
 					break;
 
@@ -117,6 +135,8 @@ int _tmain(int argc, _TCHAR* argv[])
 void Init()
 {
 	menu = new Menu(windowWidth, windowHeight);
+	options = new Options(windowWidth, windowHeight);
+	instructions = new Instructions(windowWidth, windowHeight);
 	play = new Play(world, windowWidth, windowHeight);
 
 	if (!SoundManager::GetInstance()->load_files())

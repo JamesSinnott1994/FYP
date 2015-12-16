@@ -42,6 +42,20 @@ void ObstacleManager::Reset()
 	}
 }
 
+void ObstacleManager::Destroy()
+{
+	for each(Mine* mine in m_mines)
+	{
+		mine->Destroy();
+	}
+
+	// Iterate through list of bullets
+	if (m_mines.size() > 0)
+	{
+		m_mines.clear();
+	}
+}
+
 void ObstacleManager::addMineObstacles(SDL_Rect pRect, b2World* world)
 {
 	Mine* temp = new Mine(m_mineTexture, pRect, world, m_mineSource);

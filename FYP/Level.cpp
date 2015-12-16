@@ -56,20 +56,29 @@ void Level::LoadLevel(string name, b2World* world, string speedType)
 			}
 			else if (c == 'T')// 'T' for Teleporter
 			{
-				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
-				//SDL_Rect temp = { x*SCALE, y*SCALE, 587, 368 };
-				//SDL_Rect temp = { x*SCALE, y*SCALE-40, SCALE*3, SCALE*7 };
-				Teleporter::GetInstance()->Init(temp, world, speedType);
+				if (name == "Text/Level1.txt")
+				{
+					SDL_Rect temp = { x*SCALE, y*SCALE - 55, SCALE * 2 + 5, SCALE * 3 + 15 };
+					Teleporter::GetInstance()->Init(temp, world);
+				}
+				else
+				{
+					SDL_Rect temp = { x*SCALE, y*SCALE - 55, SCALE * 2 + 5, SCALE * 3 + 15 };
+					Teleporter::GetInstance()->SetPosition(temp);
+				}
 			}
 
 		}// End inner for loop
 	}// End outer for loop
+
+	int t = 0;
 }
 
 void Level::draw(Renderer Render)
 {
 	
 }
+
 vector<string> Level::loadALevelFromTextFile(string name)
 {
 	vector<string > mystringvector;
@@ -88,4 +97,9 @@ vector<string> Level::loadALevelFromTextFile(string name)
 int Level::GetLevelNum()
 {
 	return currentlevel;
+}
+
+void Level::SetLevelNum(int nextLevel)
+{
+	currentlevel = nextLevel;
 }

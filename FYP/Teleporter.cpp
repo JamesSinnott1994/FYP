@@ -23,49 +23,32 @@ Teleporter::Teleporter()
 
 }
 
-void Teleporter::Init(SDL_Rect pRect, b2World *pWorld, string speedType)
+void Teleporter::Init(SDL_Rect pRect, b2World *pWorld)
 {
-	// Position
 	m_rect = pRect;
 
-	// Box2D stuff
-	m_bodyDef.type = b2_staticBody;
+	// Define the ground body.
 	m_bodyDef.position.Set(pRect.x, pRect.y);
+	m_bodyDef.type = b2_staticBody;
+
+	// Define the ground box shape.
+	// The extents are the half-widths of the box.
+	m_shape.SetAsBox(pRect.w / 2, pRect.h / 2);
+
+	m_bodyFixtureDef.shape = &m_shape;
+	m_bodyFixtureDef.isSensor = true;
+
+	// The body is also added to the world.
 	m_body = pWorld->CreateBody(&m_bodyDef);
 
-	m_shape.SetAsBox(pRect.w, pRect.h);
-	m_bodyFixtureDef.shape = &m_shape;
+	m_texture = Sprite::loadTexture("Images/MainTeleporter.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+	m_source = { 0, 0, 152, 237 };
 
+	// Add the ground fixture to the ground body.
 	m_body->CreateFixture(&m_bodyFixtureDef);
-
-	// Teleporter sprite
 	m_animationSprite = new Sprite();
-	m_source = { 0, 0, 587, 368 };
-	m_animationSprite->Init("Images/Teleporter.png", pRect, m_source);
-	m_animationSprite->SetOffset(SDL_Point{ 293.5f, 184 });
-	gSpriteClips[ANIMATION_FRAMES];
-	m_animationFrames = 0;
-
-	m_animationTime = 0;
-	m_animationTimeLab = 1200;
-	m_animationTimeLaptop = 0;
-	m_limit = 0;
-	if (speedType == "labSpeed")
-	{
-		m_limit = m_animationTimeLab;
-	}
-	else
-	{
-		m_limit = m_animationTimeLaptop;
-	}
-
-	m_switchedOn = false;
-
-	SpriteClips();
-
-	//cout << m_rect.x << endl;
-
-	//cout << m_body->GetPosition().x << endl;
+	m_animationSprite->Init(m_texture, pRect, m_source);
+	m_animationSprite->SetOffset(SDL_Point{ 32, 32 });
 }
 
 void Teleporter::SpriteClips()
@@ -82,24 +65,16 @@ void Teleporter::SpriteClips()
 
 void Teleporter::Draw()
 {
-	SDL_Rect* currentRunnerClip = &gSpriteClips[m_animationFrames / ANIMATION_FRAMES];
-
-	m_animationSprite->SetSourceRect(*currentRunnerClip);
 	m_animationSprite->Draw(1);
+}
+
+void Teleporter::Destroy()
+{
+	m_body->GetWorld()->DestroyBody(m_body);
 }
 
 void Teleporter::Update()
 {
-	//// Update sprite position
-	//m_rect.x = m_body->GetPosition().x;
-	//m_rect.y = m_body->GetPosition().y;
-	//m_animationSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
-	//m_animationSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
-
-	//m_source = { 0, 0, 77, 107 };
-	//m_animationSprite->Init("Images/Teleporter.png", m_rect, m_source);
-	//m_animationSprite->SetOffset(SDL_Point{ 293.5f, 184 });
-
 	// Cycle animation
 	if (m_animationFrames / 3 >= ANIMATION_FRAMES)
 	{
@@ -117,14 +92,21 @@ void Teleporter::Update()
 
 bool Teleporter::CheckCollision(b2Body* playerBody)
 {
-	bool collided = (b2TestOverlap(m_body->GetFixtureList()->GetAABB(0), playerBody->GetFixtureList()->GetAABB(0)));
-	if (collided)
+	if (playerBody->GetPosition().x >= m_body->GetPosition().x
+		&& playerBody->GetPosition().y >= m_body->GetPosition().y)
 	{
-		//m_body->GetWorld()->DestroyBody(m_body);
-		//cout << "collided" << endl;
+		return true;
 	}
+	else
+	{
+		return false;
+	}
+}
 
-	return collided;
+void Teleporter::SetPosition(SDL_Rect position)
+{
+	m_body->SetTransform(b2Vec2(position.x, position.y), 0);
+	m_animationSprite->SetPosition(position.x, position.y);
 }
 
 SDL_Rect Teleporter::GetRect()

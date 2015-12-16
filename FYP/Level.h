@@ -22,6 +22,7 @@ public:
 	static vector<std::string> loadALevelFromTextFile(std::string name);
 
 	int GetLevelNum();
+	void SetLevelNum(int);
 private:      
 	static const int SCALE;//class variable
 	int currentlevel;

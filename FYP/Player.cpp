@@ -43,6 +43,9 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType)
 	m_playerRunningSprite->SetOffset(SDL_Point{ 38.5f, 53.5f });
 	m_runningFrames = 0;
 	m_runningAnimationTime = 0;
+	m_runningAnimationLimit = 0;
+	m_runningAnimationLimitLab = 60;
+	m_runningAnimationLimitLaptop = 10;
 	gSpriteRunningClipsRight[RUNNING_ANIMATION_FRAMES];
 	gSpriteRunningClipsLeft[RUNNING_ANIMATION_FRAMES];
 	m_running = false;
@@ -62,13 +65,36 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType)
 	m_shootTimerLab = 600;
 	m_shootTimerLaptop = 120;
 
-	m_runningAnimationLimit = 10;
+	// Blood
+	m_bloodSprite = new Sprite();
+	m_source = { 0, 0, 3072, 512 };
+	SDL_Rect bloodRect;
+	m_bloodSprite->Init("Images/BloodSplatter.png", pRect, m_source);
+	m_bloodSprite->SetOffset(SDL_Point{ 38.5f, 53.5f });
+	m_bloodFrames = 0;
+	m_bloodAnimationTime = 0;
+	m_bloodAnimationLimit = 0;
+	m_bloodAnimationLimitLab = 30;
+	m_bloodAnimationLimitLaptop = 5;
+	bloodSpriteClips[BLOOD_ANIMATION_FRAMES];
+	m_stopBloodAnimation = false;
+
+	if (speedType == "labSpeed")
+	{
+		m_shootTimerLimit = m_shootTimerLab;
+		m_bloodAnimationLimit = m_bloodAnimationLimitLab;
+		m_runningAnimationLimit = m_runningAnimationLimitLab;
+	}
+	else
+	{
+		m_shootTimerLimit = m_shootTimerLaptop;
+		m_bloodAnimationLimit = m_bloodAnimationLimitLaptop;
+		m_runningAnimationLimit = m_runningAnimationLimitLaptop;
+	}
 
 	SpriteClips();
 
-	// Timer
-	timer = new Timer();
-	timer->start();
+	m_reachedTeleporter = false;
 }
 
 void Player::SpriteClips()
@@ -95,6 +121,14 @@ void Player::SpriteClips()
 	gSpriteRunningClipsLeft[7] = { 199, 1, 73, 105 };
 	gSpriteRunningClipsLeft[8] = { 109, 2, 82, 104 };
 	gSpriteRunningClipsLeft[9] = { 1, 4, 83, 102 };
+
+	// Blood
+	bloodSpriteClips[0] = { 153, 129, 209, 182 };
+	bloodSpriteClips[1] = { 654, 91, 245, 215 };
+	bloodSpriteClips[2] = { 1150, 65, 282, 241 };
+	bloodSpriteClips[3] = { 1659, 66, 294, 252 };
+	bloodSpriteClips[4] = { 2172, 64, 298, 269 };
+	bloodSpriteClips[5] = { 2684, 65, 306, 286 };
 }
 
 void Player::Draw()
@@ -118,6 +152,13 @@ void Player::Draw()
 		}
 	}
 
+	if (!m_alive && !m_stopBloodAnimation)
+	{
+		currentBloodClip = &bloodSpriteClips[m_bloodFrames / 6];
+		m_bloodSprite->SetSourceRect(*currentBloodClip);
+		m_bloodSprite->Draw(1);
+	}
+
 	// Draw bullets
 	if (m_bullets.size() > 0)
 	{
@@ -130,6 +171,9 @@ void Player::Draw()
 
 void Player::Update()
 {
+	// Update time to shoot
+	m_timeToShoot++;
+
 	CheckCollisions();
 
 	if (m_health <= 0)
@@ -157,7 +201,7 @@ void Player::Update()
 	}
 
 	// Call move
-	if (m_alive)
+	if (m_alive && !m_reachedTeleporter)
 	{
 		Move();
 	}
@@ -186,11 +230,30 @@ void Player::Update()
 	m_rect.y = m_body->GetPosition().y;
 	m_playerIdleSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 	m_playerRunningSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+	m_bloodSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 
 	//Cycle animation
 	if (m_runningFrames / 10 >= RUNNING_ANIMATION_FRAMES)
 	{
 		m_runningFrames = 0;
+	}
+
+	if (!m_alive && !m_stopBloodAnimation)
+	{
+		//Cycle animation
+		if (m_bloodFrames / 6 >= BLOOD_ANIMATION_FRAMES)
+		{
+			m_bloodFrames = 0;
+			m_stopBloodAnimation = true;
+		}
+
+		// Increase running frames
+		m_bloodAnimationTime++;
+		if (m_bloodAnimationTime >= m_bloodAnimationLimit)
+		{
+			++m_bloodFrames;
+			m_bloodAnimationTime = 0;
+		}
 	}
 
 	// Update bullets
@@ -232,7 +295,8 @@ void Player::CheckCollisions()
 
 	if (CheckTeleporterCollision())
 	{
-		int t = 0;
+		m_reachedTeleporter = true;
+		m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y - 0.000001f));
 	}
 
 	//cout << (m_rect.x + m_rect.w) << endl;
@@ -255,21 +319,6 @@ bool Player::CheckMineCollision()
 
 bool Player::CheckTeleporterCollision()
 {
-	//SDL_Rect teleporterRect = Teleporter::GetInstance()->GetRect();
-
-	//if (m_rect.x + m_rect.w >= teleporterRect.x)
-	//	//&& m_rect.x <= teleporterRect.x + teleporterRect.w
-	//	//&& m_rect.y + m_rect.h >= teleporterRect.y
-	//	//&& m_rect.y <= teleporterRect.y + teleporterRect.h)
-	//{
-	//	return true;
-	//}
-	//else
-	//{
-	//	return false;
-	//}
-
-
 	return Teleporter::GetInstance()->CheckCollision(m_body);
 }
 
@@ -297,10 +346,9 @@ void Player::Move()
 		m_drawn = false;
 
 		// Increase running frames
-		//m_runningAnimationTime++;
-		if (timer->getTicks() >= m_runningAnimationLimit)
+		m_runningAnimationTime++;
+		if (m_runningAnimationTime >= m_runningAnimationLimit)
 		{
-			timer->resetTicks();
 			++m_runningFrames;
 			m_runningAnimationTime = 0;
 		}
@@ -326,10 +374,9 @@ void Player::Move()
 		m_drawn = false;
 
 		// Increase running frames
-		//m_runningAnimationTime++;
-		if (timer->getTicks() >= m_runningAnimationLimit)
+		m_runningAnimationTime++;
+		if (m_runningAnimationTime >= m_runningAnimationLimit)
 		{
-			timer->resetTicks();
 			++m_runningFrames;
 			m_runningAnimationTime = 0;
 		}
@@ -341,10 +388,10 @@ void Player::Move()
 	}
 	else if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_j))
 	{
-		if (timer->getTicks() >= m_timeToShoot)
+		if (m_timeToShoot >= m_shootTimerLimit)
 		{
-			timer->resetTicks();
 			Shoot();
+			m_timeToShoot = 0;
 			SoundManager::GetInstance()->play(SoundManager::GUNSHOT);
 		}
 	}
@@ -388,8 +435,19 @@ void Player::Reset()
 	// Reset variables
 	m_body->SetTransform(b2Vec2(m_startRect.x, m_startRect.y), 0);
 	m_alive = true;
+	m_reachedTeleporter = false;
+	m_stopBloodAnimation = false;
 	m_health = 100;
 	m_score = 0;
+
+}
+
+void Player::FinishedLevel()
+{
+	// Reset variables
+	m_body->SetTransform(b2Vec2(m_startRect.x, m_startRect.y), 0);
+	m_alive = true;
+	m_reachedTeleporter = false;
 }
 
 #pragma region Get/Set Score
@@ -430,5 +488,15 @@ void Player::SetAlive(bool myAlive)
 }
 
 #pragma endregion
+
+bool Player::GetReachedTeleporter()
+{
+	return m_reachedTeleporter;
+}
+
+void Player::SetReachedTeleporter(bool myReachedTeleporter)
+{
+	m_reachedTeleporter = myReachedTeleporter;
+}
 
 
