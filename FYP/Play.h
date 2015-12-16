@@ -56,7 +56,6 @@ public:
 	Play(b2World*,int w, int h);
 	~Play(){
 	}
-	void Init();
 	void AddAssetsToRenderer();
 	void Update();
 	void Reset();

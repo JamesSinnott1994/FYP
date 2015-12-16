@@ -96,11 +96,6 @@ bool Play::loadTTFMedia()
 	return success;
 }
 
-void Play::Init()
-{
-
-}
-
 void Play::Update()
 {
 	//Update Camera position
@@ -207,5 +202,6 @@ void Play::AddAssetsToRenderer()
 
 void Play::UpdateCameraPos()
 {
+	// Pass players position to Renderer::UpdateCameraPosition()
 	Renderer::GetInstance()->UpdateCameraPosition(m_player->getBody()->GetPosition().x);
 }

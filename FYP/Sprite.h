@@ -22,11 +22,8 @@ public :
 	void SetSourceRect(SDL_Rect source);
 	void SetOffset(SDL_Point offset);/*offset is relative width and height of the sprite not the texture */
 	void SetRotation(double rot);
-	//void Draw();
-	void DrawAnimation(SDL_Rect*);
 	void Draw(float zIndex);
 	void DrawNoCamOffset();
-	void DrawDarkness();
 	SDL_Rect getDestRect();
 	static SDL_Texture* loadTexture(std::string path, SDL_Renderer*);
 protected:

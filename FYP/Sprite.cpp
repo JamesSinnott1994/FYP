@@ -7,47 +7,57 @@ Sprite::Sprite()
 	m_offset = {0,0};
 	rotation = 0;
 }
+
 void Sprite::Init(std::string imagePath, SDL_Rect destination, SDL_Rect source)
 {
 	myTexture = loadTexture(imagePath, Renderer::GetInstance()->Get_SDL_RENDERER());
 	m_Destrination = destination;
 	m_Source = source;
 }
+
 void Sprite::Init(SDL_Texture* imageText, SDL_Rect destination, SDL_Rect source)
 {
 	myTexture = imageText;
 	m_Destrination = destination;
 	m_Source = source;
 }
+
 void Sprite::SetPosition(float x, float y)
 { 
 	m_Destrination.x = x;
 	m_Destrination.y = y;
 }
+
 SDL_Rect Sprite::GetPosition()
 {
 	return m_Destrination;
 }
+
 void Sprite::SetWidth(float w)
 {
 	m_Destrination.w = w; 
 }
+
 void Sprite::SetHeight(float h)
 {
 	m_Destrination.h = h;
 }
+
 void Sprite::SetDestinationRect(SDL_Rect destination)
 {
 	m_Destrination = destination;
 }
+
 void Sprite::SetSourceRect(SDL_Rect source)
 { 
 	m_Source = source;
 }
+
 void Sprite::SetOffset(SDL_Point offset)
 {
 	m_offset = offset;
 }
+
 void Sprite::SetRotation(double rot)
 {
 	rotation = rot;
@@ -55,27 +65,23 @@ void Sprite::SetRotation(double rot)
 
 void Sprite::Draw(float zIndex)
 {
-	SDL_Rect newDest{ m_Destrination.x - m_offset.x, m_Destrination.y - m_offset.y, m_Destrination.w, m_Destrination.h };
-	Renderer::GetInstance()->DrawImage(&m_Source, &newDest, myTexture,rotation,&m_offset, zIndex);
+	SDL_Rect newDest{ 
+		m_Destrination.x - m_offset.x, 
+		m_Destrination.y - m_offset.y,
+		m_Destrination.w, 
+		m_Destrination.h 
+	};
+	Renderer::GetInstance()->DrawImage(&m_Source, &newDest, myTexture, rotation, &m_offset, zIndex);
 }
 
-void Sprite::DrawAnimation(SDL_Rect *source)
-{
-	SDL_Rect newDest{ m_Destrination.x - m_offset.x, m_Destrination.y - m_offset.y, m_Destrination.w, m_Destrination.h };
-	Renderer::GetInstance()->DrawImage(source, &newDest, myTexture, rotation, &m_offset);
-}
 void Sprite::DrawNoCamOffset()
 {
 	SDL_Rect newDest{ m_Destrination.x - m_offset.x, m_Destrination.y - m_offset.y, m_Destrination.w, m_Destrination.h };
 	Renderer::GetInstance()->DrawImageNoOffset(&m_Source, &newDest, myTexture, rotation, &m_offset);
 }
 
-void Sprite::DrawDarkness(){
-	SDL_Rect newDest{ m_Destrination.x - m_offset.x, m_Destrination.y - m_offset.y, m_Destrination.w, m_Destrination.h };
-	Renderer::GetInstance()->DrawImage(&m_Source, &newDest, myTexture, rotation, &m_offset);
-}
-
-SDL_Texture* Sprite::loadTexture(std::string path, SDL_Renderer* gRenderer){
+SDL_Texture* Sprite::loadTexture(std::string path, SDL_Renderer* gRenderer)
+{
 	//The final texture
 	SDL_Texture* newTexture = NULL;
 

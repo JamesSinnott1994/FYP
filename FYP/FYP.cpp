@@ -46,7 +46,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	const int MENU = 0, OPTIONS = 1, INSTRUCTIONS = 2, PLAY = 3;
 	int gameState = MENU;
 
-
 	//SDL
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -63,7 +62,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 		else
 		{
-			//Create Renderer for the Window
+			// Create Renderer for the Window
 			if (!Renderer::GetInstance()->Init(window, windowWidth, windowHeight))
 			{
 				return 0;
