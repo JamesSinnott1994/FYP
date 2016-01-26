@@ -354,7 +354,7 @@ void Player::Move()
 		}
 	}
 	// Move right
-	else if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d) || KeyBoardInput::GetInstance()->isKeyPressed(SDLK_RIGHT))
+	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d) || KeyBoardInput::GetInstance()->isKeyPressed(SDLK_RIGHT))
 	{
 		m_body->SetLinearVelocity(b2Vec2(2, m_body->GetLinearVelocity().y - 0.000001f));
 
@@ -382,11 +382,11 @@ void Player::Move()
 		}
 	}
 	// Jump
-	else if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_SPACE) && m_canJump)
+	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_SPACE) && m_canJump)
 	{
 		Jump();
 	}
-	else if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_j))
+	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_j))
 	{
 		if (m_timeToShoot >= m_shootTimerLimit)
 		{
@@ -395,7 +395,9 @@ void Player::Move()
 			SoundManager::GetInstance()->play(SoundManager::GUNSHOT);
 		}
 	}
-	else
+	if (!KeyBoardInput::GetInstance()->isKeyPressed(SDLK_SPACE) && !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d)
+		&& !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a) && !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_LEFT)
+		&& !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_RIGHT))
 	{
 		m_running = false;
 		m_idle = true;
