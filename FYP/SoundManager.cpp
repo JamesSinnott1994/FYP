@@ -38,6 +38,7 @@ bool SoundManager::load_files()
 	//If everything loaded fine
 	return true;
 }
+
 void SoundManager::clean_up()
 {
 	//Free the sound effects
@@ -49,6 +50,7 @@ void SoundManager::clean_up()
 	//Quit SDL
 	SDL_Quit();
 }
+
 void SoundManager::play(int i)
 {
 	//If there is no music playing
@@ -68,8 +70,19 @@ void SoundManager::play(int i)
 		break;
 	}
 }
+
 void SoundManager::stopMusic()
 {
 	//Stop the music
 	Mix_HaltMusic();
+}
+
+bool SoundManager::SoundOn()
+{
+	return m_soundOn;
+}
+
+void SoundManager::SetSoundOn(bool mySound)
+{
+	m_soundOn = mySound;
 }

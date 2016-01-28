@@ -25,9 +25,14 @@ public:
 	{
 		instanceFlag = false;
 	}
+
+	bool SoundOn();
+	void SetSoundOn(bool mySound);
 private:
 	SoundManager()
 	{
+		m_soundOn = true;
+
 		//Initialize SDL_mixer
 		if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
 		{
@@ -41,6 +46,7 @@ private:
 
 	static bool instanceFlag;
 	static SoundManager* instance;
+	bool m_soundOn;
 	
 };
 #endif
