@@ -13,6 +13,7 @@ public:
 	void Draw();
 	int Update();
 
+	// Used for drawing text
 	bool initializeTTF();
 	bool loadTTFMedia();
 private:

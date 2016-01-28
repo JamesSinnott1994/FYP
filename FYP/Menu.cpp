@@ -53,65 +53,74 @@ int Menu::Update(SDL_Event e)
 {
 	#pragma region Mouseover
 
-		// Mouseover Play button
-		if (m_playButton.IsOver(e.button.x, e.button.y))
+	// Checks if mouse is over Play button
+	#pragma region PlayButton
+	if (m_playButton.IsOver(e.button.x, e.button.y))
+	{
+		if (!m_playImageOver)
 		{
-			if (!m_playImageOver)
-			{
-				m_playButton.Init(SDL_Rect{ m_playButton.GetRectangle().x, m_playButton.GetRectangle().y, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h },
-					SDL_Rect{ 0, 0, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h }, "Images/PlayBtnOver.png");
-			}
-			m_playImageOver = true;
+			m_playButton.Init(SDL_Rect{ m_playButton.GetRectangle().x, m_playButton.GetRectangle().y, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h },
+				SDL_Rect{ 0, 0, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h }, "Images/PlayBtnOver.png");
 		}
-		else
+		m_playImageOver = true;
+	}
+	else
+	{
+		if (m_playImageOver)
 		{
-			if (m_playImageOver)
-			{
-				m_playButton.Init(SDL_Rect{ m_playButton.GetRectangle().x, m_playButton.GetRectangle().y, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h },
-					SDL_Rect{ 0, 0, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h }, "Images/PlayBtnNotOver.png");
-			}
-			m_playImageOver = false;
+			m_playButton.Init(SDL_Rect{ m_playButton.GetRectangle().x, m_playButton.GetRectangle().y, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h },
+				SDL_Rect{ 0, 0, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h }, "Images/PlayBtnNotOver.png");
 		}
+		m_playImageOver = false;
+	}
+	#pragma endregion
 
-		// Mouseover Options button
-		if (m_optionsButton.IsOver(e.button.x, e.button.y))
-		{
-			if (!m_optionsImageOver)
-			{
-				m_optionsButton.Init(SDL_Rect{ m_optionsButton.GetRectangle().x, m_optionsButton.GetRectangle().y, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h },
-					SDL_Rect{ 0, 0, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h }, "Images/OptionsBtnOver.png");
-			}
-			m_optionsImageOver = true;
-		}
-		else
-		{
-			if (m_optionsImageOver)
-			{
-				m_optionsButton.Init(SDL_Rect{ m_optionsButton.GetRectangle().x, m_optionsButton.GetRectangle().y, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h },
-					SDL_Rect{ 0, 0, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h }, "Images/OptionsBtnNotOver.png");
-			}
-			m_optionsImageOver = false;
-		}
 
-		// Mouseover Exit button
-		if (m_exitButton.IsOver(e.button.x, e.button.y))
+	// Checks if mouse is over Options button
+	#pragma region OptionsButton
+	if (m_optionsButton.IsOver(e.button.x, e.button.y))
+	{
+		if (!m_optionsImageOver)
 		{
-			if (!m_exitImageOver)
-			{
-				m_exitButton.Init(SDL_Rect{ m_exitButton.GetRectangle().x, m_exitButton.GetRectangle().y, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h },
-					SDL_Rect{ 0, 0, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h }, "Images/ExitBtnOver.png");
-			}
-			m_exitImageOver = true;
+			m_optionsButton.Init(SDL_Rect{ m_optionsButton.GetRectangle().x, m_optionsButton.GetRectangle().y, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h },
+				SDL_Rect{ 0, 0, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h }, "Images/OptionsBtnOver.png");
 		}
-		else
+		m_optionsImageOver = true;
+	}
+	else
+	{
+		if (m_optionsImageOver)
 		{
-			if (m_exitImageOver)
-			{
-				m_exitButton.Init(SDL_Rect{ m_exitButton.GetRectangle().x, m_exitButton.GetRectangle().y, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h },
-					SDL_Rect{ 0, 0, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h }, "Images/ExitBtnNotOver.png");
-			}
-			m_exitImageOver = false;
+			m_optionsButton.Init(SDL_Rect{ m_optionsButton.GetRectangle().x, m_optionsButton.GetRectangle().y, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h },
+				SDL_Rect{ 0, 0, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h }, "Images/OptionsBtnNotOver.png");
 		}
+		m_optionsImageOver = false;
+	}
+	#pragma endregion
+
+
+	// Checks if mouse is over Exit button
+	#pragma region ExitButton
+	if (m_exitButton.IsOver(e.button.x, e.button.y))
+	{
+		if (!m_exitImageOver)
+		{
+			m_exitButton.Init(SDL_Rect{ m_exitButton.GetRectangle().x, m_exitButton.GetRectangle().y, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h },
+				SDL_Rect{ 0, 0, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h }, "Images/ExitBtnOver.png");
+		}
+		m_exitImageOver = true;
+	}
+	else
+	{
+		if (m_exitImageOver)
+		{
+			m_exitButton.Init(SDL_Rect{ m_exitButton.GetRectangle().x, m_exitButton.GetRectangle().y, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h },
+				SDL_Rect{ 0, 0, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h }, "Images/ExitBtnNotOver.png");
+		}
+		m_exitImageOver = false;
+	}
+	#pragma endregion
+
 
 	#pragma endregion
 
@@ -126,7 +135,6 @@ int Menu::Update(SDL_Event e)
 				//Get the mouse offsets
 				int mouse_x = e.button.x;
 				int mouse_y = e.button.y;
-
 
 				// Check if button clicked
 				if (m_playButton.IsClicked(mouse_x, mouse_y))

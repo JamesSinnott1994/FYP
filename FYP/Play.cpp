@@ -123,6 +123,7 @@ void Play::Update()
 		//Update game entities.
 		m_player->Update();
 
+		// Increment player score
 		if (m_player->CheckScoreCollision())
 		{
 			m_player->SetScore(m_player->GetScore() + 10);
@@ -162,6 +163,7 @@ void Play::LevelComplete()
 	PlatformManager::GetInstance()->Destroy();
 	m_player->LevelComplete();
 
+	// Get the next level text file
 	string levelText = "Text/Level" + to_string(level->GetLevelNum()) + ".txt";
 	level->LoadLevel(levelText, world, whichSpeed);
 
@@ -190,9 +192,9 @@ void Play::AddAssetsToRenderer()
 	PickupManager::GetInstance()->Draw();
 	ObstacleManager::GetInstance()->Draw();
 
+	// Draw Health Bar
 	SDL_Color red = SDL_Color{ 255, 0, 0, 255 };
 	SDL_Color green = SDL_Color{ 0, 255, 0, 255 };
-
 	m_healthBar->RenderHPBar(550, 15, 200, 25, m_player->GetHealth()*0.01f, green, red);
 
 	// Draw text at position

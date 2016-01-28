@@ -95,7 +95,7 @@ int _tmain(int argc, _TCHAR* argv[])
 					menu->Draw();
 					if (menu->Update(e) == 3)// Exit button clicked
 						quit = true;
-					else if (menu->Update(e) == 2)
+					else if (menu->Update(e) == 2)// Options button clicked
 						gameState = OPTIONS;
 					else if (menu->Update(e) == 1)// Play button clicked
 						gameState = INSTRUCTIONS;

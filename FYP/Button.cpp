@@ -13,9 +13,9 @@ void Button::Init(SDL_Rect pos, SDL_Rect src, std::string path)
 	m_sprite->Init(path, pos, src);
 }
 
+// Checks if you clicked on the button
 bool Button::IsClicked(int x , int y)
 {
-
 	if (m_rect.x + m_rect.w > x && m_rect.x < x && m_rect.y + m_rect.h > y && m_rect.y < y)
 	{
 		return true;
@@ -26,6 +26,7 @@ bool Button::IsClicked(int x , int y)
 	}
 }
 
+// Check if the mouse cursor is over the button
 bool Button::IsOver(int x, int y)
 {
 	if (m_rect.x + m_rect.w > x && m_rect.x < x && m_rect.y + m_rect.h > y && m_rect.y < y)

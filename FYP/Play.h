@@ -54,8 +54,7 @@ private:
 	string whichSpeed;
 public:
 	Play(b2World*,int w, int h);
-	~Play(){
-	}
+	~Play(){}
 	void AddAssetsToRenderer();
 	void Update();
 	void Reset();
