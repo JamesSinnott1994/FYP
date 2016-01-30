@@ -13,17 +13,35 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Menu">
-      <UniqueIdentifier>{4ffeaa96-7e34-4759-9c58-b7f7c755e018}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Menu">
-      <UniqueIdentifier>{3b9c3e0a-0767-4a23-ac8c-88a11b2118b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Renderer">
       <UniqueIdentifier>{d70ae320-9183-40d9-b7b4-4b58353c09bf}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Renderer">
       <UniqueIdentifier>{6a5ac15d-7234-416e-a6c5-f785d3e199b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pickups">
+      <UniqueIdentifier>{7dc9c671-96d4-4d24-a028-0636b09efdc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Pickups">
+      <UniqueIdentifier>{5433c8e7-0c7c-49ff-b305-2d789a3dd398}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Platforms">
+      <UniqueIdentifier>{02f6343e-98ae-4f7a-8b12-43c043c0b4ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Platform">
+      <UniqueIdentifier>{36c0733a-9a6f-4b90-a4e1-78a9b6548c3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Menu/Options">
+      <UniqueIdentifier>{3b9c3e0a-0767-4a23-ac8c-88a11b2118b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Menu/Options">
+      <UniqueIdentifier>{4ffeaa96-7e34-4759-9c58-b7f7c755e018}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Obstacles">
+      <UniqueIdentifier>{895f0b9c-8d3e-4103-b935-8d28ecfc2961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Obstacles">
+      <UniqueIdentifier>{369e3f19-0f4c-4d53-9970-d1baa844d374}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -36,9 +54,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KeyBoardInput.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -48,31 +63,7 @@
     <ClInclude Include="Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlatformManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Platform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PickupManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Score.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Health.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Bullet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ObstacleManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HealthBar.h">
@@ -85,16 +76,16 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>Header Files\Menu</Filter>
+      <Filter>Header Files\Menu/Options</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
-      <Filter>Header Files\Menu</Filter>
+      <Filter>Header Files\Menu/Options</Filter>
     </ClInclude>
     <ClInclude Include="Options.h">
-      <Filter>Header Files\Menu</Filter>
+      <Filter>Header Files\Menu/Options</Filter>
     </ClInclude>
     <ClInclude Include="Instructions.h">
-      <Filter>Header Files\Menu</Filter>
+      <Filter>Header Files\Menu/Options</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Header Files\Renderer</Filter>
@@ -105,11 +96,38 @@
     <ClInclude Include="Text.h">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="WallManager.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Score.h">
+      <Filter>Header Files\Pickups</Filter>
+    </ClInclude>
+    <ClInclude Include="PickupManager.h">
+      <Filter>Header Files\Pickups</Filter>
+    </ClInclude>
+    <ClInclude Include="Health.h">
+      <Filter>Header Files\Pickups</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformManager.h">
+      <Filter>Header Files\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform.h">
+      <Filter>Header Files\Platform</Filter>
     </ClInclude>
     <ClInclude Include="Wall.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="WallManager.h">
+      <Filter>Header Files\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="ObstacleManager.h">
+      <Filter>Header Files\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="Mine.h">
+      <Filter>Header Files\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Header Files\Menu/Options</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyBoardInput.h">
+      <Filter>Header Files\Menu/Options</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -117,9 +135,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FYP.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyBoardInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
@@ -131,31 +146,7 @@
     <ClCompile Include="Level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlatformManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Platform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PickupManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Score.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Health.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ObstacleManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HealthBar.cpp">
@@ -168,16 +159,16 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
-      <Filter>Source Files\Menu</Filter>
+      <Filter>Source Files\Menu/Options</Filter>
     </ClCompile>
     <ClCompile Include="Instructions.cpp">
-      <Filter>Source Files\Menu</Filter>
+      <Filter>Source Files\Menu/Options</Filter>
     </ClCompile>
     <ClCompile Include="Options.cpp">
-      <Filter>Source Files\Menu</Filter>
+      <Filter>Source Files\Menu/Options</Filter>
     </ClCompile>
     <ClCompile Include="Menu.cpp">
-      <Filter>Source Files\Menu</Filter>
+      <Filter>Source Files\Menu/Options</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Source Files\Renderer</Filter>
@@ -188,11 +179,38 @@
     <ClCompile Include="Text.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Wall.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Score.cpp">
+      <Filter>Source Files\Pickups</Filter>
+    </ClCompile>
+    <ClCompile Include="Health.cpp">
+      <Filter>Source Files\Pickups</Filter>
+    </ClCompile>
+    <ClCompile Include="PickupManager.cpp">
+      <Filter>Source Files\Pickups</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformManager.cpp">
+      <Filter>Source Files\Platforms</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform.cpp">
+      <Filter>Source Files\Platforms</Filter>
     </ClCompile>
     <ClCompile Include="WallManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Platforms</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Source Files\Platforms</Filter>
+    </ClCompile>
+    <ClCompile Include="ObstacleManager.cpp">
+      <Filter>Source Files\Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="Mine.cpp">
+      <Filter>Source Files\Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Source Files\Menu/Options</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyBoardInput.cpp">
+      <Filter>Source Files\Menu/Options</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
