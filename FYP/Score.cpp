@@ -59,7 +59,8 @@ bool Score::CheckCollision(b2Body* playerBody)
 	{
 		m_alive = false;
 		myBody->SetActive(false);
-		SoundManager::GetInstance()->play(SoundManager::SCORE_PICKUP);
+		if (SoundManager::GetInstance()->SoundOn())
+			SoundManager::GetInstance()->play(SoundManager::SCORE_PICKUP);
 	}
 
 	return collided;

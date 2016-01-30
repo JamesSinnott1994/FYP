@@ -109,6 +109,8 @@
     <ClInclude Include="Teleporter.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Wall.h" />
+    <ClInclude Include="WallManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
@@ -139,6 +141,8 @@
     <ClCompile Include="Teleporter.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="WallManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

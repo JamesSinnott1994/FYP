@@ -11,6 +11,7 @@
 #include "PickupManager.h"
 #include "ObstacleManager.h"
 #include "Teleporter.h"
+#include "WallManager.h"
 
 class Level
 {
@@ -18,7 +19,6 @@ public:
 	Level();
 
 	static void LoadLevel(std::string name, b2World* world, string speedType);
-	static void draw(Renderer render);
 	static vector<std::string> loadALevelFromTextFile(std::string name);
 
 	int GetLevelNum();
@@ -27,7 +27,6 @@ private:
 	static const int SCALE;//class variable
 	int currentlevel;
 	static const int MAXLEVELS;
-
 };
 
 #endif

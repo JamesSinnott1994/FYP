@@ -161,6 +161,7 @@ void Play::LevelComplete()
 	PickupManager::GetInstance()->Destroy();
 	ObstacleManager::GetInstance()->Destroy();
 	PlatformManager::GetInstance()->Destroy();
+	WallManager::GetInstance()->Destroy();
 	m_player->LevelComplete();
 
 	// Get the next level text file

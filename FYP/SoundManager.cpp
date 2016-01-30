@@ -43,6 +43,9 @@ void SoundManager::clean_up()
 {
 	//Free the sound effects
 	Mix_FreeChunk(scorePickup);
+	Mix_FreeChunk(gunshot);
+	Mix_FreeChunk(health);
+	Mix_FreeChunk(mine);
 
 	//Quit SDL_mixer
 	Mix_CloseAudio();

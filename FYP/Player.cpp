@@ -392,7 +392,8 @@ void Player::Move()
 		{
 			Shoot();
 			m_timeToShoot = 0;
-			SoundManager::GetInstance()->play(SoundManager::GUNSHOT);
+			if(SoundManager::GetInstance()->SoundOn())
+				SoundManager::GetInstance()->play(SoundManager::GUNSHOT);
 		}
 	}
 	if (!KeyBoardInput::GetInstance()->isKeyPressed(SDLK_SPACE) && !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d)

@@ -14,8 +14,8 @@ Level::Level()
 void Level::LoadLevel(string name, b2World* world, string speedType)
 {
 	vector<string> map = Level::loadALevelFromTextFile(name);
-	const int charactersAcross = 72;
-	const int charactersDown = 20;
+	const int charactersAcross = map.begin()->size();
+	const int charactersDown = map.size();
 
 	// Go through each each row
 	for (int y = 0; y < charactersDown; y++)
@@ -67,16 +67,14 @@ void Level::LoadLevel(string name, b2World* world, string speedType)
 					Teleporter::GetInstance()->SetPosition(temp);
 				}
 			}
+			else if (c == 'W')// 'W' for Wall (This is an invisible wall which prevents the player from going off the screen)
+			{
+				SDL_Rect temp = { x*SCALE-20, y*SCALE, SCALE, SCALE };
+				WallManager::GetInstance()->addWallParts(temp, world);
+			}
 
 		}// End inner for loop
 	}// End outer for loop
-
-	int t = 0;
-}
-
-void Level::draw(Renderer Render)
-{
-	
 }
 
 vector<string> Level::loadALevelFromTextFile(string name)

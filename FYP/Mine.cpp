@@ -64,7 +64,8 @@ bool Mine::CheckCollision(b2Body* playerBody)
 	{
 		m_alive = false;
 		myBody->SetActive(false);
-		SoundManager::GetInstance()->play(SoundManager::MINE);
+		if (SoundManager::GetInstance()->SoundOn())
+			SoundManager::GetInstance()->play(SoundManager::MINE);
 		m_startAnimation = true;
 	}
 
