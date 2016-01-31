@@ -79,6 +79,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType)
 	bloodSpriteClips[BLOOD_ANIMATION_FRAMES];
 	m_stopBloodAnimation = false;
 
+	// Speed
 	if (speedType == "labSpeed")
 	{
 		m_shootTimerLimit = m_shootTimerLab;
@@ -172,7 +173,8 @@ void Player::Draw()
 void Player::Update()
 {
 	// Update time to shoot
-	m_timeToShoot++;
+	if (m_timeToShoot <= m_shootTimerLimit)
+		m_timeToShoot++;
 
 	CheckCollisions();
 
@@ -247,7 +249,7 @@ void Player::Update()
 			m_stopBloodAnimation = true;
 		}
 
-		// Increase running frames
+		// Increase blood animation frames
 		m_bloodAnimationTime++;
 		if (m_bloodAnimationTime >= m_bloodAnimationLimit)
 		{
@@ -500,6 +502,11 @@ void Player::SetAlive(bool myAlive)
 }
 
 #pragma endregion
+
+SDL_Rect Player::GetPosition()
+{
+	return m_rect;
+}
 
 bool Player::GetReachedTeleporter()
 {

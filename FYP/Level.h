@@ -12,13 +12,14 @@
 #include "ObstacleManager.h"
 #include "Teleporter.h"
 #include "WallManager.h"
+#include "EnemyManager.h"
 
 class Level
 {
 public:
 	Level();
 
-	static void LoadLevel(std::string name, b2World* world, string speedType);
+	static void LoadLevel(std::string name, b2World* world, string speedType, int width, int height);
 	static vector<std::string> loadALevelFromTextFile(std::string name);
 
 	int GetLevelNum();

@@ -46,6 +46,10 @@ private:
 	float laptopSpeed;
 	float speedToUse;
 
+	// Screen width and height
+	int m_width;
+	int m_height;
+
 	Level* level;
 
 	// Timer

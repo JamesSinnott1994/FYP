@@ -11,7 +11,7 @@ Level::Level()
 
 // This is where we load the various game entities
 // e.g. platforms, pickups etc
-void Level::LoadLevel(string name, b2World* world, string speedType)
+void Level::LoadLevel(string name, b2World* world, string speedType, int width, int height)
 {
 	vector<string> map = Level::loadALevelFromTextFile(name);
 	const int charactersAcross = map.begin()->size();
@@ -71,6 +71,13 @@ void Level::LoadLevel(string name, b2World* world, string speedType)
 			{
 				SDL_Rect temp = { x*SCALE-20, y*SCALE, SCALE, SCALE };
 				WallManager::GetInstance()->addWallParts(temp, world);
+			}
+			else if (c == 'G')// 'G' for Grunt(Basic enemy)
+			{
+				int enemyColor = (rand() % 4) + 1;
+				int enemyDir = (rand() % 2) + 1;
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
+				EnemyManager::GetInstance()->addGrunt(temp, world, enemyColor, enemyDir, speedType, width, height);
 			}
 
 		}// End inner for loop

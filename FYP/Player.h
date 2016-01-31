@@ -10,6 +10,7 @@
 #include "Bullet.h"
 #include "Teleporter.h"
 #include "Timer.h"
+#include "EnemyManager.h"
 
 class Player
 {
@@ -46,6 +47,9 @@ public:
 	// Alive
 	bool GetAlive();
 	void SetAlive(bool);
+
+	// Position
+	SDL_Rect GetPosition();
 
 	// ReachedTeleporter
 	bool GetReachedTeleporter();

@@ -16,6 +16,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <stdio.h>
+#include <time.h>
 
 // Window width and height
 const int windowWidth = 800;
@@ -36,6 +37,9 @@ void Init();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	// initialize random seed: 
+	srand(time(NULL));
+
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);
 
@@ -44,7 +48,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	// Game state
 	const int MENU = 0, OPTIONS = 1, INSTRUCTIONS = 2, PLAY = 3;
-	int gameState = MENU;
+	int gameState = PLAY;
 
 	//SDL
 	//Initialize SDL

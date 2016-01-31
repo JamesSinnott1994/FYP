@@ -15,13 +15,17 @@ Play::Play(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT):world(w), playerDead
 
 	m_healthBar = new HealthBar();
 
+	// Screen width and height
+	m_width = SCREEN_WIDTH;
+	m_height = SCREEN_HEIGHT;
+
 	// Load background image
 	m_backGroundImage = new Sprite();
-	m_backGroundImage->Init("Images/space.png", SDL_Rect{ 0, 0, SCREEN_WIDTH*2, SCREEN_HEIGHT }, SDL_Rect{ 0, 0, 600, 360 });
+	m_backGroundImage->Init("Images/space.png", SDL_Rect{ 0, 0, m_width * 2, m_height }, SDL_Rect{ 0, 0, 600, 360 });
 
 	// Load level
 	level = new Level();
-	level->LoadLevel("Text/Level1.txt", world, whichSpeed);
+	level->LoadLevel("Text/Level1.txt", world, whichSpeed, m_width, m_height);
 
 	initializeTTF();
 	loadTTFMedia();
@@ -132,6 +136,7 @@ void Play::Update()
 
 		ObstacleManager::GetInstance()->Update();
 		Teleporter::GetInstance()->Update();
+		EnemyManager::GetInstance()->Update(m_player->GetPosition());
 	}
 }
 
@@ -150,6 +155,7 @@ void Play::Reset()
 		loadTTFMedia();
 		PickupManager::GetInstance()->Reset();
 		ObstacleManager::GetInstance()->Reset();
+		EnemyManager::GetInstance()->Reset();
 	}
 }
 
@@ -162,11 +168,14 @@ void Play::LevelComplete()
 	ObstacleManager::GetInstance()->Destroy();
 	PlatformManager::GetInstance()->Destroy();
 	WallManager::GetInstance()->Destroy();
+	EnemyManager::GetInstance()->Destroy();
 	m_player->LevelComplete();
 
 	// Get the next level text file
 	string levelText = "Text/Level" + to_string(level->GetLevelNum()) + ".txt";
-	level->LoadLevel(levelText, world, whichSpeed);
+	level->LoadLevel(levelText, world, whichSpeed, m_width, m_height);
+
+	m_backGroundImage->Init("Images/space2.png", SDL_Rect{ 0, 0, m_width * 2, m_height }, SDL_Rect{ 0, 0, 2560, 1024 });
 
 	m_player->SetReachedTeleporter(false);
 	levelComplete = true;
@@ -192,6 +201,7 @@ void Play::AddAssetsToRenderer()
 	PlatformManager::GetInstance()->Draw();
 	PickupManager::GetInstance()->Draw();
 	ObstacleManager::GetInstance()->Draw();
+	EnemyManager::GetInstance()->Draw();
 
 	// Draw Health Bar
 	SDL_Color red = SDL_Color{ 255, 0, 0, 255 };
