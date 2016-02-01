@@ -20,12 +20,16 @@ public:
 	}
 
 	void Draw();
-	void Update(SDL_Rect &playerRect);
+	bool Update(SDL_Rect &playerRect, b2Body* playerBody);
+
+	bool GruntCheckCollision(b2Body* playerBody);
 
 	void Reset();
 	void Destroy();
 
 	void addGrunt(SDL_Rect pRect, b2World* world, int color, int direction, string speedType, int width, int height);
+
+	void addScoreForPlayer();
 
 private:
 	EnemyManager()
@@ -38,8 +42,11 @@ private:
 
 	// Grunt
 	list<Grunt*> m_grunts;
+	list<GruntBullet*>m_gruntBullets;
 	SDL_Texture* m_gruntTexture;
 	SDL_Rect m_gruntSource;
+	list<Grunt*>::iterator m_gruntIterator;
+	list<GruntBullet*>::iterator m_gruntBulletIterator;
 
 };
 #endif

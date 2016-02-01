@@ -47,6 +47,12 @@ Grunt::Grunt(SDL_Rect pRect, b2World* wWorld, int color, int direction, string s
 	// The body is also added to the world.
 	m_body = wWorld->CreateBody(&m_bodyDef);
 
+	// Collision Filtering
+	short GROUP_PLAYER = -1;
+	short GROUP_GRUNT = -2;
+
+	m_bodyFixtureDef.filter.groupIndex = GROUP_GRUNT;
+
 	// Add the ground fixture to the ground body.
 	m_body->CreateFixture(&m_bodyFixtureDef);
 
@@ -65,6 +71,7 @@ Grunt::Grunt(SDL_Rect pRect, b2World* wWorld, int color, int direction, string s
 	m_alive = true;
 	m_playerToTheLeft = false;
 	m_drawn = true;
+	m_canCreateBullet = false;
 
 	// Running Frames/Animation
 	gSpriteRunningClipsRight[RUNNING_ANIMATION_FRAMES];
@@ -76,7 +83,7 @@ Grunt::Grunt(SDL_Rect pRect, b2World* wWorld, int color, int direction, string s
 	m_runningAnimationLimitLaptop = 6;
 
 	// Shoot timer
-	m_shootTimerLaptop = 120;
+	m_shootTimerLaptop = 200;
 	m_shootTimerLab = 600;
 
 	// Speed
@@ -175,18 +182,18 @@ void Grunt::Draw()
 			m_runningSprite->Draw(1);
 		}
 
-		// Draw bullets
-		if (m_bullets.size() > 0)
-		{
-			for each(GruntBullet* bullet in m_bullets)
-			{
-				bullet->Draw();
-			}
-		}
+		//// Draw bullets
+		//if (m_bullets.size() > 0)
+		//{
+		//	for each(GruntBullet* bullet in m_bullets)
+		//	{
+		//		bullet->Draw();
+		//	}
+		//}
 	}
 }
 
-void Grunt::Update(SDL_Rect &playerRect)
+void Grunt::Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets)
 {
 	// Update time to shoot
 	if (m_shootTimer <= m_shootTimerLimit)
@@ -202,7 +209,7 @@ void Grunt::Update(SDL_Rect &playerRect)
 		Running();
 		break;
 	case SHOOTING:
-		Shoot();
+		Shoot(noOfBullets, maxBullets);
 		break;
 	case DEAD:
 		break;
@@ -214,28 +221,30 @@ void Grunt::Update(SDL_Rect &playerRect)
 
 	Animation();
 
+	Fell();
+
 	// Update sprite position
 	m_rect.x = m_body->GetPosition().x;
 	m_rect.y = m_body->GetPosition().y;
 	m_idleSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 	m_runningSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 
-	// Update bullets
-	if (m_bullets.size() > 0)
-	{
-		// Iterate through list of bullets
-		for (m_bulletIterator = m_bullets.begin(); m_bulletIterator != m_bullets.end(); ++m_bulletIterator)
-		{
-			(*m_bulletIterator)->Update();
+	//// Update bullets
+	//if (m_bullets.size() > 0)
+	//{
+	//	// Iterate through list of bullets
+	//	for (m_bulletIterator = m_bullets.begin(); m_bulletIterator != m_bullets.end(); ++m_bulletIterator)
+	//	{
+	//		(*m_bulletIterator)->Update();
 
-			// Remove bullet if out of bounds
-			if ((*m_bulletIterator)->OutOfBounds(m_rect))
-			{
-				m_bullets.erase(m_bulletIterator);
-				break;
-			}
-		}
-	}
+	//		// Remove bullet if out of bounds
+	//		if ((*m_bulletIterator)->OutOfBounds(m_rect))
+	//		{
+	//			m_bullets.erase(m_bulletIterator);
+	//			break;
+	//		}
+	//	}
+	//}
 }
 
 Grunt::State Grunt::FiniteStateMachine()
@@ -319,16 +328,21 @@ void Grunt::Running()
 	}
 }
 
-void Grunt::Shoot()
+void Grunt::Shoot(int noOfBullets, int maxBullets)
 {
-	if (m_shootTimer >= m_shootTimerLimit)
+	if (m_shootTimer >= m_shootTimerLimit && noOfBullets < maxBullets)
 	{
-		CreateBullet();
+		//CreateBullet(m_gruntBullets);
+		m_canCreateBullet = true;
 		m_shootTimer = 0;
+	}
+	else
+	{
+		m_canCreateBullet = false;
 	}
 }
 
-void Grunt::CreateBullet()
+list<GruntBullet*> Grunt::CreateBullet(list<GruntBullet*>m_gruntBullets)
 {
 	SDL_Texture* m_bulletTexture = Sprite::loadTexture("Images/Enemy/GruntBullet.png", Renderer::GetInstance()->Get_SDL_RENDERER());
 	SDL_Rect m_bulletSource = { 0, 0, 9, 6 };
@@ -339,9 +353,11 @@ void Grunt::CreateBullet()
 	else
 		m_bulletPos = { m_rect.x - 32, m_rect.y - 3, 9, 6 };
 
-	GruntBullet* bullet = new GruntBullet(m_bulletTexture, m_width, m_height, m_bulletPos, world, m_bulletSource, m_facingRight);
+	GruntBullet* bullet = new GruntBullet(m_bulletTexture, m_width, m_height, m_bulletPos, world, m_bulletSource, m_facingRight, m_rect);
 
-	m_bullets.push_back(bullet);
+	m_gruntBullets.push_back(bullet);
+
+	return m_gruntBullets;
 }
 
 void Grunt::Reset()
@@ -349,6 +365,7 @@ void Grunt::Reset()
 	m_body->SetTransform(b2Vec2(m_resetRect.x, m_resetRect.y), 0);
 	m_alive = true;
 	m_body->SetActive(true);
+	m_shootTimer = 0;
 }
 
 void Grunt::Destroy()
@@ -408,7 +425,7 @@ bool Grunt::InRangeOfPlayer(SDL_Rect &playerRect)
 	//cout << distanceY << endl;
 
 	// Check if in range
-	if (distanceX <= (m_width / 2) && distanceY <= (playerRect.h / 2))
+	if (distanceX <= (m_width * 0.75f) && distanceY <= (playerRect.h / 2))
 	{
 		return true;
 	}
@@ -418,9 +435,37 @@ bool Grunt::InRangeOfPlayer(SDL_Rect &playerRect)
 	}
 }
 
-bool Grunt::CheckBulletPlayerCollision(b2Body& playerBody)
+bool Grunt::CheckBulletPlayerCollision(b2Body* playerBody)
 {
-	return true;
+	if (m_bullets.size() > 0)
+	{
+		// Iterate through list of bullets
+		for (m_bulletIterator = m_bullets.begin(); m_bulletIterator != m_bullets.end(); ++m_bulletIterator)
+		{
+			bool collided = (*m_bulletIterator)->CheckBulletPlayerCollision(playerBody);
+
+			if (collided)
+			{
+				m_bullets.erase(m_bulletIterator);
+			}
+
+			return collided;
+		}
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void Grunt::Fell()
+{
+	// Out of bounds from falling
+	if (m_body->GetPosition().y >= m_height)
+	{
+		m_alive = false;
+		cout << "Enemy killed" << endl;
+	}
 }
 
 #pragma region Getters/Setters
@@ -453,6 +498,16 @@ bool Grunt::PlayerToTheLeft()
 void Grunt::SetPlayerToTheLeft(bool myPlayerToTheLeft)
 {
 	m_playerToTheLeft = myPlayerToTheLeft;
+}
+
+bool Grunt::CanCreateBullet()
+{
+	return m_canCreateBullet;
+}
+
+void Grunt::SetCanCreateBullet(bool myCanCreateBullet)
+{
+	m_canCreateBullet = myCanCreateBullet;
 }
 
 #pragma endregion

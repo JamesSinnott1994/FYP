@@ -24,6 +24,11 @@ Platform::Platform(SDL_Texture* text, SDL_Rect pRect, b2World* wWorld, SDL_Rect 
 	// The body is also added to the world.
 	m_body = wWorld->CreateBody(&m_bodyDef);
 
+	// Collision Filtering
+	short GROUP_PLATFORM = 3;
+
+	m_bodyFixtureDef.filter.groupIndex = GROUP_PLATFORM;
+
 	// Add the ground fixture to the ground body.
 	m_body->CreateFixture(&m_bodyFixtureDef);
 	m_sprite.Init(text, pRect, src);

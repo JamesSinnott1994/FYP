@@ -22,6 +22,12 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType)
 	m_shape.SetAsBox(pRect.w / 2 - 20, (pRect.h / 2) - 2);
 	m_bodyFixtureDef.shape = &m_shape;
 
+	// Collision Filtering
+	short GROUP_PLAYER = -2;
+	short GROUP_GRUNT = -2;
+
+	m_bodyFixtureDef.filter.groupIndex = GROUP_GRUNT;
+
 	m_body->CreateFixture(&m_bodyFixtureDef);
 
 	// Player Initial idle sprite

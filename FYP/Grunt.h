@@ -48,6 +48,7 @@ private:
 	bool m_alive;
 	bool m_playerToTheLeft;
 	bool m_drawn;// For drawing idle image when changing direction
+	bool m_canCreateBullet;
 
 	// Strings used to read in images
 	string colorString;
@@ -81,18 +82,21 @@ public:
 	State FiniteStateMachine();
 
 	void Draw();
-	void Update(SDL_Rect &playerRect);
+	void Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets);
 	void Reset();
 	void Destroy();
 
 	void Animation();
 	void Running();
-	void Shoot();
-	void CreateBullet();
+	void Shoot(int noOfBullets, int maxBullets);
+	list<GruntBullet*> CreateBullet(list<GruntBullet*>m_gruntBullets);
 
 	bool InRange();
 	void SetInRange(bool);
 	bool InRangeOfPlayer(SDL_Rect &playerRect);
+
+	bool CanCreateBullet();
+	void SetCanCreateBullet(bool myCanCreateBullet);
 
 	bool GetAlive();
 	void SetAlive(bool);
@@ -101,7 +105,9 @@ public:
 	bool PlayerToTheLeft();
 	void SetPlayerToTheLeft(bool);
 
-	bool CheckBulletPlayerCollision(b2Body& playerBody);
+	bool CheckBulletPlayerCollision(b2Body* playerBody);
+
+	void Fell();
 };
 
 #endif

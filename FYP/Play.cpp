@@ -136,7 +136,14 @@ void Play::Update()
 
 		ObstacleManager::GetInstance()->Update();
 		Teleporter::GetInstance()->Update();
-		EnemyManager::GetInstance()->Update(m_player->GetPosition());
+		if (EnemyManager::GetInstance()->Update(m_player->GetPosition(), m_player->getBody()))
+		{
+			m_player->SetHealth(m_player->GetHealth() - 10);
+		}
+		/*if (EnemyManager::GetInstance()->CheckCollision())
+		{
+			m_player->SetHealth(m_player->GetHealth() - 10);
+		}*/
 	}
 }
 
