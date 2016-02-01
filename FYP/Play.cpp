@@ -11,7 +11,8 @@ Play::Play(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT):world(w), playerDead
 
 	// Load player
 	m_player = new Player();
-	m_player->Init(SDL_Rect{ 200, 500, 77, 107 }, world, whichSpeed);
+	float playerScale = 0.9f;
+	m_player->Init(SDL_Rect{ 200, 500, 77 * playerScale, 107 * playerScale }, world, whichSpeed, playerScale);
 
 	m_healthBar = new HealthBar();
 

@@ -33,8 +33,8 @@ private:
 		m_scoreSource = { 0, 0, 91, 91 };
 
 		m_healthPickups = list<Health*>();
-		m_healthTexture = Sprite::loadTexture("Images/HealthPickup.png", Renderer::GetInstance()->Get_SDL_RENDERER());
-		m_healthSource = { 0, 0, 99, 100 };
+		m_healthTexture = Sprite::loadTexture("Images/health.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+		m_healthSource = { 0, 0, 40, 40 };
 	}
 
 	static bool instanceFlag;

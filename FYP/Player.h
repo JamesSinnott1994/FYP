@@ -17,7 +17,7 @@ class Player
 public:
 	Player();
 
-	void Init(SDL_Rect, b2World*, string speedType);
+	void Init(SDL_Rect, b2World*, string speedType, float scale);
 	void Draw();
 	void Update();
 	void Move();
@@ -123,6 +123,9 @@ private:
 
 	// Box2D
 	b2World* world;
+
+	// Scale
+	float playerScale;
 };
 
 #endif

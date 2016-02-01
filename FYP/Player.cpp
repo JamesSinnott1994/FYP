@@ -6,9 +6,11 @@ Player::Player()
 	
 }
 
-void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType)
+void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale)
 {
 	world = pWorld;
+
+	playerScale = scale;
 
 	// Position
 	m_rect = pRect;
@@ -16,10 +18,10 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType)
 
 	// Box2D stuff
 	m_bodyDef.type = b2_dynamicBody;
-	m_bodyDef.position.Set(pRect.x, pRect.y);
+	m_bodyDef.position.Set(m_rect.x, m_rect.y);
 	m_body = pWorld->CreateBody(&m_bodyDef);
 
-	m_shape.SetAsBox(pRect.w / 2 - 20, (pRect.h / 2) - 2);
+	m_shape.SetAsBox(m_rect.w / 2 - 20, (m_rect.h / 2) - 2);
 	m_bodyFixtureDef.shape = &m_shape;
 
 	// Collision Filtering
@@ -33,8 +35,8 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType)
 	// Player Initial idle sprite
 	m_playerIdleSprite = new Sprite();
 	m_source = { 0, 0, 77, 107 };
-	m_playerIdleSprite->Init("Images/PlayerIdleRight.png", pRect, m_source);
-	m_playerIdleSprite->SetOffset(SDL_Point{ 38.5f, 53.5f });
+	m_playerIdleSprite->Init("Images/PlayerIdleRight.png", m_rect, m_source);
+	m_playerIdleSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h/2 });
 	m_idle = true;
 	m_drawn = true;
 
@@ -46,7 +48,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType)
 	m_playerRunningSprite = new Sprite();
 	m_source = { 0, 0, 912, 107 };
 	m_playerRunningSprite->Init("Images/PlayerRunningRight.png", pRect, m_source);
-	m_playerRunningSprite->SetOffset(SDL_Point{ 38.5f, 53.5f });
+	m_playerRunningSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
 	m_runningFrames = 0;
 	m_runningAnimationTime = 0;
 	m_runningAnimationLimit = 0;
@@ -221,14 +223,14 @@ void Player::Update()
 		{
 			m_source = { 0, 0, 77, 107 };
 			m_playerIdleSprite->Init("Images/PlayerIdleLeft.png", m_rect, m_source);
-			m_playerIdleSprite->SetOffset(SDL_Point{ 38.5f, 53.5f });
+			m_playerIdleSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
 			m_drawn = true;
 		}
 		else if (m_movingRight && !m_drawn)
 		{
 			m_source = { 0, 0, 77, 107 };
 			m_playerIdleSprite->Init("Images/PlayerIdleRight.png", m_rect, m_source);
-			m_playerIdleSprite->SetOffset(SDL_Point{ 38.5f, 53.5f });
+			m_playerIdleSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
 			m_drawn = true;
 		}
 	}
@@ -334,7 +336,7 @@ void Player::Move()
 {
 	// Key presses
 	// Move left
-	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a) || KeyBoardInput::GetInstance()->isKeyPressed(SDLK_LEFT))
+	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a) && !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d))
 	{
 		m_body->SetLinearVelocity(b2Vec2(-2, m_body->GetLinearVelocity().y-0.000001f));
 
@@ -343,7 +345,7 @@ void Player::Move()
 		{
 			m_source = { 0, 0, 912, 107 };
 			m_playerRunningSprite->Init("Images/PlayerRunningLeft.png", m_rect, m_source);
-			m_playerRunningSprite->SetOffset(SDL_Point{ 38.5f, 53.5f });
+			m_playerRunningSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
 		}
 
 		// Change booleans
@@ -362,7 +364,7 @@ void Player::Move()
 		}
 	}
 	// Move right
-	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d) || KeyBoardInput::GetInstance()->isKeyPressed(SDLK_RIGHT))
+	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d) && !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a))
 	{
 		m_body->SetLinearVelocity(b2Vec2(2, m_body->GetLinearVelocity().y - 0.000001f));
 
@@ -371,7 +373,7 @@ void Player::Move()
 		{
 			m_source = { 0, 3, 912, 107 };
 			m_playerRunningSprite->Init("Images/PlayerRunningRight.png", m_rect, m_source);
-			m_playerRunningSprite->SetOffset(SDL_Point{ 38.5f, 53.5f });
+			m_playerRunningSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
 		}
 
 		// Change booleans
@@ -405,8 +407,7 @@ void Player::Move()
 		}
 	}
 	if (!KeyBoardInput::GetInstance()->isKeyPressed(SDLK_SPACE) && !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d)
-		&& !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a) && !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_LEFT)
-		&& !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_RIGHT))
+		&& !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a))
 	{
 		m_running = false;
 		m_idle = true;
@@ -427,9 +428,9 @@ void Player::Shoot()
 	SDL_Rect m_bulletPos;
 
 	if (m_movingRight)
-		m_bulletPos = { m_rect.x + m_rect.w - 22, m_rect.y - 24, 10, 10 };
+		m_bulletPos = { m_rect.x + m_rect.w - 22 * playerScale, m_rect.y - 24 * playerScale, 10 * playerScale, 10 * playerScale };
 	else
-		m_bulletPos = { m_rect.x - 32, m_rect.y - 24, 10, 10 };
+		m_bulletPos = { m_rect.x - 32 * playerScale, m_rect.y - 24 * playerScale, 10 * playerScale, 10 * playerScale };
 
 	Bullet* bullet = new Bullet(m_bulletTexture, m_bulletPos, world, m_bulletSource, m_movingRight);
 
