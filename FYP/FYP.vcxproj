@@ -91,6 +91,7 @@
     <ClInclude Include="GruntBullet.h" />
     <ClInclude Include="Health.h" />
     <ClInclude Include="HealthBar.h" />
+    <ClInclude Include="InGameMenu.h" />
     <ClInclude Include="KeyBoardInput.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Menu.h" />
@@ -124,6 +125,7 @@
     <ClCompile Include="GruntBullet.cpp" />
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="HealthBar.cpp" />
+    <ClCompile Include="InGameMenu.cpp" />
     <ClCompile Include="KeyBoardInput.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Menu.cpp" />

@@ -31,6 +31,7 @@ Menu* menu;
 Options* options;
 Instructions* instructions;
 Play* play;
+bool playInitial = false;
 
 // Methods
 void Init();
@@ -48,7 +49,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	// Game state
 	const int MENU = 0, OPTIONS = 1, INSTRUCTIONS = 2, PLAY = 3;
-	int gameState = PLAY;
+	int gameState = MENU;
 
 	//SDL
 	//Initialize SDL
@@ -114,12 +115,21 @@ int _tmain(int argc, _TCHAR* argv[])
 				case INSTRUCTIONS:
 					instructions->Draw();
 					if (instructions->Update() == 1)
+					{
+						if (playInitial)
+							play->Init(world, windowWidth, windowHeight);
 						gameState = PLAY;
+					}
 					break;
 
 				case PLAY:
 					play->Draw();
-					play->Update();
+					if (play->Update(e) == 2)
+					{
+						play->Quit();
+						playInitial = true;
+						gameState = MENU;
+					}
 					break;
 				}
 

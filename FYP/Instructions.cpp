@@ -67,6 +67,11 @@ bool Instructions::loadTTFMedia()
 			printf("Failed to render text texture!\n");
 			success = false;
 		}
+		if (!menuText.loadFromRenderedText("Press 'O' to bring up menu", textColor, gFont))
+		{
+			printf("Failed to render text texture!\n");
+			success = false;
+		}
 		if (!enterText.loadFromRenderedText("-> Enter to continue <-", textColor, gFont))
 		{
 			printf("Failed to render text texture!\n");
@@ -85,6 +90,7 @@ void Instructions::Draw()
 	moveText.render(85, 100);
 	jumpText.render(85, 200);
 	shootText.render(85, 300);
+	menuText.render(85, 400);
 	enterText.render(moveText.getWidth() / 2, 500);
 	Renderer::GetInstance()->RenderScreen();
 }

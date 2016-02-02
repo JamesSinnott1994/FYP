@@ -13,6 +13,11 @@ void Button::Init(SDL_Rect pos, SDL_Rect src, std::string path)
 	m_sprite->Init(path, pos, src);
 }
 
+void Button::InitNoImage(SDL_Rect pos)
+{
+	m_rect = pos;
+}
+
 // Checks if you clicked on the button
 bool Button::IsClicked(int x , int y)
 {

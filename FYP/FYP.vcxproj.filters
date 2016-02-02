@@ -144,6 +144,9 @@
     <ClInclude Include="GruntBullet.h">
       <Filter>Header Files\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="InGameMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -235,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="GruntBullet.cpp">
       <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameMenu.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

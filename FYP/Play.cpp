@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Play.h"
 
-Play::Play(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT):world(w), playerDead(false), levelComplete(false), framecounter(0)
+Play::Play(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT) :world(w), playerDead(false), levelComplete(false), framecounter(0)
 {
 	// Timer
 	timer = new Timer();
@@ -45,6 +45,65 @@ Play::Play(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT):world(w), playerDead
 	}
 
 	levelComplete = false;
+
+	// Menu
+	menuOpen = false;
+	paused = false;
+}
+
+void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+{
+	playerDead = false;
+	framecounter = 0;
+	levelComplete = false;
+	world = w;
+
+	// Timer
+	timer = new Timer();
+
+	// Which speed to use
+	whichSpeed = "laptopSpeed";
+
+	// Load player
+	m_player = new Player();
+	float playerScale = 0.9f;
+	m_player->Init(SDL_Rect{ 200, 500, 77 * playerScale, 107 * playerScale }, world, whichSpeed, playerScale);
+
+	m_healthBar = new HealthBar();
+
+	// Screen width and height
+	m_width = SCREEN_WIDTH;
+	m_height = SCREEN_HEIGHT;
+
+	// Load background image
+	m_backGroundImage = new Sprite();
+	m_backGroundImage->Init("Images/space.png", SDL_Rect{ 0, 0, m_width * 2, m_height }, SDL_Rect{ 0, 0, 600, 360 });
+
+	// Load level
+	level = new Level();
+	level->LoadLevel("Text/Level1.txt", world, whichSpeed, m_width, m_height);
+
+	initializeTTF();
+	loadTTFMedia();
+
+	// Different speeds
+	labComputerSpeed = 30.0f;
+	laptopSpeed = 4.0f;
+
+	if (whichSpeed == "labSpeed")
+	{
+		speedToUse = labComputerSpeed;
+	}
+	else
+	{
+		speedToUse = laptopSpeed;
+	}
+
+	levelComplete = false;
+
+	// Menu
+	menuOpen = false;
+	paused = false;
 }
 
 bool Play::initializeTTF()
@@ -101,7 +160,7 @@ bool Play::loadTTFMedia()
 	return success;
 }
 
-void Play::Update()
+int Play::Update(SDL_Event e)
 {
 	//Update Camera position
 	UpdateCameraPos();
@@ -125,27 +184,50 @@ void Play::Update()
 	}
 	else
 	{
-		//Update game entities.
-		m_player->Update();
-
-		// Increment player score
-		if (m_player->CheckScoreCollision())
+		if (!paused)
 		{
-			m_player->SetScore(m_player->GetScore() + 10);
-			loadTTFMedia();
+			//Update game entities.
+			m_player->Update();
+
+			// Increment player score
+			if (m_player->CheckScoreCollision())
+			{
+				m_player->SetScore(m_player->GetScore() + 10);
+				loadTTFMedia();
+			}
+
+			ObstacleManager::GetInstance()->Update();
+			Teleporter::GetInstance()->Update();
+			if (EnemyManager::GetInstance()->Update(m_player->GetPosition(), m_player->getBody()))
+			{
+				m_player->SetHealth(m_player->GetHealth() - 10);
+			}
+
+			if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_o) && !menuOpen)
+			{
+				menuOpen = true;
+				paused = true;
+				cout << "MenuOpen" << endl;
+			}
 		}
 
-		ObstacleManager::GetInstance()->Update();
-		Teleporter::GetInstance()->Update();
-		if (EnemyManager::GetInstance()->Update(m_player->GetPosition(), m_player->getBody()))
+		if (paused)
 		{
-			m_player->SetHealth(m_player->GetHealth() - 10);
+			if (InGameMenu::GetInstance()->Update(e) == 0)
+			{
+				paused = false;
+				menuOpen = false;
+				cout << "MenuClosed" << endl;
+			}
+			if (InGameMenu::GetInstance()->Update(e) == 2)
+			{
+				cout << "Quit Game" << endl;
+				return 2;
+			}
 		}
-		/*if (EnemyManager::GetInstance()->CheckCollision())
-		{
-			m_player->SetHealth(m_player->GetHealth() - 10);
-		}*/
-	}
+	}// End else
+
+	return 0;
 }
 
 void Play::Reset()
@@ -164,7 +246,25 @@ void Play::Reset()
 		PickupManager::GetInstance()->Reset();
 		ObstacleManager::GetInstance()->Reset();
 		EnemyManager::GetInstance()->Reset();
+		paused = false;
+		menuOpen = false;
 	}
+}
+
+void Play::Quit()
+{
+	m_player->Reset();
+	loadTTFMedia();
+	PickupManager::GetInstance()->Reset();
+	ObstacleManager::GetInstance()->Reset();
+	EnemyManager::GetInstance()->Reset();
+	PickupManager::GetInstance()->Destroy();
+	ObstacleManager::GetInstance()->Destroy();
+	PlatformManager::GetInstance()->Destroy();
+	WallManager::GetInstance()->Destroy();
+	EnemyManager::GetInstance()->Destroy();
+	paused = false;
+	menuOpen = false;
 }
 
 void Play::LevelComplete()
@@ -215,6 +315,11 @@ void Play::AddAssetsToRenderer()
 	SDL_Color red = SDL_Color{ 255, 0, 0, 255 };
 	SDL_Color green = SDL_Color{ 0, 255, 0, 255 };
 	m_healthBar->RenderHPBar(550, 15, 200, 25, m_player->GetHealth()*0.01f, green, red);
+
+	if (paused)
+	{
+		InGameMenu::GetInstance()->Draw(m_width, m_height);
+	}
 
 	// Draw text at position
 	gScoreTextTexture.render(20, 10);

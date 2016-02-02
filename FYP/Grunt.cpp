@@ -181,22 +181,13 @@ void Grunt::Draw()
 			m_runningSprite->SetSourceRect(*currentRunnerClip);
 			m_runningSprite->Draw(1);
 		}
-
-		//// Draw bullets
-		//if (m_bullets.size() > 0)
-		//{
-		//	for each(GruntBullet* bullet in m_bullets)
-		//	{
-		//		bullet->Draw();
-		//	}
-		//}
 	}
 }
 
 void Grunt::Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets)
 {
 	// Update time to shoot
-	if (m_shootTimer <= m_shootTimerLimit)
+	if (m_shootTimer <= m_shootTimerLimit && m_inRange)
 		m_shootTimer++;
 
 	State s = FiniteStateMachine();
@@ -228,23 +219,6 @@ void Grunt::Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets)
 	m_rect.y = m_body->GetPosition().y;
 	m_idleSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 	m_runningSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
-
-	//// Update bullets
-	//if (m_bullets.size() > 0)
-	//{
-	//	// Iterate through list of bullets
-	//	for (m_bulletIterator = m_bullets.begin(); m_bulletIterator != m_bullets.end(); ++m_bulletIterator)
-	//	{
-	//		(*m_bulletIterator)->Update();
-
-	//		// Remove bullet if out of bounds
-	//		if ((*m_bulletIterator)->OutOfBounds(m_rect))
-	//		{
-	//			m_bullets.erase(m_bulletIterator);
-	//			break;
-	//		}
-	//	}
-	//}
 }
 
 Grunt::State Grunt::FiniteStateMachine()

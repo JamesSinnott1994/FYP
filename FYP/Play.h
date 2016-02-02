@@ -14,6 +14,7 @@
 #include "HealthBar.h"
 #include "Teleporter.h"
 #include "Timer.h"
+#include "InGameMenu.h"
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -56,12 +57,20 @@ private:
 	Timer* timer;
 
 	string whichSpeed;
+
+	// Menu
+	bool menuOpen;
+	bool paused;
+
 public:
-	Play(b2World*,int w, int h);
+	Play(b2World*, int w, int h);
 	~Play(){}
+
+	void Init(b2World*, int w, int h);
 	void AddAssetsToRenderer();
-	void Update();
+	int Update(SDL_Event e);
 	void Reset();
+	void Quit();
 	void Draw();
 	void LevelComplete();
 	void UpdateCameraPos();

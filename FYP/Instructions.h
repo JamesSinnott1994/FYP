@@ -27,6 +27,7 @@ private:
 	Text jumpText;
 	Text shootText;
 	Text enterText;
+	Text menuText;
 };
 
 #endif
