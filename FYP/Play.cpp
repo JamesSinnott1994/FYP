@@ -162,6 +162,8 @@ bool Play::loadTTFMedia()
 
 int Play::Update(SDL_Event e)
 {
+	SoundManager::GetInstance()->play(SoundManager::GetInstance()->LEVEL_TWO_MUSIC);
+
 	//Update Camera position
 	UpdateCameraPos();
 

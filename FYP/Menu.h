@@ -3,6 +3,7 @@
 
 #include "Sprite.h"
 #include "Button.h"
+#include "SoundManager.h"
 
 class Menu
 {

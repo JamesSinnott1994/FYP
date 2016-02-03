@@ -127,7 +127,19 @@ void Options::Draw()
 	m_backGroundImage->DrawNoCamOffset();
 	m_backButton.Draw();
 
-	if (onBtnSelected)
+	if (SoundManager::GetInstance()->SoundOn())
+	{
+		onBtnSelected = true;
+		m_onBtnSelected.Draw();
+		m_offBtnNotSelected.Draw();
+	}
+	else
+	{
+		onBtnSelected = false;
+		m_onBtnNotSelected.Draw();
+		m_offBtnSelected.Draw();
+	}
+	/*if (onBtnSelected)
 	{
 		m_onBtnSelected.Draw();
 		m_offBtnNotSelected.Draw();
@@ -136,7 +148,7 @@ void Options::Draw()
 	{
 		m_onBtnNotSelected.Draw();
 		m_offBtnSelected.Draw();
-	}
+	}*/
 
 	soundText.render(width * 0.15f, height * 0.5f - soundText.getHeight());
 
@@ -145,6 +157,8 @@ void Options::Draw()
 
 int Options::Update(SDL_Event e)
 {
+	SoundManager::GetInstance()->play(SoundManager::GetInstance()->MENU_MUSIC);
+
 #pragma region Mousedown
 
 	// Mousedown

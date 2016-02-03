@@ -99,6 +99,7 @@ int Instructions::Update()
 {
 	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_RETURN))
 	{
+		SoundManager::GetInstance()->stopMusic();
 		return 1;
 	}
 	return 0;

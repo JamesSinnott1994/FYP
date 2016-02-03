@@ -145,7 +145,7 @@
       <Filter>Header Files\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="InGameMenu.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Menu/Options</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -240,7 +240,7 @@
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="InGameMenu.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Menu/Options</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

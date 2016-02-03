@@ -21,6 +21,10 @@ SoundManager* SoundManager::GetInstance()
 
 bool SoundManager::load_files()
 {
+	menuMusic = Mix_LoadMUS("Sound/EvilGenius.wav");
+	levelOneMusic = Mix_LoadMUS("Sound/Eno.wav");
+	levelTwoMusic = Mix_LoadMUS("Sound/VelocityX.wav");
+
 	// Load sound effects
 	scorePickup = Mix_LoadWAV("Sound/Pickup.wav");
 	gunshot = Mix_LoadWAV("Sound/Gunshot.wav");
@@ -28,7 +32,8 @@ bool SoundManager::load_files()
 	mine = Mix_LoadWAV("Sound/MineExplosion.wav");
 
 	//If there was a problem loading the sound effects
-	if (scorePickup == NULL || gunshot == NULL || health == NULL || mine == NULL)
+	if (scorePickup == NULL || gunshot == NULL || health == NULL || mine == NULL || menuMusic == NULL
+		|| levelOneMusic == NULL || levelTwoMusic == NULL)
 	{
 		return false;
 	}
@@ -46,6 +51,11 @@ void SoundManager::clean_up()
 	Mix_FreeChunk(gunshot);
 	Mix_FreeChunk(health);
 	Mix_FreeChunk(mine);
+
+	//Free the music
+	Mix_FreeMusic(menuMusic);
+	Mix_FreeMusic(levelOneMusic);
+	Mix_FreeMusic(levelTwoMusic);
 
 	//Quit SDL_mixer
 	Mix_CloseAudio();
@@ -70,6 +80,88 @@ void SoundManager::play(int i)
 		break;
 	case MINE:
 		Mix_PlayChannel(MINE, mine, 0);
+		break;
+	case MENU_MUSIC:
+		// If there is no music playing
+		if (Mix_PlayingMusic() == 0)
+		{
+			//Play the music
+			Mix_PlayMusic(menuMusic, -1);// -1 means we want it to loop until it is stopped
+
+		}
+		// If the music is being played
+		else
+		{
+			//If the music is paused
+			if (Mix_PausedMusic() == 1 && SoundOn())
+			{
+				//Resume the music
+				Mix_ResumeMusic();
+			}
+			//If the music is playing
+			else
+			{
+				if (!SoundOn())
+				{
+					//Pause the music
+					Mix_PauseMusic();
+				}
+			}
+		}
+		break;
+	case LEVEL_ONE_MUSIC:
+		if (Mix_PlayingMusic() == 0)
+		{
+			//Play the music
+			Mix_PlayMusic(levelOneMusic, -1);
+
+		}
+
+		else
+		{
+			//If the music is paused
+			if (Mix_PausedMusic() == 1)// && SoundOn())
+			{
+				//Resume the music
+				Mix_ResumeMusic();
+			}
+			//If the music is playing
+			else
+			{
+				if (!SoundOn())
+				{
+					//Pause the music
+					Mix_PauseMusic();
+				}
+			}
+		}
+		break;
+	case LEVEL_TWO_MUSIC:
+		if (Mix_PlayingMusic() == 0)
+		{
+			//Play the music
+			Mix_PlayMusic(levelTwoMusic, -1);
+
+		}
+
+		else
+		{
+			//If the music is paused
+			if (Mix_PausedMusic() == 1 && SoundOn())
+			{
+				//Resume the music
+				Mix_ResumeMusic();
+			}
+			//If the music is playing
+			else
+			{
+				if (!SoundOn())
+				{
+					//Pause the music
+					Mix_PauseMusic();
+				}
+			}
+		}
 		break;
 	}
 }

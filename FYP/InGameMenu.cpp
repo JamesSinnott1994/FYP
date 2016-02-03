@@ -392,6 +392,7 @@ int InGameMenu::Update(SDL_Event e)
 			// Check if button clicked
 			if (m_quitButton.IsClicked(mouse_x, mouse_y) && !options)
 			{
+				SoundManager::GetInstance()->stopMusic();
 				return QUIT;
 			}
 			if (m_soundButton.IsClicked(mouse_x, mouse_y) && time > 60)

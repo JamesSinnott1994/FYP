@@ -287,12 +287,15 @@ void Player::Update()
 void Player::CheckCollisions()
 {
 	// Collision with health object
-	if (CheckHealthCollision())
+	if (m_health < 100)
 	{
-		m_health += 50;
-		if (m_health > 100)
+		if (CheckHealthCollision())
 		{
-			SetHealth(100);
+			m_health += 50;
+			if (m_health > 100)
+			{
+				SetHealth(100);
+			}
 		}
 	}
 

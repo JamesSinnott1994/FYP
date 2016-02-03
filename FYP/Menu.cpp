@@ -51,6 +51,8 @@ void Menu::Draw()
 
 int Menu::Update(SDL_Event e)
 {
+	SoundManager::GetInstance()->play(SoundManager::GetInstance()->MENU_MUSIC);
+
 	#pragma region Mouseover
 
 	// Checks if mouse is over Play button

@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "KeyBoardInput.h"
 #include "Text.h"
+#include "SoundManager.h"
 
 class Instructions
 {
