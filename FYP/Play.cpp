@@ -209,7 +209,6 @@ int Play::Update(SDL_Event e)
 			{
 				menuOpen = true;
 				paused = true;
-				cout << "MenuOpen" << endl;
 			}
 		}
 
@@ -219,11 +218,9 @@ int Play::Update(SDL_Event e)
 			{
 				paused = false;
 				menuOpen = false;
-				cout << "MenuClosed" << endl;
 			}
 			if (InGameMenu::GetInstance()->Update(e) == 2)
 			{
-				cout << "Quit Game" << endl;
 				return 2;
 			}
 		}
@@ -248,6 +245,7 @@ void Play::Reset()
 		PickupManager::GetInstance()->Reset();
 		ObstacleManager::GetInstance()->Reset();
 		EnemyManager::GetInstance()->Reset();
+		EnemyManager::GetInstance()->DestroyBullets();
 		paused = false;
 		menuOpen = false;
 	}

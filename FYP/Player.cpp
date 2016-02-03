@@ -63,6 +63,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 
 	// Score
 	m_score = 0;
+	OldScore = 0;
 
 	// Health
 	m_health = 100;
@@ -323,26 +324,6 @@ void Player::CheckCollisions()
 	//cout << (m_rect.x + m_rect.w) << endl;
 }
 
-//bool Player::CheckBulletGruntCollision()
-//{
-//	if (m_bullets.size() > 0)
-//	{
-//		// Iterate through list of bullets
-//		for (m_bulletIterator = m_bullets.begin(); m_bulletIterator != m_bullets.end(); ++m_bulletIterator)
-//		{
-//			bool collided = EnemyManager::GetInstance()->CheckBulletCollision((*m_bulletIterator)->getBody());
-//			//return EnemyManager::GetInstance()->CheckBulletCollision((*m_bulletIterator)->getBody());
-//			if (collided)
-//			{
-//				m_bullets.erase(m_bulletIterator);
-//			}
-//
-//			return collided;
-//		}
-//	}
-//	return false;
-//}
-
 bool Player::CheckScoreCollision()
 {
 	return PickupManager::GetInstance()->CheckScoreCollision(m_body);
@@ -481,7 +462,7 @@ void Player::Reset()
 	m_reachedTeleporter = false;
 	m_stopBloodAnimation = false;
 	m_health = 100;
-	m_score = 0;
+	m_score = OldScore;
 
 }
 
@@ -489,6 +470,7 @@ void Player::LevelComplete()
 {
 	// Reset variables
 	m_body->SetTransform(b2Vec2(m_startRect.x, m_startRect.y), 0);
+	OldScore = m_score;
 	m_alive = true;
 	m_reachedTeleporter = false;
 	m_stopBloodAnimation = false;

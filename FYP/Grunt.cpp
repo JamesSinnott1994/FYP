@@ -346,11 +346,11 @@ void Grunt::Reset()
 bool Grunt::GruntCheckCollision(b2Body* bulletBody)
 {
 	bool collided = (b2TestOverlap(m_body->GetFixtureList()->GetAABB(0), bulletBody->GetFixtureList()->GetAABB(0)));
-	/*if (collided)
+	if (collided)
 	{
 		m_alive = false;
 		m_body->SetActive(false);
-	}*/
+	}
 
 	return collided;
 }

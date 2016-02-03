@@ -39,18 +39,21 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 	{
 		for (m_gruntIterator = m_grunts.begin(); m_gruntIterator != m_grunts.end(); m_gruntIterator++)
 		{
-			(*m_gruntIterator)->Update(playerRect, m_gruntBullets.size(), m_grunts.size()*1);
-
-			if (!(*m_gruntIterator)->GetAlive())
+			if ((*m_gruntIterator)->GetAlive())
 			{
+				(*m_gruntIterator)->Update(playerRect, m_gruntBullets.size(), m_grunts.size() * 1);
+
+				/*if (!(*m_gruntIterator)->GetAlive())
+				{
 				(*m_gruntIterator)->Destroy();
 				m_grunts.erase(m_gruntIterator);
 				break;
-			}
+				}*/
 
-			if ((*m_gruntIterator)->CanCreateBullet())
-			{
-				m_gruntBullets = (*m_gruntIterator)->CreateBullet(m_gruntBullets);
+				if ((*m_gruntIterator)->CanCreateBullet())
+				{
+					m_gruntBullets = (*m_gruntIterator)->CreateBullet(m_gruntBullets);
+				}
 			}
 		}
 	}
@@ -100,10 +103,13 @@ bool EnemyManager::CheckBulletCollision(b2Body*bulletBody)
 	// Iterate through list of bullets
 	for (m_gruntIterator = m_grunts.begin(); m_gruntIterator != m_grunts.end(); ++m_gruntIterator)
 	{
-		if ((*m_gruntIterator)->GruntCheckCollision(bulletBody))
+		if ((*m_gruntIterator)->GetAlive())
 		{
-			m_grunts.erase(m_gruntIterator);
-			return true;
+			if ((*m_gruntIterator)->GruntCheckCollision(bulletBody))
+			{
+				//m_grunts.erase(m_gruntIterator);
+				return true;
+			}
 		}
 	}
 	return false;
@@ -127,31 +133,17 @@ bool EnemyManager::GruntCheckCollision(b2Body* playerBody)
 	}
 }
 
-//bool EnemyManager::CheckCollision()
-//{
-//	if (m_gruntBullets.size() > 0)
-//	{
-//		for each(GruntBullet * gruntBullet in m_gruntBullets)
-//		{
-//			if (gruntBullet->Collided())
-//			{
-//				return true;
-//			}
-//			else
-//			{
-//				return false;
-//			}
-//		}
-//	}
-//	else
-//	{
-//		return false;
-//	}
-//}
-
-void EnemyManager::addScoreForPlayer()
+void EnemyManager::DestroyBullets()
 {
+	for each(GruntBullet * grunt in m_gruntBullets)
+	{
+		grunt->Destroy();
+	}
 
+	if (m_gruntBullets.size() > 0)
+	{
+		m_gruntBullets.clear();
+	}
 }
 
 void EnemyManager::addGrunt(SDL_Rect pRect, b2World* world, int color, int direction, string speedType, int width, int height)

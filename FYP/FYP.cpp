@@ -49,7 +49,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	// Game state
 	const int MENU = 0, OPTIONS = 1, INSTRUCTIONS = 2, PLAY = 3;
-	int gameState = PLAY;
+	int gameState = MENU;
 
 	//SDL
 	//Initialize SDL

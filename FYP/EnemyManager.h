@@ -27,10 +27,9 @@ public:
 
 	void Reset();
 	void Destroy();
+	void DestroyBullets();
 
 	void addGrunt(SDL_Rect pRect, b2World* world, int color, int direction, string speedType, int width, int height);
-
-	void addScoreForPlayer();
 
 private:
 	EnemyManager()

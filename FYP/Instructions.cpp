@@ -52,7 +52,7 @@ bool Instructions::loadTTFMedia()
 	{
 		//Render text
 		SDL_Color textColor = { 255, 165, 0 };
-		if (!moveText.loadFromRenderedText("Use left and right arrows or 'A' and 'D' keys to move player", textColor, gFont))
+		if (!moveText.loadFromRenderedText("Use 'A' and 'D' keys to move player", textColor, gFont))
 		{
 			printf("Failed to render text texture!\n");
 			success = false;

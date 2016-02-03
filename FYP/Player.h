@@ -17,6 +17,8 @@ class Player
 public:
 	Player();
 
+	int OldScore;
+
 	void Init(SDL_Rect, b2World*, string speedType, float scale);
 	void Draw();
 	void Update();
