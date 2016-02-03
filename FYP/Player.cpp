@@ -274,6 +274,12 @@ void Player::Update()
 		{
 			(*m_bulletIterator)->Update();
 
+			if ((*m_bulletIterator)->CheckBulletGruntCollision())
+			{
+				m_bullets.erase(m_bulletIterator);
+				break;
+			}
+
 			// Remove bullet if out of bounds
 			if ((*m_bulletIterator)->OutOfBounds(m_rect))
 			{
@@ -312,8 +318,30 @@ void Player::CheckCollisions()
 		m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y - 0.000001f));
 	}
 
+	//CheckBulletGruntCollision();
+
 	//cout << (m_rect.x + m_rect.w) << endl;
 }
+
+//bool Player::CheckBulletGruntCollision()
+//{
+//	if (m_bullets.size() > 0)
+//	{
+//		// Iterate through list of bullets
+//		for (m_bulletIterator = m_bullets.begin(); m_bulletIterator != m_bullets.end(); ++m_bulletIterator)
+//		{
+//			bool collided = EnemyManager::GetInstance()->CheckBulletCollision((*m_bulletIterator)->getBody());
+//			//return EnemyManager::GetInstance()->CheckBulletCollision((*m_bulletIterator)->getBody());
+//			if (collided)
+//			{
+//				m_bullets.erase(m_bulletIterator);
+//			}
+//
+//			return collided;
+//		}
+//	}
+//	return false;
+//}
 
 bool Player::CheckScoreCollision()
 {

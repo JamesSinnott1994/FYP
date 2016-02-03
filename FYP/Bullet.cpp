@@ -19,6 +19,11 @@ Bullet::Bullet(SDL_Texture* text, SDL_Rect pRect, b2World* wWorld, SDL_Rect src,
 	// The body is also added to the world.
 	myBody = wWorld->CreateBody(&myBodyDef);
 
+	// Collision Filtering
+	short GROUP_PLAYER = -2;
+
+	myBodyFixtureDef.filter.groupIndex = GROUP_PLAYER;
+
 	// Add the ground fixture to the ground body.
 	myBody->CreateFixture(&myBodyFixtureDef);
 	sprite.Init(text, pRect, src);
@@ -66,6 +71,17 @@ bool Bullet::OutOfBounds(SDL_Rect playerPos)
 	{
 		return false;
 	}
+}
+
+bool Bullet::CheckBulletGruntCollision()
+{
+	bool collided = EnemyManager::GetInstance()->CheckBulletCollision(myBody);
+	return collided;
+}
+
+b2Body* Bullet::getBody()
+{
+	return myBody;
 }
 
 bool Bullet::GetAlive()

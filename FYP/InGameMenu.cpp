@@ -46,22 +46,6 @@ bool InGameMenu::loadTTFMedia(int width, int textNum)
 	//Loading success flag
 	bool success = true;
 
-	//Open the font
-	/*if (textNum == 0)
-		gFont = TTF_OpenFont("Font/ARDESTINE.ttf", width/10);
-	if (textNum == 1)
-		gFont = TTF_OpenFont("Font/ARDESTINE.ttf", width / 10);
-	if (textNum == 2)
-		gFont = TTF_OpenFont("Font/ARDESTINE.ttf", width / 10);
-	if (textNum == 3)
-		gFont = TTF_OpenFont("Font/ARDESTINE.ttf", width / 10);
-	if (textNum == 4)
-		gFont = TTF_OpenFont("Font/ARDESTINE.ttf", width);
-	if (textNum == 5)
-		gFont = TTF_OpenFont("Font/ARDESTINE.ttf", width / 2);
-	if (textNum == 6)
-		gFont = TTF_OpenFont("Font/ARDESTINE.ttf", width / 2);*/
-
 	gFont = TTF_OpenFont("Font/ARDESTINE.ttf", width);
 	if (gFont == NULL)
 	{

@@ -23,6 +23,7 @@ public:
 	bool Update(SDL_Rect &playerRect, b2Body* playerBody);
 
 	bool GruntCheckCollision(b2Body* playerBody);
+	bool CheckBulletCollision(b2Body* bulletBody);
 
 	void Reset();
 	void Destroy();

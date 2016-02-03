@@ -2,6 +2,7 @@
 #define BULLET_H
 
 #include "Sprite.h"
+#include "EnemyManager.h"
 
 class Bullet
 {
@@ -14,7 +15,10 @@ public:
 	bool GetAlive();
 	void SetAlive(bool);
 
+	bool CheckBulletGruntCollision();
 	bool OutOfBounds(SDL_Rect);
+
+	b2Body* getBody();
 private:
 	b2Body* myBody;
 	b2BodyDef myBodyDef;

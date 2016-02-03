@@ -105,6 +105,7 @@ public:
 	bool PlayerToTheLeft();
 	void SetPlayerToTheLeft(bool);
 
+	bool GruntCheckCollision(b2Body* bulletBody);
 	bool CheckBulletPlayerCollision(b2Body* playerBody);
 
 	void Fell();

@@ -95,6 +95,20 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 	return false;
 }
 
+bool EnemyManager::CheckBulletCollision(b2Body*bulletBody)
+{
+	// Iterate through list of bullets
+	for (m_gruntIterator = m_grunts.begin(); m_gruntIterator != m_grunts.end(); ++m_gruntIterator)
+	{
+		if ((*m_gruntIterator)->GruntCheckCollision(bulletBody))
+		{
+			m_grunts.erase(m_gruntIterator);
+			return true;
+		}
+	}
+	return false;
+}
+
 bool EnemyManager::GruntCheckCollision(b2Body* playerBody)
 {
 	if (m_gruntBullets.size() > 0)

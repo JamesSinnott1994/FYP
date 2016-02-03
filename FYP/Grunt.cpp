@@ -340,6 +340,19 @@ void Grunt::Reset()
 	m_alive = true;
 	m_body->SetActive(true);
 	m_shootTimer = 0;
+	m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y - 0.000001f));
+}
+
+bool Grunt::GruntCheckCollision(b2Body* bulletBody)
+{
+	bool collided = (b2TestOverlap(m_body->GetFixtureList()->GetAABB(0), bulletBody->GetFixtureList()->GetAABB(0)));
+	/*if (collided)
+	{
+		m_alive = false;
+		m_body->SetActive(false);
+	}*/
+
+	return collided;
 }
 
 void Grunt::Destroy()

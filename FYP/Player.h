@@ -55,6 +55,7 @@ public:
 	bool GetReachedTeleporter();
 	void SetReachedTeleporter(bool);
 
+	//bool CheckBulletGruntCollision();
 	bool CheckScoreCollision();
 	bool CheckHealthCollision();
 	bool CheckMineCollision();
