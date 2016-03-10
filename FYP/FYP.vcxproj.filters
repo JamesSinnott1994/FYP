@@ -147,6 +147,9 @@
     <ClInclude Include="InGameMenu.h">
       <Filter>Header Files\Menu/Options</Filter>
     </ClInclude>
+    <ClInclude Include="Splash.h">
+      <Filter>Header Files\Menu/Options</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -240,6 +243,9 @@
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="InGameMenu.cpp">
+      <Filter>Source Files\Menu/Options</Filter>
+    </ClCompile>
+    <ClCompile Include="Splash.cpp">
       <Filter>Source Files\Menu/Options</Filter>
     </ClCompile>
   </ItemGroup>

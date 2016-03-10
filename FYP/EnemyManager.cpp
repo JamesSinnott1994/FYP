@@ -43,13 +43,6 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 			{
 				(*m_gruntIterator)->Update(playerRect, m_gruntBullets.size(), m_grunts.size() * 1);
 
-				/*if (!(*m_gruntIterator)->GetAlive())
-				{
-				(*m_gruntIterator)->Destroy();
-				m_grunts.erase(m_gruntIterator);
-				break;
-				}*/
-
 				if ((*m_gruntIterator)->CanCreateBullet())
 				{
 					m_gruntBullets = (*m_gruntIterator)->CreateBullet(m_gruntBullets);
@@ -66,7 +59,10 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 			if (!(*m_gruntBulletIterator)->Collided())
 			{
 				if ((*m_gruntBulletIterator)->Update(playerBody))
+				{
+					(*m_gruntBulletIterator)->SetAlive(false);
 					return true;
+				}
 			}
 
 			// Remove bullet if out of bounds
@@ -91,7 +87,8 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 		cout << "Too many bullets!!!" << endl;
 		while (m_gruntBullets.size() > m_grunts.size() * 1)
 		{
-			m_gruntBullets.pop_back();
+			//m_gruntBullets.pop_back();
+			m_gruntBullets.clear();
 		}
 	}
 

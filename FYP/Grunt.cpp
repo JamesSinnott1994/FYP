@@ -84,7 +84,7 @@ Grunt::Grunt(SDL_Rect pRect, b2World* wWorld, int color, int direction, string s
 
 	// Shoot timer
 	m_shootTimerLaptop = 200;
-	m_shootTimerLab = 600;
+	m_shootTimerLab = 2000;
 
 	// Speed
 	if (speedType == "labSpeed")
@@ -210,9 +210,9 @@ void Grunt::Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets)
 
 	m_inRange = InRangeOfPlayer(playerRect);
 
-	Animation();
+	//Animation();
 
-	Fell();
+	//Fell();
 
 	// Update sprite position
 	m_rect.x = m_body->GetPosition().x;
@@ -339,6 +339,14 @@ void Grunt::Reset()
 	m_body->SetTransform(b2Vec2(m_resetRect.x, m_resetRect.y), 0);
 	m_alive = true;
 	m_body->SetActive(true);
+	m_idle = true;
+	m_running = false;
+	m_shooting = false;
+	m_inRange = false;
+	m_dead = false;
+	m_playerToTheLeft = false;
+	m_drawn = true;
+	m_canCreateBullet = false;
 	m_shootTimer = 0;
 	m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y - 0.000001f));
 }

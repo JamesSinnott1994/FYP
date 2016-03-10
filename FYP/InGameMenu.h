@@ -1,7 +1,6 @@
 #ifndef INGAMEMENU_H
 #define INGAMEMENU_H
 
-#include "Renderer.h"
 #include "Text.h"
 #include "Button.h"
 #include "SoundManager.h"
@@ -10,9 +9,7 @@ class InGameMenu
 {
 private:
 	InGameMenu()
-	{
-
-	}
+	{}
 
 	static bool instanceFlag;
 	static InGameMenu* instance;
@@ -23,19 +20,14 @@ private:
 	//Rendered texture
 	Text menuTitle;
 	bool menuTitleLoaded;
-
 	Text resumeText;
 	bool resumeTextLoaded;
-
 	Text quitText;
 	bool quitTextLoaded;
-
 	Text optionsText;
 	bool optionsTextLoaded;
-
 	Text soundText;
 	bool soundTextLoaded;
-
 	Text returnText;
 	bool returnTextLoaded;
 

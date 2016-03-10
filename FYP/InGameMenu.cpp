@@ -379,7 +379,7 @@ int InGameMenu::Update(SDL_Event e)
 				SoundManager::GetInstance()->stopMusic();
 				return QUIT;
 			}
-			if (m_soundButton.IsClicked(mouse_x, mouse_y) && time > 60)
+			if (m_soundButton.IsClicked(mouse_x, mouse_y) && time > 400)// Lab speed 400, Laptop speed 60
 			{
 				bool clicked = false;
 				bool clicked2 = false;

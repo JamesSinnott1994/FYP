@@ -41,8 +41,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\SDL2_ttf\include;C:\SDL2_mixer\include;C:\SDL2\include;C:\SDL2_image-2.0.0\include;C:\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL2_ttf\lib\x86;C:\SDL2_mixer\lib\x86;C:\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\lib\x86;C:\SDL2\lib\x86;C:\SDL2_image-2.0.0\lib\x86;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
+    <IncludePath>C:\SDL2_hybrid\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>C:\SDL2_hybrid\lib\x86;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -107,6 +107,7 @@
     <ClInclude Include="Score.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Instructions.h" />
+    <ClInclude Include="Splash.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -141,6 +142,7 @@
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Instructions.cpp" />
+    <ClCompile Include="Splash.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

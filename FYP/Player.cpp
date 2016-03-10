@@ -52,7 +52,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	m_runningFrames = 0;
 	m_runningAnimationTime = 0;
 	m_runningAnimationLimit = 0;
-	m_runningAnimationLimitLab = 60;
+	m_runningAnimationLimitLab = 30;
 	m_runningAnimationLimitLaptop = 3;
 	gSpriteRunningClipsRight[RUNNING_ANIMATION_FRAMES];
 	gSpriteRunningClipsLeft[RUNNING_ANIMATION_FRAMES];

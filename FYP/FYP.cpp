@@ -1,9 +1,4 @@
-// FYP.cpp : Defines the entry point for the console application.
-//
-
 #include "stdafx.h"
-
-// Classes
 #include "Renderer.h"
 #include "KeyBoardInput.h"
 #include "Sprite.h"
@@ -12,10 +7,7 @@
 #include "Instructions.h"
 #include "Play.h"
 #include "SoundManager.h"
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <stdio.h>
+#include "Splash.h"
 #include <time.h>
 
 // Window width and height
@@ -24,13 +16,14 @@ const int windowHeight = 600;
 
 // Construct a world object, which will hold and simulate the rigid bodies.
 b2Vec2 gravity(0.0f, 0.1f);
-b2World* world = new b2World(gravity);// = new b2World(gravity);
+b2World* world = new b2World(gravity);
 
 // Class instances
 Menu* menu;
 Options* options;
 Instructions* instructions;
 Play* play;
+Splash* splash;
 bool playInitial = false;
 
 // Methods
@@ -38,13 +31,13 @@ void Init();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	// initialize random seed: 
+	// initialize random seed
 	srand(time(NULL));
 
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);
 
-	//The window we'll be rendering to
+	// The window we'll be rendering to
 	SDL_Window* window = NULL;
 
 	// Game state
@@ -72,7 +65,6 @@ int _tmain(int argc, _TCHAR* argv[])
 			{
 				return 0;
 			}
-
 			bool quit = false;
 
 			// Initialize classes
@@ -85,12 +77,6 @@ int _tmain(int argc, _TCHAR* argv[])
 				while (SDL_PollEvent(&e) != 0)
 				{
 					KeyBoardInput::GetInstance()->updateKeyboard(e);
-					switch (e.type)
-					{
-						case SDL_QUIT:
-							quit = true;
-							break;
-					}
 				}
 
 				// Switch between game states
@@ -108,7 +94,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 				case OPTIONS:
 					options->Draw();
-					if (options->Update(e) == 1)
+					if (options->Update(e) == 1)// Back button clicked
 						gameState = MENU;
 					break;
 
@@ -117,7 +103,7 @@ int _tmain(int argc, _TCHAR* argv[])
 					if (instructions->Update() == 1)
 					{
 						if (playInitial)
-							play->Init(world, windowWidth, windowHeight);
+							play->Init(world, windowWidth, windowHeight, splash);
 						gameState = PLAY;
 					}
 					break;
@@ -127,16 +113,10 @@ int _tmain(int argc, _TCHAR* argv[])
 					if (play->Update(e) == 2)
 					{
 						play->Quit();
-						playInitial = true;
+						playInitial = true;// Used whenever we exit out of a game so that we can re-initialize the game
 						gameState = MENU;
 					}
 					break;
-				}
-
-				// Escape button
-				if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_ESCAPE))
-				{
-					quit = true;
 				}
 			}// End while
 		}// End inner else
@@ -150,7 +130,8 @@ void Init()
 	menu = new Menu(windowWidth, windowHeight);
 	options = new Options(windowWidth, windowHeight);
 	instructions = new Instructions(windowWidth, windowHeight);
-	play = new Play(world, windowWidth, windowHeight);
+	splash = new Splash(windowWidth, windowHeight);
+	play = new Play(world, windowWidth, windowHeight, splash);
 
 	if (!SoundManager::GetInstance()->load_files())
 	{

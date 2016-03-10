@@ -1,42 +1,30 @@
 #ifndef _PLAY_H_
 #define _PLAY_H_
 
-#include <iostream>
-#include <stdio.h>
-
-#include <SDL.h>
-#include <Box2D/Box2D.h>
-#include <KeyBoardInput.h>
 #include "Player.h"
-#include "Sprite.h"
 #include "Level.h"
 #include "PickupManager.h"
 #include "HealthBar.h"
-#include "Teleporter.h"
-#include "Timer.h"
 #include "InGameMenu.h"
-
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <stdio.h>
-#include "Text.h"
+#include "Splash.h"
 
 class Play
 {
 private:
 	b2World* world;
 	Player* m_player;
-	int framecounter;
-	bool playerDead;
 	bool levelComplete;
 
 	Sprite* m_backGroundImage;
+
+	// Splash screen object
+	Splash* splash;
 
 	HealthBar* m_healthBar;
 
 	//Globally used font
 	TTF_Font *gFont = NULL;
+	bool fontLoaded;
 
 	//Rendered texture
 	Text gScoreTextTexture;
@@ -63,10 +51,10 @@ private:
 	bool paused;
 
 public:
-	Play(b2World*, int w, int h);
+	Play(b2World*, int w, int h, Splash* pSplash);
 	~Play(){}
 
-	void Init(b2World*, int w, int h);
+	void Init(b2World*, int w, int h, Splash* pSplash);
 	void AddAssetsToRenderer();
 	int Update(SDL_Event e);
 	void Reset();
@@ -74,6 +62,7 @@ public:
 	void Draw();
 	void LevelComplete();
 	void UpdateCameraPos();
+	void HandleSplash();
 
 	bool initializeTTF();
 	bool loadTTFMedia();

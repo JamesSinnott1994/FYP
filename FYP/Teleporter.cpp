@@ -83,7 +83,7 @@ void Teleporter::Update()
 
 	// Go through frames
 	m_animationTime++;
-	if (m_animationTime > m_limit && m_switchedOn)
+	if (m_animationTime > m_limit)
 	{
 		++m_animationFrames;
 		m_animationTime = 0;

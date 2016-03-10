@@ -37,8 +37,8 @@ bool SoundManager::load_files()
 	{
 		return false;
 	}
-	Mix_VolumeMusic(MIX_MAX_VOLUME / 10);//music volume
-	Mix_Volume(-1, MIX_MAX_VOLUME / 2);//set volume for all sound effects
+	Mix_VolumeMusic(MIX_MAX_VOLUME / 3);//music volume
+	Mix_Volume(-1, MIX_MAX_VOLUME / 3);//set volume for all sound effects
 
 	//If everything loaded fine
 	return true;

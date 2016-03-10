@@ -13,7 +13,7 @@ void Button::Init(SDL_Rect pos, SDL_Rect src, std::string path)
 	m_sprite->Init(path, pos, src);
 }
 
-void Button::InitNoImage(SDL_Rect pos)
+void Button::InitNoImage(SDL_Rect pos)// For the In-Game menu
 {
 	m_rect = pos;
 }

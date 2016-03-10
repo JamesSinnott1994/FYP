@@ -1,74 +1,30 @@
 #include "stdafx.h"
 #include "Play.h"
 
-Play::Play(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT) :world(w), playerDead(false), levelComplete(false), framecounter(0)
+Play::Play(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash)
 {
-	// Timer
-	timer = new Timer();
-
-	// Which speed to use
-	whichSpeed = "laptopSpeed";
-
-	// Load player
-	m_player = new Player();
-	float playerScale = 0.9f;
-	m_player->Init(SDL_Rect{ 200, 500, 77 * playerScale, 107 * playerScale }, world, whichSpeed, playerScale);
-
-	m_healthBar = new HealthBar();
-
-	// Screen width and height
-	m_width = SCREEN_WIDTH;
-	m_height = SCREEN_HEIGHT;
-
-	// Load background image
-	m_backGroundImage = new Sprite();
-	m_backGroundImage->Init("Images/space.png", SDL_Rect{ 0, 0, m_width * 2, m_height }, SDL_Rect{ 0, 0, 600, 360 });
-
-	// Load level
-	level = new Level();
-	level->LoadLevel("Text/Level1.txt", world, whichSpeed, m_width, m_height);
-
-	initializeTTF();
-	loadTTFMedia();
-
-	// Different speeds
-	labComputerSpeed = 30.0f;
-	laptopSpeed = 4.0f;
-
-	if (whichSpeed == "labSpeed")
-	{
-		speedToUse = labComputerSpeed;
-	}
-	else
-	{
-		speedToUse = laptopSpeed;
-	}
-
-	levelComplete = false;
-
-	// Menu
-	menuOpen = false;
-	paused = false;
+	Init(w, SCREEN_WIDTH, SCREEN_HEIGHT, pSplash);
 }
 
-void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash)
 {
-	playerDead = false;
-	framecounter = 0;
 	levelComplete = false;
 	world = w;
 
+	// Splash screen object
+	splash = pSplash;
+
 	// Timer
 	timer = new Timer();
 
 	// Which speed to use
+	//whichSpeed = "labSpeed";
 	whichSpeed = "laptopSpeed";
 
 	// Load player
 	m_player = new Player();
 	float playerScale = 0.9f;
 	m_player->Init(SDL_Rect{ 200, 500, 77 * playerScale, 107 * playerScale }, world, whichSpeed, playerScale);
-
 	m_healthBar = new HealthBar();
 
 	// Screen width and height
@@ -83,6 +39,7 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT)
 	level = new Level();
 	level->LoadLevel("Text/Level1.txt", world, whichSpeed, m_width, m_height);
 
+	// For text
 	initializeTTF();
 	loadTTFMedia();
 
@@ -100,6 +57,8 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT)
 	}
 
 	levelComplete = false;
+
+	fontLoaded = false;
 
 	// Menu
 	menuOpen = false;
@@ -135,7 +94,9 @@ bool Play::loadTTFMedia()
 	bool success = true;
 
 	//Open the font
-	gFont = TTF_OpenFont("Font/ARDESTINE.ttf", 28);
+	if (!fontLoaded)
+		gFont = TTF_OpenFont("Font/ARDESTINE.ttf", 28);
+
 	if (gFont == NULL)
 	{
 		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
@@ -156,15 +117,16 @@ bool Play::loadTTFMedia()
 			success = false;
 		}
 	}
-
+	fontLoaded = true;
 	return success;
 }
 
 int Play::Update(SDL_Event e)
 {
+	// Play music
 	SoundManager::GetInstance()->play(SoundManager::GetInstance()->LEVEL_TWO_MUSIC);
 
-	//Update Camera position
+	// Update Camera position
 	UpdateCameraPos();
 
 	//Step the world
@@ -184,14 +146,14 @@ int Play::Update(SDL_Event e)
 	{
 		LevelComplete();
 	}
-	else
+	else // Update game
 	{
+		// Not paused
 		if (!paused)
 		{
-			//Update game entities.
 			m_player->Update();
 
-			// Increment player score
+			// Increment player score if collided with coin
 			if (m_player->CheckScoreCollision())
 			{
 				m_player->SetScore(m_player->GetScore() + 10);
@@ -200,18 +162,20 @@ int Play::Update(SDL_Event e)
 
 			ObstacleManager::GetInstance()->Update();
 			Teleporter::GetInstance()->Update();
+			// Checks if player collides with enemy bullets
 			if (EnemyManager::GetInstance()->Update(m_player->GetPosition(), m_player->getBody()))
 			{
-				m_player->SetHealth(m_player->GetHealth() - 10);
+				//m_player->SetHealth(m_player->GetHealth() - 10);
 			}
-
+			// Opens menu
 			if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_o) && !menuOpen)
 			{
 				menuOpen = true;
 				paused = true;
 			}
-		}
+		}// End if
 
+		// Paused
 		if (paused)
 		{
 			if (InGameMenu::GetInstance()->Update(e) == 0)
@@ -223,7 +187,7 @@ int Play::Update(SDL_Event e)
 			{
 				return 2;
 			}
-		}
+		}// End if
 	}// End else
 
 	return 0;
@@ -254,7 +218,6 @@ void Play::Reset()
 void Play::Quit()
 {
 	m_player->Reset();
-	loadTTFMedia();
 	PickupManager::GetInstance()->Reset();
 	ObstacleManager::GetInstance()->Reset();
 	EnemyManager::GetInstance()->Reset();
@@ -265,10 +228,15 @@ void Play::Quit()
 	EnemyManager::GetInstance()->Destroy();
 	paused = false;
 	menuOpen = false;
+	splash->SetCanDraw(true);
 }
 
 void Play::LevelComplete()
 {
+	// Draw splash screen
+	splash->SetCanDraw(true);
+
+	// Increment level
 	level->SetLevelNum(level->GetLevelNum() + 1);
 
 	// Destroy objects
@@ -293,11 +261,14 @@ void Play::LevelComplete()
 
 void Play::Draw() 
 {
+	// For splash screen
+	HandleSplash();
+
 	Renderer::GetInstance()->ClearRenderer();
-
-	/*Call Draw on objects here*/
-	AddAssetsToRenderer();
-
+	if (!splash->CanDraw())// If we can't draw splash screen, then draw all other game assets
+		AddAssetsToRenderer();
+	else // Draw splash screen
+		splash->Draw();
 	Renderer::GetInstance()->RenderScreen();
 }
 
@@ -316,7 +287,7 @@ void Play::AddAssetsToRenderer()
 	SDL_Color green = SDL_Color{ 0, 255, 0, 255 };
 	m_healthBar->RenderHPBar(550, 15, 200, 25, m_player->GetHealth()*0.01f, green, red);
 
-	if (paused)
+	if (paused) // Draw In-Game menu
 	{
 		InGameMenu::GetInstance()->Draw(m_width, m_height);
 	}
@@ -324,6 +295,25 @@ void Play::AddAssetsToRenderer()
 	// Draw text at position
 	gScoreTextTexture.render(20, 10);
 	gLevelTextTexture.render(300, 10);
+}
+
+void Play::HandleSplash()
+{
+	// Start timer if not already started
+	if (splash->CanDraw())
+	{
+		if (!timer->isStarted())
+		{
+			timer->start();
+		}
+
+		// Reset after 2 seconds
+		if (timer->getTicks() / 1000 >= 0.5f)
+		{
+			splash->SetCanDraw(false);
+			timer->reset();
+		}
+	}
 }
 
 void Play::UpdateCameraPos()
