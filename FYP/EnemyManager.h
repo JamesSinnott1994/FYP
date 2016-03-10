@@ -26,6 +26,7 @@ public:
 	bool CheckBulletCollision(b2Body* bulletBody);
 
 	void Reset();
+	void ResetGruntTimers();
 	void Destroy();
 	void DestroyBullets();
 

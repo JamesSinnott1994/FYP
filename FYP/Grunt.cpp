@@ -189,6 +189,11 @@ void Grunt::Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets)
 	// Update time to shoot
 	if (m_shootTimer <= m_shootTimerLimit && m_inRange)
 		m_shootTimer++;
+	else
+	{
+		m_canCreateBullet = false;
+		m_shootTimer = m_shootTimerLimit + 2;
+	}
 
 	State s = FiniteStateMachine();
 
@@ -304,7 +309,7 @@ void Grunt::Running()
 
 void Grunt::Shoot(int noOfBullets, int maxBullets)
 {
-	if (m_shootTimer >= m_shootTimerLimit && noOfBullets < maxBullets)
+	if (m_shootTimer >= m_shootTimerLimit && noOfBullets <= maxBullets)
 	{
 		//CreateBullet(m_gruntBullets);
 		m_canCreateBullet = true;
@@ -349,6 +354,11 @@ void Grunt::Reset()
 	m_canCreateBullet = false;
 	m_shootTimer = 0;
 	m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y - 0.000001f));
+}
+
+void Grunt::ResetTimer()
+{
+	m_shootTimer = 0;
 }
 
 bool Grunt::GruntCheckCollision(b2Body* bulletBody)

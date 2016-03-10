@@ -82,13 +82,13 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 	}
 
 	// Clear grunt bullets if too many
-	if (m_gruntBullets.size() > m_grunts.size() * 1)
+	if (m_gruntBullets.size() > m_grunts.size() * 2)
 	{
 		cout << "Too many bullets!!!" << endl;
-		while (m_gruntBullets.size() > m_grunts.size() * 1)
+		while (m_gruntBullets.size() > m_grunts.size() * 2)
 		{
-			//m_gruntBullets.pop_back();
-			m_gruntBullets.clear();
+			DestroyBullets();
+			ResetGruntTimers();
 		}
 	}
 
@@ -154,6 +154,14 @@ void EnemyManager::Reset()
 	for each(Grunt * grunt in m_grunts)
 	{
 		grunt->Reset();
+	}
+}
+
+void EnemyManager::ResetGruntTimers()
+{
+	for each(Grunt * grunt in m_grunts)
+	{
+		grunt->ResetTimer();
 	}
 }
 

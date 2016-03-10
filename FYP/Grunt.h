@@ -84,6 +84,7 @@ public:
 	void Draw();
 	void Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets);
 	void Reset();
+	void ResetTimer();
 	void Destroy();
 
 	void Animation();
