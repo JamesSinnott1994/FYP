@@ -22,6 +22,8 @@ public:
 	void Init(SDL_Rect, b2World*, string speedType, float scale);
 	void Draw();
 	void Update();
+	void UpdateAnimations();
+	void UpdateBullets();
 	void Move();
 	void Jump();
 	void Shoot();

@@ -1,10 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 
-Player::Player()
-{
-	
-}
+Player::Player(){}
 
 void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale)
 {
@@ -187,6 +184,7 @@ void Player::Update()
 
 	CheckCollisions();
 
+	// Checks if killed
 	if (m_health <= 0)
 	{
 		m_alive = false;
@@ -243,6 +241,12 @@ void Player::Update()
 	m_playerRunningSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 	m_bloodSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 
+	UpdateAnimations();
+	UpdateBullets();
+}
+
+void Player::UpdateAnimations()
+{
 	//Cycle animation
 	if (m_runningFrames / 10 >= RUNNING_ANIMATION_FRAMES)
 	{
@@ -266,7 +270,10 @@ void Player::Update()
 			m_bloodAnimationTime = 0;
 		}
 	}
+}
 
+void Player::UpdateBullets()
+{
 	// Update bullets
 	if (m_bullets.size() > 0)
 	{
@@ -449,11 +456,6 @@ void Player::Shoot()
 	m_bullets.push_back(bullet);
 }
 
-b2Body *Player::getBody()
-{
-	return m_body;
-}
-
 void Player::Reset()
 {
 	// Reset variables
@@ -484,8 +486,11 @@ void Player::FinishedLevel()
 	m_reachedTeleporter = false;
 }
 
-#pragma region Get/Set Score
-
+#pragma region Getters/Setters
+b2Body *Player::getBody()
+{
+	return m_body;
+}
 int Player::GetScore()
 {
 	return m_score;
@@ -494,11 +499,6 @@ void Player::SetScore(int myScore)
 {
 	m_score = myScore;
 }
-
-#pragma endregion
-
-#pragma region Get/Set Health
-
 int Player::GetHealth()
 {
 	return m_health;
@@ -507,11 +507,6 @@ void Player::SetHealth(int myHealth)
 {
 	m_health = myHealth;
 }
-
-#pragma endregion
-
-#pragma region Get/Set Alive
-
 bool Player::GetAlive()
 {
 	return m_alive;
@@ -520,22 +515,19 @@ void Player::SetAlive(bool myAlive)
 {
 	m_alive = myAlive;
 }
-
-#pragma endregion
-
 SDL_Rect Player::GetPosition()
 {
 	return m_rect;
 }
-
 bool Player::GetReachedTeleporter()
 {
 	return m_reachedTeleporter;
 }
-
 void Player::SetReachedTeleporter(bool myReachedTeleporter)
 {
 	m_reachedTeleporter = myReachedTeleporter;
 }
+#pragma endregion
+
 
 
