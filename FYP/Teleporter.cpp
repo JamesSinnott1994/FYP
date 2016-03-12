@@ -23,7 +23,7 @@ Teleporter::Teleporter()
 
 }
 
-void Teleporter::Init(SDL_Rect pRect, b2World *pWorld)
+void Teleporter::Init(SDL_Rect pRect, b2World *pWorld, string speedType)
 {
 	m_rect = pRect;
 
@@ -54,6 +54,19 @@ void Teleporter::Init(SDL_Rect pRect, b2World *pWorld)
 	m_sprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
 
 	gSpriteClips[ANIMATION_FRAMES];
+
+	// Speed
+	m_animationTimeLaptop = 5;
+	m_animationTimeLab = 30;
+
+	if (speedType == "labSpeed")
+	{
+		m_limit = m_animationTimeLab;
+	}
+	else
+	{
+		m_limit = m_animationTimeLaptop;
+	}
 
 	SpriteClips();
 }
@@ -99,7 +112,7 @@ void Teleporter::Update()
 
 	// Go through frames
 	m_animationTime++;
-	if (m_animationTime > 5)
+	if (m_animationTime > m_limit)
 	{
 		++m_animationFrames;
 		m_animationTime = 0;
@@ -125,6 +138,7 @@ void Teleporter::SetPosition(SDL_Rect position)
 {
 	m_body->SetTransform(b2Vec2(position.x, position.y), 0);
 	m_animationSprite->SetPosition(position.x, position.y);
+	m_sprite->SetPosition(position.x, position.y);
 }
 
 SDL_Rect Teleporter::GetRect()

@@ -59,7 +59,7 @@ void Level::LoadLevel(string name, b2World* world, string speedType, int width, 
 				if (name == "Text/Level1.txt")
 				{
 					SDL_Rect temp = { x*SCALE, y*SCALE - 40, SCALE * 2 + 5, SCALE * 3 + 15 };
-					Teleporter::GetInstance()->Init(temp, world);
+					Teleporter::GetInstance()->Init(temp, world, speedType);
 				}
 				else
 				{

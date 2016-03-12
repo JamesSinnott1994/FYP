@@ -14,7 +14,7 @@ public:
 
 	Teleporter();
 
-	void Init(SDL_Rect pRect, b2World *pWorld);
+	void Init(SDL_Rect pRect, b2World *pWorld, string speedType);
 	void Draw();
 	void Update();
 	void Destroy();
