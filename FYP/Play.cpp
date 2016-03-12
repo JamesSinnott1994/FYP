@@ -18,8 +18,8 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 	timer = new Timer();
 
 	// Which speed to use
-	whichSpeed = "labSpeed";
-	//whichSpeed = "laptopSpeed";
+	//whichSpeed = "labSpeed";
+	whichSpeed = "laptopSpeed";
 
 	// Load player
 	m_player = new Player();

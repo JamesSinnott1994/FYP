@@ -37,8 +37,11 @@ private:
 
 	// Teleporter animation
 	Sprite* m_animationSprite;
-	const int ANIMATION_FRAMES = 3;
-	SDL_Rect gSpriteClips[3];
+	Sprite* m_sprite;
+	const int ANIMATION_FRAMES = 10;
+	SDL_Rect gSpriteClips[10];
+	SDL_Rect* currentClip;
+	SDL_Rect* currentClip2;
 	int m_animationFrames;
 
 	SDL_Rect m_rect;
