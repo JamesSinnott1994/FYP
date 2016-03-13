@@ -5,10 +5,8 @@ Score::Score()
 {
 }
 
-Score::Score(SDL_Texture* text, SDL_Rect pRect, b2World *wWorld, SDL_Rect src)
+Score::Score(SDL_Texture* text, SDL_Rect pRect, b2World *wWorld, SDL_Rect src, string speedType)
 {
-	myRect = pRect;
-
 	// Define the ground body.
 	myBodyDef.position.Set(pRect.x, pRect.y);
 	myBodyDef.type = b2_staticBody;
@@ -24,21 +22,67 @@ Score::Score(SDL_Texture* text, SDL_Rect pRect, b2World *wWorld, SDL_Rect src)
 
 	// Add the ground fixture to the ground body.
 	myBody->CreateFixture(&myBodyFixtureDef);
-	sprite.Init(text, pRect, src);
-	sprite.SetOffset(SDL_Point{ 16, 16 });
 
 	m_alive = true;
+
+	m_animationSprite = new Sprite();
+	m_animationSprite->Init(text, pRect, src);
+	m_animationSprite->SetOffset(SDL_Point{ pRect.w / 2, pRect.h / 2 });
+	gSpriteClips[ANIMATION_FRAMES];
+
+	// Speed
+	m_animationTimeLaptop = 10;
+	m_animationTimeLab = 30;
+
+	if (speedType == "labSpeed")
+	{
+		m_limit = m_animationTimeLab;
+	}
+	else
+	{
+		m_limit = m_animationTimeLaptop;
+	}
+
+	SpriteClips();
+}
+
+void Score::SpriteClips()
+{
+	gSpriteClips[0] = { 0, 0, 62, 61 };
+	gSpriteClips[1] = { 64, 0, 62, 61 };
+	gSpriteClips[2] = { 128, 0, 62, 61 };
+	gSpriteClips[3] = { 192, 0, 62, 61 };
+	gSpriteClips[4] = { 256, 0, 62, 61 };
+	gSpriteClips[5] = { 320, 0, 62, 61 };
 }
 
 void Score::Draw()
 {
 	if (m_alive)
-		sprite.Draw(1);
+	{
+		currentClip = &gSpriteClips[m_animationFrames / ANIMATION_FRAMES];
+		m_animationSprite->SetSourceRect(*currentClip);
+		m_animationSprite->Draw(1);
+	}
 }
 
 void Score::Update()
 {
+	// Cycle animation
+	if (m_animationFrames / ANIMATION_FRAMES >= ANIMATION_FRAMES)
+	{
+		m_animationFrames = 0;
+	}
 
+	// Go through frames
+	m_animationTime++;
+	if (m_animationTime > m_limit)
+	{
+		++m_animationFrames;
+		m_animationTime = 0;
+	}
+
+	m_animationSprite->SetPosition(myBody->GetPosition().x, myBody->GetPosition().y);
 }
 
 void Score::Reset()

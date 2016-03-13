@@ -33,7 +33,10 @@ void PickupManager::Draw()
 
 void PickupManager::Update()
 {
-
+	for each(Score* score in m_scores)
+	{
+		score->Update();
+	}
 }
 
 void PickupManager::Reset()
@@ -74,9 +77,9 @@ void PickupManager::Destroy()
 	}
 }
 
-void PickupManager::addScorePickups(SDL_Rect pRect, b2World* world)
+void PickupManager::addScorePickups(SDL_Rect pRect, b2World* world, string speedType)
 {
-	Score* temp = new Score(m_scoreTexture, pRect, world, m_scoreSource);
+	Score* temp = new Score(m_scoreTexture, pRect, world, m_scoreSource, speedType);
 
 	m_scores.push_back(temp);
 }

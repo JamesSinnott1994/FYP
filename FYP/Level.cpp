@@ -42,7 +42,7 @@ void Level::LoadLevel(string name, b2World* world, string speedType, int width, 
 			else if (c == 'S')// 'S' for score
 			{
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
-				PickupManager::GetInstance()->addScorePickups(temp, world);
+				PickupManager::GetInstance()->addScorePickups(temp, world, speedType);
 			}
 			else if (c == 'H')// 'H' for health
 			{

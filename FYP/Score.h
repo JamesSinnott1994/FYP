@@ -12,7 +12,7 @@ class Score
 {
 public:
 	Score();
-	Score(SDL_Texture*, SDL_Rect, b2World*, SDL_Rect src);
+	Score(SDL_Texture*, SDL_Rect, b2World*, SDL_Rect src, string speedType);
 
 	void Draw();
 	void Update();
@@ -24,17 +24,27 @@ public:
 	bool GetAlive();
 	void SetAlive(bool);
 
+	void SpriteClips();
+
 private:
 	b2Body* myBody;
 	b2BodyDef myBodyDef;
 	b2FixtureDef myBodyFixtureDef;
-	Sprite sprite;
 	b2PolygonShape myShape;
-	SDL_Texture* myTexture;
-
-	SDL_Rect myRect;
 
 	bool m_alive;
+
+	// Animation
+	Sprite* m_animationSprite;
+	const int ANIMATION_FRAMES = 6;
+	SDL_Rect gSpriteClips[6];
+	SDL_Rect* currentClip;
+	int m_animationFrames;
+
+	int m_animationTime;
+	int m_limit;
+	int m_animationTimeLaptop;
+	int m_animationTimeLab;
 };
 
 #endif

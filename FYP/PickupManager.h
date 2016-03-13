@@ -19,7 +19,7 @@ public:
 	void Reset();
 	void Destroy();
 
-	void addScorePickups(SDL_Rect pRect, b2World* world);
+	void addScorePickups(SDL_Rect pRect, b2World* world, string speedType);
 	void addHealthPickups(SDL_Rect pRect, b2World* world);
 
 	bool CheckScoreCollision(b2Body*playerBody);
@@ -29,8 +29,8 @@ private:
 	PickupManager()
 	{
 		m_scores = list<Score*>();
-		m_scoreTexture = Sprite::loadTexture("Images/Score.png", Renderer::GetInstance()->Get_SDL_RENDERER());
-		m_scoreSource = { 0, 0, 91, 91 };
+		m_scoreTexture = Sprite::loadTexture("Images/CoinAnimations.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+		m_scoreSource = { 0, 0, 412, 64 };
 
 		m_healthPickups = list<Health*>();
 		m_healthTexture = Sprite::loadTexture("Images/health.png", Renderer::GetInstance()->Get_SDL_RENDERER());
