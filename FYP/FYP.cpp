@@ -8,6 +8,7 @@
 #include "Play.h"
 #include "SoundManager.h"
 #include "Splash.h"
+#include "GameOver.h"
 #include <time.h>
 
 // Window width and height
@@ -24,6 +25,7 @@ Options* options;
 Instructions* instructions;
 Play* play;
 Splash* splash;
+GameOver* gameOver;
 bool playInitial = false;
 
 // Methods
@@ -41,8 +43,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	SDL_Window* window = NULL;
 
 	// Game state
-	const int MENU = 0, OPTIONS = 1, INSTRUCTIONS = 2, PLAY = 3;
+	const int MENU = 0, OPTIONS = 1, INSTRUCTIONS = 2, PLAY = 3, GAMEOVER = 4;
 	int gameState = MENU;
+	int returnedType;
 
 	//SDL
 	//Initialize SDL
@@ -110,7 +113,22 @@ int _tmain(int argc, _TCHAR* argv[])
 
 				case PLAY:
 					play->Draw();
-					if (play->Update(e) == 2)
+					returnedType = play->Update(e);
+					if (returnedType == 2)
+					{
+						play->Quit();
+						playInitial = true;// Used whenever we exit out of a game so that we can re-initialize the game
+						gameState = MENU;
+					}
+					if (returnedType == 3)// Lose game
+					{
+						gameState = GAMEOVER;
+					}
+					break;
+
+				case GAMEOVER:
+					gameOver->Draw();
+					if (gameOver->Update() == 1)
 					{
 						play->Quit();
 						playInitial = true;// Used whenever we exit out of a game so that we can re-initialize the game
@@ -132,6 +150,7 @@ void Init()
 	instructions = new Instructions(windowWidth, windowHeight);
 	splash = new Splash(windowWidth, windowHeight);
 	play = new Play(world, windowWidth, windowHeight, splash);
+	gameOver = new GameOver(windowWidth, windowHeight);
 
 	if (!SoundManager::GetInstance()->load_files())
 	{

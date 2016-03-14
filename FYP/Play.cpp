@@ -140,6 +140,11 @@ int Play::Update(SDL_Event e)
 	{
 		Reset();
 	}
+	if(m_player->GetLives() <= 0) // Game over if lives less than 3
+	{
+		SoundManager::GetInstance()->stopMusic();
+		return 3;// Lose game(Quit)
+	}
 
 	// Call LevelComplete() if player has reached teleporter
 	if (m_player->GetReachedTeleporter() && !levelComplete)
@@ -186,7 +191,7 @@ int Play::Update(SDL_Event e)
 			}
 			if (InGameMenu::GetInstance()->Update(e) == 2)
 			{
-				return 2;
+				return 2;// Quit game
 			}
 		}// End if
 	}// End else

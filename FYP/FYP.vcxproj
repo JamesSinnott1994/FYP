@@ -87,6 +87,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="Grunt.h" />
     <ClInclude Include="GruntBullet.h" />
     <ClInclude Include="Health.h" />
@@ -122,6 +123,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="FYP.cpp" />
+    <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="Grunt.cpp" />
     <ClCompile Include="GruntBullet.cpp" />
     <ClCompile Include="Health.cpp" />

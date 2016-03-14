@@ -64,6 +64,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 
 	// Health
 	m_health = 100;
+	m_lives = 3;
 	m_alive = true;
 
 	// Bullets
@@ -459,6 +460,7 @@ void Player::Shoot()
 void Player::Reset()
 {
 	// Reset variables
+	m_lives -= 1;
 	m_body->SetTransform(b2Vec2(m_startRect.x, m_startRect.y), 0);
 	m_alive = true;
 	m_reachedTeleporter = false;
@@ -526,6 +528,14 @@ bool Player::GetReachedTeleporter()
 void Player::SetReachedTeleporter(bool myReachedTeleporter)
 {
 	m_reachedTeleporter = myReachedTeleporter;
+}
+int Player::GetLives()
+{
+	return m_lives;
+}
+void Player::SetLives(int myLives)
+{
+	m_lives = myLives;
 }
 #pragma endregion
 

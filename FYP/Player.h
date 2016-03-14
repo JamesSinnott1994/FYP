@@ -51,6 +51,8 @@ public:
 	// Alive
 	bool GetAlive();
 	void SetAlive(bool);
+	int GetLives();
+	void SetLives(int);
 
 	// Position
 	SDL_Rect GetPosition();
@@ -116,6 +118,7 @@ private:
 
 	// Health
 	int m_health;
+	int m_lives;
 	bool m_alive;
 
 	// Bullets
