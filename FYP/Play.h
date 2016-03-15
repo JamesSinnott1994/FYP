@@ -29,6 +29,7 @@ private:
 	//Rendered texture
 	Text gScoreTextTexture;
 	Text gLevelTextTexture;
+	Text gLivesTextTexture;
 
 	// Different speeds
 	float labComputerSpeed;
