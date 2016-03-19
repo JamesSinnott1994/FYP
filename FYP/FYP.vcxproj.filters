@@ -153,6 +153,9 @@
     <ClInclude Include="GameOver.h">
       <Filter>Header Files\Menu/Options</Filter>
     </ClInclude>
+    <ClInclude Include="EnterNameScreen.h">
+      <Filter>Header Files\Menu/Options</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -252,6 +255,9 @@
       <Filter>Source Files\Menu/Options</Filter>
     </ClCompile>
     <ClCompile Include="GameOver.cpp">
+      <Filter>Source Files\Menu/Options</Filter>
+    </ClCompile>
+    <ClCompile Include="EnterNameScreen.cpp">
       <Filter>Source Files\Menu/Options</Filter>
     </ClCompile>
   </ItemGroup>

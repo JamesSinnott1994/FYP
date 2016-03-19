@@ -9,6 +9,7 @@
 #include "SoundManager.h"
 #include "Splash.h"
 #include "GameOver.h"
+#include "EnterNameScreen.h"
 #include <time.h>
 
 // Window width and height
@@ -26,6 +27,7 @@ Instructions* instructions;
 Play* play;
 Splash* splash;
 GameOver* gameOver;
+EnterNameScreen* enterNameScreen;
 bool playInitial = false;
 
 // Methods
@@ -43,7 +45,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	SDL_Window* window = NULL;
 
 	// Game state
-	const int MENU = 0, OPTIONS = 1, INSTRUCTIONS = 2, PLAY = 3, GAMEOVER = 4;
+	const int MENU = 0, OPTIONS = 1, INSTRUCTIONS = 2, PLAY = 3, GAMEOVER = 4, ENTER_NAME_SCREEN = 5;
 	int gameState = MENU;
 	int returnedType;
 
@@ -92,7 +94,7 @@ int _tmain(int argc, _TCHAR* argv[])
 					else if (menu->Update(e) == 2)// Options button clicked
 						gameState = OPTIONS;
 					else if (menu->Update(e) == 1)// Play button clicked
-						gameState = INSTRUCTIONS;
+						gameState = ENTER_NAME_SCREEN;
 					break;
 
 				case OPTIONS:
@@ -135,6 +137,14 @@ int _tmain(int argc, _TCHAR* argv[])
 						gameState = MENU;
 					}
 					break;
+
+				case ENTER_NAME_SCREEN:
+					enterNameScreen->Draw();
+					if (enterNameScreen->Update() == 1)
+					{
+						gameState = INSTRUCTIONS;
+					}
+					break;
 				}
 			}// End while
 		}// End inner else
@@ -151,6 +161,7 @@ void Init()
 	splash = new Splash(windowWidth, windowHeight);
 	play = new Play(world, windowWidth, windowHeight, splash);
 	gameOver = new GameOver(windowWidth, windowHeight);
+	enterNameScreen = new EnterNameScreen(windowWidth, windowHeight);
 
 	if (!SoundManager::GetInstance()->load_files())
 	{
