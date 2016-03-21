@@ -141,9 +141,13 @@ int Play::Update(SDL_Event e)
 	world->Step(timeStep, velocityIterations, positionIterations);
 
 	// Call Reset() if player not alive
-	if (!m_player->GetAlive())
+	if (!m_player->GetAlive() && m_player->GetLives() != 1)
 	{
 		Reset();
+	}
+	else if (!m_player->GetAlive() && m_player->GetLives() == 1)
+	{
+		m_player->SetLives(0);
 	}
 	if(m_player->GetLives() <= 0) // Game over if lives less than 3
 	{
@@ -333,4 +337,9 @@ void Play::UpdateCameraPos()
 {
 	// Pass players position to Renderer::UpdateCameraPosition()
 	Renderer::GetInstance()->UpdateCameraPosition(m_player->getBody()->GetPosition().x);
+}
+
+int Play::GetScore()
+{
+	return m_player->GetScore();
 }

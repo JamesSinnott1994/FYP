@@ -80,3 +80,8 @@ int EnterNameScreen::Update()
 	else
 		return 0;
 }
+
+string EnterNameScreen::GetName()
+{
+	return name;
+}

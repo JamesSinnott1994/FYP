@@ -96,7 +96,7 @@ int _tmain(int argc, _TCHAR* argv[])
 					else if (menu->Update(e) == 2)// Options button clicked
 						gameState = OPTIONS;
 					else if (menu->Update(e) == 1)// Play button clicked
-						gameState = HIGH_SCORE_SCREEN;
+						gameState = ENTER_NAME_SCREEN;
 					break;
 
 				case OPTIONS:
@@ -132,11 +132,9 @@ int _tmain(int argc, _TCHAR* argv[])
 
 				case GAMEOVER:
 					gameOver->Draw();
-					if (gameOver->Update() == 1)
+					if (gameOver->Update(enterNameScreen->GetName(), highScoreScreen, play->GetScore()) == 1)
 					{
-						play->Quit();
-						playInitial = true;// Used whenever we exit out of a game so that we can re-initialize the game
-						gameState = MENU;
+						gameState = HIGH_SCORE_SCREEN;
 					}
 					break;
 
@@ -152,6 +150,8 @@ int _tmain(int argc, _TCHAR* argv[])
 					highScoreScreen->Draw();
 					if (highScoreScreen->Update() == 1)
 					{
+						play->Quit();
+						playInitial = true;// Used whenever we exit out of a game so that we can re-initialize the game
 						gameState = MENU;
 					}
 					break;

@@ -46,6 +46,7 @@ public:
 	int Update();
 
 	void GetServerData();
+	void PostServerData(string name, int score);
 
 	void LoadTable(SDL_Color, TTF_Font*);
 

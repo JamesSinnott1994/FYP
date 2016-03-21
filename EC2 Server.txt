@@ -1,0 +1,1 @@
+ssh -l ubuntu -i jamessinnott2.pem 52.18.41.64

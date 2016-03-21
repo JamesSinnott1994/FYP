@@ -25,6 +25,8 @@ public:
 	// Used for drawing text
 	bool initializeTTF();
 	bool loadTTFMedia();
+
+	string GetName();
 };
 
 #endif

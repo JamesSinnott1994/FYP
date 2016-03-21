@@ -164,7 +164,7 @@ void HighScoreScreen::GetServerData()
 	std::string readBuffer;
 
 	// Data to send
-	string url = "http://52.17.241.125:443/score";
+	string url = "http://52.18.41.64:443/score";
 
 	// Sets URL
 	curl_easy_setopt(myHandle, CURLOPT_URL, url.c_str());
@@ -186,6 +186,33 @@ void HighScoreScreen::GetServerData()
 	std::sort(myVec.begin(), myVec.end(), &myFunction);
 
 	highscoreVector = myVec;
+}
+
+void HighScoreScreen::PostServerData(string pName, int pScore)
+{
+	curl_global_init(CURL_GLOBAL_ALL);
+	CURL * myHandle = curl_easy_init();
+
+	CURLcode result;
+
+	// Data to send
+	string url = "http://52.18.41.64:443/score";
+
+	string postMessage = "";
+	string name = pName;
+	string score = to_string(pScore);
+
+	postMessage = "name=Test&name=" + name + "&score=" + score;
+
+	// Sets URL
+	curl_easy_setopt(myHandle, CURLOPT_URL, url.c_str());
+	curl_easy_setopt(myHandle, CURLOPT_POSTFIELDS, postMessage.c_str());
+
+	// Will perform an action.
+	result = curl_easy_perform(myHandle);
+
+	// Will clean it, so it can be used again.
+	curl_easy_cleanup(myHandle);
 }
 
 void HighScoreScreen::Draw()

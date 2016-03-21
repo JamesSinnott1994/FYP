@@ -67,5 +67,7 @@ public:
 
 	bool initializeTTF();
 	bool loadTTFMedia();
+
+	int GetScore();
 };
 #endif

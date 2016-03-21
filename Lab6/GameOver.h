@@ -5,6 +5,8 @@
 #include "SoundManager.h"
 #include "Timer.h"
 
+class HighScoreScreen;
+
 class GameOver
 {
 private:
@@ -15,7 +17,7 @@ public:
 	GameOver(int windowWidth, int windowHeight);
 
 	void Draw();
-	int Update();
+	int Update(string name, HighScoreScreen* highscore, int score);
 
 	const int MENU = 1;
 };
