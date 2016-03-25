@@ -74,6 +74,8 @@
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ElectricBarrier.cpp" />
+    <ClCompile Include="ElectricSwitch.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="EnterNameScreen.cpp" />
     <ClCompile Include="GameOver.cpp" />
@@ -111,6 +113,8 @@
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ElectricBarrier.h" />
+    <ClInclude Include="ElectricSwitch.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnterNameScreen.h" />
     <ClInclude Include="GameOver.h" />

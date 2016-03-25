@@ -237,10 +237,10 @@ void HighScoreScreen::Draw()
 
 int HighScoreScreen::Update()
 {
-	if (!haveScores)
+	/*if (!haveScores)
 		GetServerData();
 	if (haveScores && !tableLoaded)
-		loadTTFMedia();
+		loadTTFMedia();*/
 
 	// Check if pressed enter
 	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_RETURN))

@@ -25,7 +25,7 @@ int GameOver::Update(string name, HighScoreScreen* highscore, int score)
 {
 	SoundManager::GetInstance()->play(SoundManager::GetInstance()->MENU_MUSIC);
 
-	highscore->PostServerData(name, score);
+	//highscore->PostServerData(name, score);
 
 	// Start timer if not already started
 	if (!timer->isStarted())

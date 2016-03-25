@@ -64,7 +64,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 
 	// Health
 	m_health = 100;
-	m_lives = 1;
+	m_lives = 3;
 	m_alive = true;
 
 	// Bullets
@@ -321,6 +321,13 @@ void Player::CheckCollisions()
 		m_health -= 50;
 	}
 
+	// Collision with electric barrier
+	if (CheckBarrierCollision())
+	{
+		// Kill player
+		m_health -= 50;
+	}
+
 	if (CheckTeleporterCollision())
 	{
 		m_reachedTeleporter = true;
@@ -345,6 +352,11 @@ bool Player::CheckHealthCollision()
 bool Player::CheckMineCollision()
 {
 	return ObstacleManager::GetInstance()->CheckMineCollision(m_body);
+}
+
+bool Player::CheckBarrierCollision()
+{
+	return ObstacleManager::GetInstance()->CheckBarrierCollision(m_body);
 }
 
 bool Player::CheckTeleporterCollision()

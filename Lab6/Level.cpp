@@ -54,6 +54,11 @@ void Level::LoadLevel(string name, b2World* world, string speedType, int width, 
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
 				ObstacleManager::GetInstance()->addMineObstacles(temp, world);
 			}
+			else if (c == 'E')// 'E' for Electric Barrier
+			{
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE*3 };
+				ObstacleManager::GetInstance()->addElectricBarriers(temp, world, speedType);
+			}
 			else if (c == 'T')// 'T' for Teleporter
 			{
 				if (name == "Text/Level1.txt")
@@ -79,7 +84,6 @@ void Level::LoadLevel(string name, b2World* world, string speedType, int width, 
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
 				EnemyManager::GetInstance()->addGrunt(temp, world, enemyColor, enemyDir, speedType, width, height);
 			}
-
 		}// End inner for loop
 	}// End outer for loop
 }

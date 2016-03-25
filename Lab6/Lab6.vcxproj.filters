@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Obstacles">
+      <UniqueIdentifier>{47d5c906-8700-4983-bdef-67327cc6cfec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Obstacles">
+      <UniqueIdentifier>{b422eeb5-bdaa-42b3-aa7b-f08f242debab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -66,12 +72,6 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ObstacleManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -119,6 +119,18 @@
     </ClCompile>
     <ClCompile Include="WallManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ElectricBarrier.cpp">
+      <Filter>Source Files\Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="ObstacleManager.cpp">
+      <Filter>Source Files\Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="Mine.cpp">
+      <Filter>Source Files\Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="ElectricSwitch.cpp">
+      <Filter>Source Files\Obstacles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,12 +185,6 @@
     <ClInclude Include="Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Mine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ObstacleManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -226,6 +232,18 @@
     </ClInclude>
     <ClInclude Include="WallManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mine.h">
+      <Filter>Header Files\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="ObstacleManager.h">
+      <Filter>Header Files\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="ElectricBarrier.h">
+      <Filter>Header Files\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="ElectricSwitch.h">
+      <Filter>Header Files\Obstacles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
