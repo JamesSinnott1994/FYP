@@ -29,9 +29,12 @@ private:
 	int m_animationTimeLaptop;
 	int m_animationTimeLab;
 
+	int switchID;
+	int barrierID;
+
 public:
 	ElectricBarrier();
-	ElectricBarrier(SDL_Texture*, SDL_Rect, b2World*, SDL_Rect src, string speedType);
+	ElectricBarrier(SDL_Texture*, SDL_Rect, b2World*, SDL_Rect src, string speedType, int id);
 
 	void Draw();
 	void Update();
@@ -44,6 +47,13 @@ public:
 	void SetOn(bool);
 
 	void SpriteClips();
+
+	int GetSwitchID();
+	void SetSwitchID(int myID);
+	bool hasSwitchID;
+
+	int GetBarrierID();
+	void SetBarrierID(int myID);
 };
 
 #endif

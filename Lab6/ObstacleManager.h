@@ -4,6 +4,7 @@
 #include <list>
 #include "Mine.h"
 #include "ElectricBarrier.h"
+#include "ElectricSwitch.h"
 
 class ObstacleManager
 {
@@ -20,10 +21,12 @@ public:
 	void Destroy();
 
 	void addMineObstacles(SDL_Rect pRect, b2World* world);
-	void addElectricBarriers(SDL_Rect pRect, b2World* world, string speedType);
+	void addElectricBarriers(SDL_Rect pRect, b2World* world, string speedType, int barrierID);
+	void addElectricSwitches(SDL_Rect pRect, b2World* world, int switchID);
 
 	bool CheckMineCollision(b2Body*playerBody);
 	bool CheckBarrierCollision(b2Body*playerBody);
+	bool CheckSwitchCollision(b2Body*playerBody);
 
 private:
 	ObstacleManager()// Constructor
@@ -37,6 +40,11 @@ private:
 		m_barriers = list<ElectricBarrier*>();
 		m_barrierTexture = Sprite::loadTexture("Images/ElectricBarrier.png", Renderer::GetInstance()->Get_SDL_RENDERER());
 		m_barrierSource = { 0, 0, 422, 202 };
+
+		// Electric switches
+		m_switches = list<ElectricSwitch*>();
+		m_switchTexture = Sprite::loadTexture("Images/OnSwitch.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+		m_switchSource = { 0, 0, 180, 216 };
 	}
 
 	static bool instanceFlag;
@@ -53,6 +61,12 @@ private:
 	SDL_Texture* m_barrierTexture;
 	SDL_Rect m_barrierSource;
 	list<ElectricBarrier*>::iterator m_barrierIterator;
+
+	// Electric switches
+	list<ElectricSwitch*> m_switches;
+	SDL_Texture* m_switchTexture;
+	SDL_Rect m_switchSource;
+	list<ElectricSwitch*>::iterator m_switchIterator;
 };
 
 #endif

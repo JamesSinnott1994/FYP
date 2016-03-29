@@ -5,7 +5,7 @@ ElectricBarrier::ElectricBarrier()
 {
 }
 
-ElectricBarrier::ElectricBarrier(SDL_Texture* text, SDL_Rect pRect, b2World *wWorld, SDL_Rect src, string speedType)
+ElectricBarrier::ElectricBarrier(SDL_Texture* text, SDL_Rect pRect, b2World *wWorld, SDL_Rect src, string speedType, int id)
 {
 	// Define the ground body.
 	myBodyDef.position.Set(pRect.x, pRect.y);
@@ -44,6 +44,10 @@ ElectricBarrier::ElectricBarrier(SDL_Texture* text, SDL_Rect pRect, b2World *wWo
 	}
 
 	SpriteClips();
+
+	barrierID = id;
+	switchID = 0;
+	hasSwitchID = false;
 }
 
 void ElectricBarrier::SpriteClips()
@@ -107,4 +111,24 @@ bool ElectricBarrier::GetOn()
 void ElectricBarrier::SetOn(bool myAlive)
 {
 	m_on = myAlive;
+}
+
+int ElectricBarrier::GetSwitchID()
+{
+	return switchID;
+}
+
+void ElectricBarrier::SetSwitchID(int myID)
+{
+	switchID = myID;
+}
+
+int ElectricBarrier::GetBarrierID()
+{
+	return barrierID;
+}
+
+void ElectricBarrier::SetBarrierID(int myID)
+{
+	barrierID = myID;
 }

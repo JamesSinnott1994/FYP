@@ -66,6 +66,7 @@ public:
 	bool CheckHealthCollision();
 	bool CheckMineCollision();
 	bool CheckBarrierCollision();
+	bool CheckSwitchCollision();
 	bool CheckTeleporterCollision();
 private:
 	SDL_Rect m_rect;

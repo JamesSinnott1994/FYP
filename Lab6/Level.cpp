@@ -17,6 +17,9 @@ void Level::LoadLevel(string name, b2World* world, string speedType, int width, 
 	const int charactersAcross = map.begin()->size();
 	const int charactersDown = map.size();
 
+	int barrierCounter = 0;
+	int switchCounter = 0;
+
 	// Go through each each row
 	for (int y = 0; y < charactersDown; y++)
 	{
@@ -56,8 +59,15 @@ void Level::LoadLevel(string name, b2World* world, string speedType, int width, 
 			}
 			else if (c == 'E')// 'E' for Electric Barrier
 			{
+				barrierCounter += 1;
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE*3 };
-				ObstacleManager::GetInstance()->addElectricBarriers(temp, world, speedType);
+				ObstacleManager::GetInstance()->addElectricBarriers(temp, world, speedType, barrierCounter);
+			}
+			else if (c == 'e')// 'e' for Electric Switch
+			{
+				switchCounter += 1;
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
+				ObstacleManager::GetInstance()->addElectricSwitches(temp, world, switchCounter);
 			}
 			else if (c == 'T')// 'T' for Teleporter
 			{

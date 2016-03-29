@@ -334,6 +334,8 @@ void Player::CheckCollisions()
 		m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y - 0.000001f));
 	}
 
+	CheckSwitchCollision();
+
 	//CheckBulletGruntCollision();
 
 	//cout << (m_rect.x + m_rect.w) << endl;
@@ -357,6 +359,11 @@ bool Player::CheckMineCollision()
 bool Player::CheckBarrierCollision()
 {
 	return ObstacleManager::GetInstance()->CheckBarrierCollision(m_body);
+}
+
+bool Player::CheckSwitchCollision()
+{
+	return ObstacleManager::GetInstance()->CheckSwitchCollision(m_body);
 }
 
 bool Player::CheckTeleporterCollision()
