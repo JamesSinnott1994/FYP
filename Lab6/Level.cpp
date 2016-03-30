@@ -42,6 +42,11 @@ void Level::LoadLevel(string name, b2World* world, string speedType, int width, 
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE*3, SCALE };
 				PlatformManager::GetInstance()->addPlatform(temp, world, "bottomPlatform");
 			}
+			else if (c == 'm')// 'm' for moving platform
+			{
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE * 3, SCALE };
+				PlatformManager::GetInstance()->addMovingPlatform(temp, world, speedType);
+			}
 			else if (c == 'S')// 'S' for score
 			{
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };

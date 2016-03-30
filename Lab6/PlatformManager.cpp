@@ -36,11 +36,33 @@ void PlatformManager::addPlatform(SDL_Rect pRect, b2World* world, string type)
 	m_platforms.push_back(temp);
 }
 
+void PlatformManager::addMovingPlatform(SDL_Rect pRect, b2World* world, string type)
+{
+	m_movingPlatformTexture = Sprite::loadTexture("Images/platform.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+	m_movingPlatformSource = { 0, 0, 106, 29 };
+
+	MovingPlatform* temp = new MovingPlatform(m_movingPlatformTexture, pRect, world, m_movingPlatformSource, type);
+
+	m_movingPlatforms.push_back(temp);
+}
+
 void PlatformManager::Draw()
 {
 	for each(Platform* plat in m_platforms)
 	{
 		plat->Draw();
+	}
+	for each(MovingPlatform* mPlat in m_movingPlatforms)
+	{
+		mPlat->Draw();
+	}
+}
+
+void PlatformManager::Update()
+{
+	for each(MovingPlatform* mPlat in m_movingPlatforms)
+	{
+		mPlat->Update();
 	}
 }
 
@@ -50,9 +72,17 @@ void PlatformManager::Destroy()
 	{
 		plat->Destroy();
 	}
+	for each(MovingPlatform* mPlat in m_movingPlatforms)
+	{
+		mPlat->Destroy();
+	}
 
 	if (m_platforms.size() > 0)
 	{
 		m_platforms.clear();
+	}
+	if (m_movingPlatforms.size() > 0)
+	{
+		m_movingPlatforms.clear();
 	}
 }

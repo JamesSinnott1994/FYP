@@ -54,7 +54,7 @@ void ObstacleManager::Update()
 			// Turn off barrier
 			for each(ElectricBarrier* barrier in m_barriers)
 			{
-				if (barrier->GetBarrierID() == m_switch->GetSwitchID())
+				if (barrier->GetBarrierID() == m_switch->GetSwitchID() && barrier->GetOn())
 				{
 					barrier->SetOn(false);
 				}

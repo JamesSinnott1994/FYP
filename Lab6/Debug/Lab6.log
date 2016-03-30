@@ -1,8 +1,13 @@
-﻿Build started 29/03/2016 14:28:57.
+﻿Build started 30/03/2016 13:53:23.
      1>Project "C:\Users\Windows 8\Desktop\master\FYP\Lab6\Lab6.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I./ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CURL_STATICLIB /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ObstacleManager.cpp
-         ObstacleManager.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I./ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CURL_STATICLIB /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Level.cpp PlatformManager.cpp Play.cpp main.cpp
+         PlatformManager.cpp
+         Generating Code...
+         Skipping... (no relevant changes detected)
+         main.cpp
+         Play.cpp
+         Level.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Windows 8\Desktop\master\FYP\Debug\Lab6.exe" /INCREMENTAL /NOLOGO /LIBPATH:./lib Box2D.lib SDL2main.lib SDL2_image.lib SDL2_mixer.lib SDL2.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libcurl.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Windows 8\Desktop\master\FYP\Debug\Lab6.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Windows 8\Desktop\master\FYP\Debug\Lab6.lib" /MACHINE:X86 Debug\Bullet.obj
          Debug\Button.obj
@@ -23,6 +28,7 @@
          Debug\main.obj
          Debug\Menu.obj
          Debug\Mine.obj
+         Debug\MovingPlatform.obj
          Debug\ObstacleManager.obj
          Debug\Options.obj
          Debug\PickupManager.obj
@@ -46,4 +52,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:04.90
+Time Elapsed 00:00:05.10
