@@ -177,6 +177,7 @@ int Play::Update(SDL_Event e)
 			ObstacleManager::GetInstance()->Update();
 			Teleporter::GetInstance()->Update();
 			PickupManager::GetInstance()->Update();
+			PlatformManager::GetInstance()->Update();
 			// Checks if player collides with enemy bullets
 			if (EnemyManager::GetInstance()->Update(m_player->GetPosition(), m_player->getBody()))
 			{

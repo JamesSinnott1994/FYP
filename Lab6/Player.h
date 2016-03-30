@@ -11,6 +11,7 @@
 #include "Teleporter.h"
 #include "Timer.h"
 #include "EnemyManager.h"
+#include "PlatformManager.h"
 
 class Player
 {
@@ -68,6 +69,7 @@ public:
 	bool CheckBarrierCollision();
 	bool CheckSwitchCollision();
 	bool CheckTeleporterCollision();
+	bool CheckMovingPlatformCollision();
 private:
 	SDL_Rect m_rect;
 	SDL_Rect m_startRect;
@@ -136,6 +138,9 @@ private:
 
 	// Scale
 	float playerScale;
+
+	// Collision with platform
+	bool collidingWithMovingPlat;
 };
 
 #endif

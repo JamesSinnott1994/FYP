@@ -46,6 +46,13 @@ void PlatformManager::addMovingPlatform(SDL_Rect pRect, b2World* world, string t
 	m_movingPlatforms.push_back(temp);
 }
 
+void PlatformManager::addMovePlatSensor(SDL_Rect pRect, b2World  *world, int src)
+{
+	MovingPlatform* temp = new MovingPlatform(pRect, world, src);
+
+	movingPlatformsSensors.push_back(temp);
+}
+
 void PlatformManager::Draw()
 {
 	for each(Platform* plat in m_platforms)
@@ -66,6 +73,19 @@ void PlatformManager::Update()
 	}
 }
 
+bool PlatformManager::CheckCollision(b2Body*playerBody)
+{
+	for each (MovingPlatform* mPlat in m_movingPlatforms)
+	{
+		if (mPlat->CheckCollision(playerBody) && mPlat->GetType() == "platform")
+		{
+			xSpeedOfMovingPlatform = mPlat->GetBody()->GetLinearVelocity().x;
+			return true;
+		}
+	}
+	return false;
+}
+
 void PlatformManager::Destroy()
 {
 	for each(Platform* plat in m_platforms)
@@ -73,6 +93,10 @@ void PlatformManager::Destroy()
 		plat->Destroy();
 	}
 	for each(MovingPlatform* mPlat in m_movingPlatforms)
+	{
+		mPlat->Destroy();
+	}
+	for each(MovingPlatform* mPlat in movingPlatformsSensors)
 	{
 		mPlat->Destroy();
 	}
@@ -84,5 +108,9 @@ void PlatformManager::Destroy()
 	if (m_movingPlatforms.size() > 0)
 	{
 		m_movingPlatforms.clear();
+	}
+	if (movingPlatformsSensors.size() > 0)
+	{
+		movingPlatformsSensors.clear();
 	}
 }

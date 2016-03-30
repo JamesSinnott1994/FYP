@@ -16,10 +16,15 @@ public:
 
 	void addPlatform(SDL_Rect pRect, b2World* world, string type);
 	void addMovingPlatform(SDL_Rect pRect, b2World* world, string type);
+	void addMovePlatSensor(SDL_Rect pRect, b2World* world, int dir);
 
 	void Draw();
 	void Update();
 	void Destroy();
+
+	bool CheckCollision(b2Body*);
+
+	int xSpeedOfMovingPlatform;
 
 private:
 	PlatformManager()
@@ -43,6 +48,9 @@ private:
 	list<MovingPlatform*> m_movingPlatforms;
 	SDL_Texture* m_movingPlatformTexture;
 	SDL_Rect m_movingPlatformSource;
+
+	// Moving platform SENSORS
+	std::list<MovingPlatform*> movingPlatformsSensors;
 };
 
 #endif

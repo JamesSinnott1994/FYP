@@ -103,6 +103,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	SpriteClips();
 
 	m_reachedTeleporter = false;
+	collidingWithMovingPlat = false;
 }
 
 void Player::SpriteClips()
@@ -336,6 +337,16 @@ void Player::CheckCollisions()
 
 	CheckSwitchCollision();
 
+	// Collsion with platform
+	if (CheckMovingPlatformCollision())
+	{
+		collidingWithMovingPlat = true;
+	}
+	else
+	{
+		collidingWithMovingPlat = false;
+	}
+
 	//CheckBulletGruntCollision();
 
 	//cout << (m_rect.x + m_rect.w) << endl;
@@ -371,13 +382,25 @@ bool Player::CheckTeleporterCollision()
 	return Teleporter::GetInstance()->CheckCollision(m_body);
 }
 
+bool Player::CheckMovingPlatformCollision()
+{
+	return PlatformManager::GetInstance()->CheckCollision(m_body);
+}
+
 void Player::Move()
 {
 	// Key presses
 	// Move left
 	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a) && !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d))
 	{
-		m_body->SetLinearVelocity(b2Vec2(-2, m_body->GetLinearVelocity().y-0.000001f));
+		if (!collidingWithMovingPlat)
+		{
+			m_body->SetLinearVelocity(b2Vec2(-2, m_body->GetLinearVelocity().y - 0.000001f));
+		}
+		else
+		{
+			m_body->SetLinearVelocity(b2Vec2(PlatformManager::GetInstance()->xSpeedOfMovingPlatform - 2, m_body->GetLinearVelocity().y - 0.000001f));
+		}
 
 		// Change sprite image if not already moving left
 		if (!m_movingLeft)
@@ -405,7 +428,14 @@ void Player::Move()
 	// Move right
 	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d) && !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a))
 	{
-		m_body->SetLinearVelocity(b2Vec2(2, m_body->GetLinearVelocity().y - 0.000001f));
+		if (!collidingWithMovingPlat)
+		{
+			m_body->SetLinearVelocity(b2Vec2(2, m_body->GetLinearVelocity().y - 0.000001f));
+		}
+		else
+		{
+			m_body->SetLinearVelocity(b2Vec2(PlatformManager::GetInstance()->xSpeedOfMovingPlatform + 2, m_body->GetLinearVelocity().y - 0.000001f));
+		}
 
 		// Change sprite image if not already moving right
 		if (!m_movingRight)
@@ -445,12 +475,22 @@ void Player::Move()
 				SoundManager::GetInstance()->play(SoundManager::GUNSHOT);
 		}
 	}
+	// IF NOT MOVING
 	if (!KeyBoardInput::GetInstance()->isKeyPressed(SDLK_SPACE) && !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d)
 		&& !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a))
 	{
 		m_running = false;
 		m_idle = true;
-		m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y));
+		if (!collidingWithMovingPlat)
+		{
+			m_body->SetLinearVelocity(b2Vec2{ 0, m_body->GetLinearVelocity().y });
+			//cout << "Here" << endl;
+		}
+		else
+		{
+			m_body->SetLinearVelocity(b2Vec2(PlatformManager::GetInstance()->xSpeedOfMovingPlatform, m_body->GetLinearVelocity().y));
+			//cout << "Here2" << endl;
+		}
 	}
 }
 
@@ -484,6 +524,7 @@ void Player::Reset()
 	m_alive = true;
 	m_reachedTeleporter = false;
 	m_stopBloodAnimation = false;
+	collidingWithMovingPlat = false;
 	m_health = 100;
 	m_score = OldScore;
 
