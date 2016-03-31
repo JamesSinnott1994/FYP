@@ -20,6 +20,13 @@ ElectricBarrier::ElectricBarrier(SDL_Texture* text, SDL_Rect pRect, b2World *wWo
 	// The body is also added to the world.
 	myBody = wWorld->CreateBody(&myBodyDef);
 
+	// Collision Filtering
+	short GROUP_PLAYER = -1;
+	short GROUP_BARRIER = -2;
+
+	myBodyFixtureDef.filter.groupIndex = GROUP_BARRIER;
+
+
 	// Add the ground fixture to the ground body.
 	myBody->CreateFixture(&myBodyFixtureDef);
 

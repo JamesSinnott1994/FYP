@@ -4,7 +4,7 @@
 MovingPlatform::MovingPlatform(){}
 
 // Actual moving platforms
-MovingPlatform::MovingPlatform(SDL_Texture* text, SDL_Rect pRect, b2World* wWorld, SDL_Rect src, string speedType)
+MovingPlatform::MovingPlatform(SDL_Texture* text, SDL_Rect pRect, b2World* wWorld, SDL_Rect src, string speedType, bool pLeftRight)
 {
 	m_rect = pRect;
 	m_startRect = pRect;
@@ -36,6 +36,8 @@ MovingPlatform::MovingPlatform(SDL_Texture* text, SDL_Rect pRect, b2World* wWorl
 
 	m_body->SetLinearVelocity(b2Vec2{ -1.0f, 0.0f });
 	type = "platform";
+
+	leftRight = pLeftRight;
 }
 
 // SENSOR for moving platforms
@@ -53,10 +55,14 @@ MovingPlatform::MovingPlatform(SDL_Rect pRect, b2World* wWorld, int dir)
 
 	m_bodyFixtureDef.isSensor = true;
 	m_bodyFixtureDef.shape = &sensorShape;
-	if (direction == 1)
+	if (direction == RIGHT)
 		m_bodyFixtureDef.userData = "moveRight";
-	else
+	else if (direction == LEFT)
 		m_bodyFixtureDef.userData = "moveLeft";
+	else if (direction == UP)
+		m_bodyFixtureDef.userData = "moveUp";
+	else if (direction == DOWN)
+		m_bodyFixtureDef.userData = "moveDown";
 
 	m_body = wWorld->CreateBody(&m_bodyDef);
 	m_body->CreateFixture(&m_bodyFixtureDef);
@@ -65,6 +71,14 @@ MovingPlatform::MovingPlatform(SDL_Rect pRect, b2World* wWorld, int dir)
 }
 
 void MovingPlatform::Update()
+{
+	if (leftRight)
+		MoveLeftRightPlatform();
+	else
+		MoveUpDownPlatform();
+}
+
+void MovingPlatform::MoveLeftRightPlatform()
 {
 	//
 	if (m_body->GetLinearVelocity().x != 2 || m_body->GetLinearVelocity().x != -2)
@@ -89,7 +103,7 @@ void MovingPlatform::Update()
 			if (((a->GetUserData() == "moveLeft") ||
 				(b->GetUserData() == "moveLeft")))
 			{
-				m_body->SetLinearVelocity(b2Vec2(0.5f, 0));
+				m_body->SetLinearVelocity(b2Vec2(5, 0));
 			}
 		}
 		if (a->IsSensor() || b->IsSensor())
@@ -97,13 +111,53 @@ void MovingPlatform::Update()
 			if (((a->GetUserData() == "moveRight") ||
 				(b->GetUserData() == "moveRight")))
 			{
-				m_body->SetLinearVelocity(b2Vec2(-0.5f, 0));
+				m_body->SetLinearVelocity(b2Vec2(-5, 0));
 			}
 		}
 	}
 
 	m_sprite.SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+}
 
+void MovingPlatform::MoveUpDownPlatform()
+{
+	//
+	if (m_body->GetLinearVelocity().y != 1 || m_body->GetLinearVelocity().y != -1)
+	{
+		int direction = 0;
+		if (m_body->GetLinearVelocity().y < 0)
+			direction = -1;
+		else
+			direction = 1;
+
+		m_body->SetLinearVelocity(b2Vec2(0, 1 * direction));
+	}
+
+	//
+	for (b2ContactEdge* edge = m_body->GetContactList(); edge; edge = edge->next)
+	{
+		b2Fixture* a = edge->contact->GetFixtureA();
+		b2Fixture* b = edge->contact->GetFixtureB();
+
+		if (a->IsSensor() || b->IsSensor())
+		{
+			if (((a->GetUserData() == "moveDown") ||
+				(b->GetUserData() == "moveDown")))
+			{
+				m_body->SetLinearVelocity(b2Vec2(0, 1));
+			}
+		}
+		if (a->IsSensor() || b->IsSensor())
+		{
+			if (((a->GetUserData() == "moveUp") ||
+				(b->GetUserData() == "moveUp")))
+			{
+				m_body->SetLinearVelocity(b2Vec2(0, -1));
+			}
+		}
+	}
+
+	m_sprite.SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 }
 
 void MovingPlatform::Draw()
@@ -134,4 +188,9 @@ std::string MovingPlatform::GetType()
 b2Body* MovingPlatform::GetBody()
 {
 	return m_body;
+}
+
+bool MovingPlatform::IsLeftRight()
+{
+	return leftRight;
 }

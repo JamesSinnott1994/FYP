@@ -24,8 +24,9 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	// Collision Filtering
 	short GROUP_PLAYER = -2;
 	short GROUP_GRUNT = -2;
+	short GROUP_BARRIER = -2;
 
-	m_bodyFixtureDef.filter.groupIndex = GROUP_GRUNT;
+	m_bodyFixtureDef.filter.groupIndex = GROUP_BARRIER;
 
 	m_body->CreateFixture(&m_bodyFixtureDef);
 
@@ -201,8 +202,11 @@ void Player::Update()
 	else
 	{
 		// Cannot jump
-		m_canJump = false;
-		m_bodyFixtureDef.friction = 0;
+		if (!collidingWithMovingPlat)
+		{
+			m_canJump = false;
+			m_bodyFixtureDef.friction = 0;
+		}
 	}
 
 	// Out of bounds from falling
@@ -346,10 +350,6 @@ void Player::CheckCollisions()
 	{
 		collidingWithMovingPlat = false;
 	}
-
-	//CheckBulletGruntCollision();
-
-	//cout << (m_rect.x + m_rect.w) << endl;
 }
 
 bool Player::CheckScoreCollision()
@@ -399,7 +399,7 @@ void Player::Move()
 		}
 		else
 		{
-			m_body->SetLinearVelocity(b2Vec2(PlatformManager::GetInstance()->xSpeedOfMovingPlatform - 2, m_body->GetLinearVelocity().y - 0.000001f));
+			m_body->SetLinearVelocity(b2Vec2(PlatformManager::GetInstance()->xSpeedOfMovingPlatform - 2, PlatformManager::GetInstance()->ySpeedOfMovingPlatform));
 		}
 
 		// Change sprite image if not already moving left
@@ -434,7 +434,7 @@ void Player::Move()
 		}
 		else
 		{
-			m_body->SetLinearVelocity(b2Vec2(PlatformManager::GetInstance()->xSpeedOfMovingPlatform + 2, m_body->GetLinearVelocity().y - 0.000001f));
+			m_body->SetLinearVelocity(b2Vec2(PlatformManager::GetInstance()->xSpeedOfMovingPlatform + 2, PlatformManager::GetInstance()->ySpeedOfMovingPlatform));
 		}
 
 		// Change sprite image if not already moving right
@@ -484,20 +484,29 @@ void Player::Move()
 		if (!collidingWithMovingPlat)
 		{
 			m_body->SetLinearVelocity(b2Vec2{ 0, m_body->GetLinearVelocity().y });
-			//cout << "Here" << endl;
+			m_canJump = false;
 		}
 		else
 		{
-			m_body->SetLinearVelocity(b2Vec2(PlatformManager::GetInstance()->xSpeedOfMovingPlatform, m_body->GetLinearVelocity().y));
-			//cout << "Here2" << endl;
+			m_body->SetLinearVelocity(b2Vec2(PlatformManager::GetInstance()->xSpeedOfMovingPlatform, PlatformManager::GetInstance()->ySpeedOfMovingPlatform));
+			m_canJump = true;
 		}
 	}
 }
 
 void Player::Jump()
 {
-	float impulse = -1 * 6.0f;
-	m_body->ApplyLinearImpulse(b2Vec2(0, impulse), m_body->GetWorldCenter(), true);
+	if (!collidingWithMovingPlat)
+	{
+		float impulse = -1 * 6.0f;
+		m_body->ApplyLinearImpulse(b2Vec2(0, impulse), m_body->GetWorldCenter(), true);
+	}
+	else
+	{
+		m_body->SetLinearVelocity(b2Vec2{ m_body->GetLinearVelocity().x, 0 });
+		float impulse = -1 * 6.0f;
+		m_body->ApplyLinearImpulse(b2Vec2(0, impulse), m_body->GetWorldCenter(), true);
+	}
 }
 
 void Player::Shoot()

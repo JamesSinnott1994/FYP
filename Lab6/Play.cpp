@@ -267,10 +267,11 @@ void Play::LevelComplete()
 	string levelText = "Text/Level" + to_string(level->GetLevelNum()) + ".txt";
 	level->LoadLevel(levelText, world, whichSpeed, m_width, m_height);
 
-	m_backGroundImage->Init("Images/space2.png", SDL_Rect{ 0, 0, m_width * 2, m_height }, SDL_Rect{ 0, 0, 2560, 1024 });
+	string imagePath = "Images/space" + to_string(level->GetLevelNum()) + ".png";
+	m_backGroundImage->Init(imagePath, SDL_Rect{ 0, 0, m_width * 2, m_height }, SDL_Rect{ 0, 0, 2560, 1024 });
 
 	m_player->SetReachedTeleporter(false);
-	levelComplete = true;
+	levelComplete = false;
 
 	loadTTFMedia();
 }

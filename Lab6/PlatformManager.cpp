@@ -36,12 +36,12 @@ void PlatformManager::addPlatform(SDL_Rect pRect, b2World* world, string type)
 	m_platforms.push_back(temp);
 }
 
-void PlatformManager::addMovingPlatform(SDL_Rect pRect, b2World* world, string type)
+void PlatformManager::addMovingPlatform(SDL_Rect pRect, b2World* world, string type, bool pLeftRight)
 {
 	m_movingPlatformTexture = Sprite::loadTexture("Images/platform.png", Renderer::GetInstance()->Get_SDL_RENDERER());
 	m_movingPlatformSource = { 0, 0, 106, 29 };
 
-	MovingPlatform* temp = new MovingPlatform(m_movingPlatformTexture, pRect, world, m_movingPlatformSource, type);
+	MovingPlatform* temp = new MovingPlatform(m_movingPlatformTexture, pRect, world, m_movingPlatformSource, type, pLeftRight);
 
 	m_movingPlatforms.push_back(temp);
 }
@@ -80,10 +80,19 @@ bool PlatformManager::CheckCollision(b2Body*playerBody)
 		if (mPlat->CheckCollision(playerBody) && mPlat->GetType() == "platform")
 		{
 			xSpeedOfMovingPlatform = mPlat->GetBody()->GetLinearVelocity().x;
+			ySpeedOfMovingPlatform = mPlat->GetBody()->GetLinearVelocity().y;
 			return true;
 		}
 	}
 	return false;
+}
+
+bool PlatformManager::IsLeftRight()
+{
+	for each (MovingPlatform* mPlat in m_movingPlatforms)
+	{
+		return mPlat->IsLeftRight();
+	}
 }
 
 void PlatformManager::Destroy()

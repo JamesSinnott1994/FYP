@@ -15,7 +15,7 @@ public:
 	}
 
 	void addPlatform(SDL_Rect pRect, b2World* world, string type);
-	void addMovingPlatform(SDL_Rect pRect, b2World* world, string type);
+	void addMovingPlatform(SDL_Rect pRect, b2World* world, string type, bool pLeftRight);
 	void addMovePlatSensor(SDL_Rect pRect, b2World* world, int dir);
 
 	void Draw();
@@ -23,8 +23,10 @@ public:
 	void Destroy();
 
 	bool CheckCollision(b2Body*);
+	bool IsLeftRight();
 
 	int xSpeedOfMovingPlatform;
+	int ySpeedOfMovingPlatform;
 
 private:
 	PlatformManager()

@@ -42,20 +42,35 @@ void Level::LoadLevel(string name, b2World* world, string speedType, int width, 
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE*3, SCALE };
 				PlatformManager::GetInstance()->addPlatform(temp, world, "bottomPlatform");
 			}
-			else if (c == 'm')// 'm' for moving platform
+			else if (c == 'm')// 'm' for moving platform LEFT & RIGHT
 			{
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE * 3, SCALE };
-				PlatformManager::GetInstance()->addMovingPlatform(temp, world, speedType);
+				PlatformManager::GetInstance()->addMovingPlatform(temp, world, speedType, true);
 			}
-			if (c == 'l')// 'l' for left sensor, used for stopping moving platform
+			else if (c == 'D')// 'D' for moving platform UP & DOWN
+			{
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE * 3, SCALE };
+				PlatformManager::GetInstance()->addMovingPlatform(temp, world, speedType, false);
+			}
+			else if (c == 'l')// 'l' for left sensor, used for stopping moving platform
 			{
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
 				PlatformManager::GetInstance()->addMovePlatSensor(temp, world, 2);
 			}
-			if (c == 'r')// 'r' for left sensor, used for stopping moving platform
+			else if (c == 'r')// 'r' for left sensor, used for stopping moving platform
 			{
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
 				PlatformManager::GetInstance()->addMovePlatSensor(temp, world, 1);
+			}
+			else if (c == 'u')// 'b' for up sensor, used for stopping moving platform
+			{
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
+				PlatformManager::GetInstance()->addMovePlatSensor(temp, world, 3);
+			}
+			else if (c == 'd')// 't' for down sensor, used for stopping moving platform
+			{
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
+				PlatformManager::GetInstance()->addMovePlatSensor(temp, world, 4);
 			}
 			else if (c == 'S')// 'S' for score
 			{
