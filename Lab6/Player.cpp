@@ -33,7 +33,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	// Player Initial idle sprite
 	m_playerIdleSprite = new Sprite();
 	m_source = { 0, 0, 77, 107 };
-	m_playerIdleSprite->Init("Images/PlayerIdleRight.png", m_rect, m_source);
+	m_playerIdleSprite->Init("Images/Player/PlayerIdleRight.png", m_rect, m_source);
 	m_playerIdleSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h/2 });
 	m_idle = true;
 	m_drawn = true;
@@ -45,7 +45,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	// Player running animation
 	m_playerRunningSprite = new Sprite();
 	m_source = { 0, 0, 912, 107 };
-	m_playerRunningSprite->Init("Images/PlayerRunningRight.png", pRect, m_source);
+	m_playerRunningSprite->Init("Images/Player/PlayerRunningRight.png", pRect, m_source);
 	m_playerRunningSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
 	m_runningFrames = 0;
 	m_runningAnimationTime = 0;
@@ -77,7 +77,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	m_bloodSprite = new Sprite();
 	m_source = { 0, 0, 3072, 512 };
 	SDL_Rect bloodRect;
-	m_bloodSprite->Init("Images/BloodSplatter.png", pRect, m_source);
+	m_bloodSprite->Init("Images/Player/BloodSplatter.png", pRect, m_source);
 	m_bloodSprite->SetOffset(SDL_Point{ 38.5f, 53.5f });
 	m_bloodFrames = 0;
 	m_bloodAnimationTime = 0;
@@ -228,14 +228,14 @@ void Player::Update()
 		if (m_movingLeft && !m_drawn)
 		{
 			m_source = { 0, 0, 77, 107 };
-			m_playerIdleSprite->Init("Images/PlayerIdleLeft.png", m_rect, m_source);
+			m_playerIdleSprite->Init("Images/Player/PlayerIdleLeft.png", m_rect, m_source);
 			m_playerIdleSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
 			m_drawn = true;
 		}
 		else if (m_movingRight && !m_drawn)
 		{
 			m_source = { 0, 0, 77, 107 };
-			m_playerIdleSprite->Init("Images/PlayerIdleRight.png", m_rect, m_source);
+			m_playerIdleSprite->Init("Images/Player/PlayerIdleRight.png", m_rect, m_source);
 			m_playerIdleSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
 			m_drawn = true;
 		}
@@ -407,7 +407,7 @@ void Player::Move()
 		if (!m_movingLeft)
 		{
 			m_source = { 0, 0, 912, 107 };
-			m_playerRunningSprite->Init("Images/PlayerRunningLeft.png", m_rect, m_source);
+			m_playerRunningSprite->Init("Images/Player/PlayerRunningLeft.png", m_rect, m_source);
 			m_playerRunningSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
 		}
 
@@ -442,7 +442,7 @@ void Player::Move()
 		if (!m_movingRight)
 		{
 			m_source = { 0, 3, 912, 107 };
-			m_playerRunningSprite->Init("Images/PlayerRunningRight.png", m_rect, m_source);
+			m_playerRunningSprite->Init("Images/Player/PlayerRunningRight.png", m_rect, m_source);
 			m_playerRunningSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
 		}
 
@@ -512,7 +512,7 @@ void Player::Jump()
 
 void Player::Shoot()
 {
-	SDL_Texture* m_bulletTexture = Sprite::loadTexture("Images/Bullet.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+	SDL_Texture* m_bulletTexture = Sprite::loadTexture("Images/Player/Bullet.png", Renderer::GetInstance()->Get_SDL_RENDERER());
 	SDL_Rect m_bulletSource = { 0, 0, 63, 64 };
 	SDL_Rect m_bulletPos;
 

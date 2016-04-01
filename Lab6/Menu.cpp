@@ -5,7 +5,7 @@ Menu::Menu(int windowWidth, int windowHeight)
 {
 	// Create background image
 	m_backGroundImage = new Sprite();
-	m_backGroundImage->Init("Images/MainMenuBackground.png",
+	m_backGroundImage->Init("Images/Menu/MainMenuBackground.png",
 		SDL_Rect{ windowWidth / 2, windowHeight / 2, windowWidth, windowHeight }, SDL_Rect{ 0, 0, 1280, 960 });
 	m_backGroundImage->SetOffset(SDL_Point{ windowWidth / 2, windowHeight / 2 });
 
@@ -15,7 +15,7 @@ Menu::Menu(int windowWidth, int windowHeight)
 	float playBtnXPos = windowWidth / 2 - (playBtnWidth / 2);
 	float playBtnYPos = windowHeight - playBtnHeight;
 	m_playButton.Init(SDL_Rect{ playBtnXPos, playBtnYPos, playBtnWidth, playBtnHeight },
-		SDL_Rect{ 0, 0, 167, 144 }, "Images/PlayBtnNotOver.png");
+		SDL_Rect{ 0, 0, 167, 144 }, "Images/Menu/PlayBtnNotOver.png");
 
 	// Create Options button
 	float optionsBtnWidth = 229;
@@ -23,7 +23,7 @@ Menu::Menu(int windowWidth, int windowHeight)
 	float optionsBtnXPos = windowWidth / 5 - (optionsBtnWidth / 2);
 	float optionsBtnYPos = windowHeight - optionsBtnHeight;
 	m_optionsButton.Init(SDL_Rect{ optionsBtnXPos, optionsBtnYPos, optionsBtnWidth, optionsBtnHeight },
-		SDL_Rect{ 0, 0, 229, 62 }, "Images/OptionsBtnNotOver.png");
+		SDL_Rect{ 0, 0, 229, 62 }, "Images/Menu/OptionsBtnNotOver.png");
 
 	// Create Exit button
 	float exitBtnWidth = 127;
@@ -31,7 +31,7 @@ Menu::Menu(int windowWidth, int windowHeight)
 	float exitBtnXPos = windowWidth - (exitBtnWidth * 2);
 	float exitBtnYPos = windowHeight - exitBtnHeight;
 	m_exitButton.Init(SDL_Rect{ exitBtnXPos, exitBtnYPos, exitBtnWidth, exitBtnHeight },
-		SDL_Rect{ 0, 0, 127, 62 }, "Images/ExitBtnNotOver.png");
+		SDL_Rect{ 0, 0, 127, 62 }, "Images/Menu/ExitBtnNotOver.png");
 
 	// Prevents constant draw when over buttons
 	m_playImageOver = false;
@@ -62,7 +62,7 @@ int Menu::Update(SDL_Event e)
 		if (!m_playImageOver)
 		{
 			m_playButton.Init(SDL_Rect{ m_playButton.GetRectangle().x, m_playButton.GetRectangle().y, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h },
-				SDL_Rect{ 0, 0, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h }, "Images/PlayBtnOver.png");
+				SDL_Rect{ 0, 0, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h }, "Images/Menu/PlayBtnOver.png");
 		}
 		m_playImageOver = true;
 	}
@@ -71,7 +71,7 @@ int Menu::Update(SDL_Event e)
 		if (m_playImageOver)
 		{
 			m_playButton.Init(SDL_Rect{ m_playButton.GetRectangle().x, m_playButton.GetRectangle().y, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h },
-				SDL_Rect{ 0, 0, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h }, "Images/PlayBtnNotOver.png");
+				SDL_Rect{ 0, 0, m_playButton.GetRectangle().w, m_playButton.GetRectangle().h }, "Images/Menu/PlayBtnNotOver.png");
 		}
 		m_playImageOver = false;
 	}
@@ -85,7 +85,7 @@ int Menu::Update(SDL_Event e)
 		if (!m_optionsImageOver)
 		{
 			m_optionsButton.Init(SDL_Rect{ m_optionsButton.GetRectangle().x, m_optionsButton.GetRectangle().y, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h },
-				SDL_Rect{ 0, 0, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h }, "Images/OptionsBtnOver.png");
+				SDL_Rect{ 0, 0, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h }, "Images/Menu/OptionsBtnOver.png");
 		}
 		m_optionsImageOver = true;
 	}
@@ -94,7 +94,7 @@ int Menu::Update(SDL_Event e)
 		if (m_optionsImageOver)
 		{
 			m_optionsButton.Init(SDL_Rect{ m_optionsButton.GetRectangle().x, m_optionsButton.GetRectangle().y, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h },
-				SDL_Rect{ 0, 0, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h }, "Images/OptionsBtnNotOver.png");
+				SDL_Rect{ 0, 0, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h }, "Images/Menu/OptionsBtnNotOver.png");
 		}
 		m_optionsImageOver = false;
 	}
@@ -108,7 +108,7 @@ int Menu::Update(SDL_Event e)
 		if (!m_exitImageOver)
 		{
 			m_exitButton.Init(SDL_Rect{ m_exitButton.GetRectangle().x, m_exitButton.GetRectangle().y, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h },
-				SDL_Rect{ 0, 0, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h }, "Images/ExitBtnOver.png");
+				SDL_Rect{ 0, 0, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h }, "Images/Menu/ExitBtnOver.png");
 		}
 		m_exitImageOver = true;
 	}
@@ -117,7 +117,7 @@ int Menu::Update(SDL_Event e)
 		if (m_exitImageOver)
 		{
 			m_exitButton.Init(SDL_Rect{ m_exitButton.GetRectangle().x, m_exitButton.GetRectangle().y, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h },
-				SDL_Rect{ 0, 0, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h }, "Images/ExitBtnNotOver.png");
+				SDL_Rect{ 0, 0, m_exitButton.GetRectangle().w, m_exitButton.GetRectangle().h }, "Images/Menu/ExitBtnNotOver.png");
 		}
 		m_exitImageOver = false;
 	}

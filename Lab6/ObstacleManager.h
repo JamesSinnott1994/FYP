@@ -33,17 +33,17 @@ private:
 	{
 		// Mines
 		m_mines = list<Mine*>();
-		m_mineTexture = Sprite::loadTexture("Images/Mine.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+		m_mineTexture = Sprite::loadTexture("Images/Obstacles/Mine.png", Renderer::GetInstance()->Get_SDL_RENDERER());
 		m_mineSource = { 0, 0, 28, 24 };
 
 		// Electric barriers
 		m_barriers = list<ElectricBarrier*>();
-		m_barrierTexture = Sprite::loadTexture("Images/ElectricBarrier.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+		m_barrierTexture = Sprite::loadTexture("Images/Obstacles/ElectricBarrier.png", Renderer::GetInstance()->Get_SDL_RENDERER());
 		m_barrierSource = { 0, 0, 422, 202 };
 
 		// Electric switches
 		m_switches = list<ElectricSwitch*>();
-		m_switchTexture = Sprite::loadTexture("Images/OnSwitch.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+		m_switchTexture = Sprite::loadTexture("Images/Obstacles/OnSwitch.png", Renderer::GetInstance()->Get_SDL_RENDERER());
 		m_switchSource = { 0, 0, 180, 216 };
 	}
 

@@ -5,7 +5,7 @@ EnterNameScreen::EnterNameScreen(int windowWidth, int windowHeight)
 {
 	// Create background image
 	m_backGroundImage = new Sprite();
-	m_backGroundImage->Init("Images/space.png",
+	m_backGroundImage->Init("Images/Backgrounds/space.png",
 		SDL_Rect{ windowWidth / 2, windowHeight / 2, windowWidth, windowHeight }, SDL_Rect{ 0, 0, 600, 360 });
 	m_backGroundImage->SetOffset(SDL_Point{ windowWidth / 2, windowHeight / 2 });
 

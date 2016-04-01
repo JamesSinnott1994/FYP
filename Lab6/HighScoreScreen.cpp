@@ -20,7 +20,7 @@ HighScoreScreen::HighScoreScreen(int windowWidth, int windowHeight)
 {
 	// Create background image
 	m_backGroundImage = new Sprite();
-	m_backGroundImage->Init("Images/space2.png",
+	m_backGroundImage->Init("Images/Backgrounds/space2.png",
 		SDL_Rect{ windowWidth / 2, windowHeight / 2, windowWidth, windowHeight }, SDL_Rect{ 0, 0, 2560, 1024 });
 	m_backGroundImage->SetOffset(SDL_Point{ windowWidth / 2, windowHeight / 2 });
 

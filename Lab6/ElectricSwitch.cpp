@@ -5,8 +5,8 @@ ElectricSwitch::ElectricSwitch(){}
 
 ElectricSwitch::ElectricSwitch(SDL_Texture* text, SDL_Rect pRect, b2World *wWorld, SDL_Rect src, int id)
 {
-	onTexture = Sprite::loadTexture("Images/OnSwitch.png", Renderer::GetInstance()->Get_SDL_RENDERER());
-	offTexture = Sprite::loadTexture("Images/OffSwitch.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+	onTexture = Sprite::loadTexture("Images/Obstacles/OnSwitch.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+	offTexture = Sprite::loadTexture("Images/Obstacles/OffSwitch.png", Renderer::GetInstance()->Get_SDL_RENDERER());
 
 	myRect = pRect;
 
@@ -64,7 +64,7 @@ bool ElectricSwitch::CheckCollision(b2Body* playerBody)
 	if (collided && m_on)
 	{
 		SDL_Rect m_source = { 0, 0, 180, 216 };
-		sprite.Init("Images/OffSwitch.png", myRect, m_source);
+		sprite.Init("Images/Obstacles/OffSwitch.png", myRect, m_source);
 		sprite.SetOffset(SDL_Point{ myRect.w / 2, myRect.h / 2 });
 		m_on = false;
 	}

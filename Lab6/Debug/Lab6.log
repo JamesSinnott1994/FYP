@@ -1,26 +1,9 @@
-﻿Build started 01/04/2016 13:52:02.
+﻿Build started 01/04/2016 15:11:19.
      1>Project "C:\Users\Windows 8\Desktop\master\FYP\Lab6\Lab6.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I./ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CURL_STATICLIB /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ElectricBarrier.cpp Player.cpp
-         Player.cpp
-     1>c:\users\windows 8\desktop\master\fyp\lab6\player.cpp(18): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
-     1>c:\users\windows 8\desktop\master\fyp\lab6\player.cpp(21): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
-     1>c:\users\windows 8\desktop\master\fyp\lab6\player.cpp(81): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\master\fyp\lab6\player.cpp(79): warning C4101: 'bloodRect' : unreferenced local variable
-     1>c:\users\windows 8\desktop\master\fyp\lab6\player.cpp(245): warning C4244: '=' : conversion from 'const float32' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\master\fyp\lab6\player.cpp(246): warning C4244: '=' : conversion from 'const float32' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\master\fyp\lab6\player.cpp(403): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
-     1>c:\users\windows 8\desktop\master\fyp\lab6\player.cpp(438): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
-     1>c:\users\windows 8\desktop\master\fyp\lab6\player.cpp(492): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
-     1>c:\users\windows 8\desktop\master\fyp\lab6\player.cpp(520): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\master\fyp\lab6\player.cpp(522): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\master\fyp\lab6\player.cpp(533): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
-     1>c:\users\windows 8\desktop\master\fyp\lab6\player.cpp(546): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
-     1>c:\users\windows 8\desktop\master\fyp\lab6\player.cpp(556): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
-         ElectricBarrier.cpp
-     1>c:\users\windows 8\desktop\master\fyp\lab6\electricbarrier.cpp(11): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
-     1>c:\users\windows 8\desktop\master\fyp\lab6\electricbarrier.cpp(16): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
-         Generating Code...
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I./ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CURL_STATICLIB /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Level.cpp
+         Level.cpp
+     1>c:\users\windows 8\desktop\master\fyp\lab6\level.h(9): warning C4067: unexpected tokens following preprocessor directive - expected a newline
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Windows 8\Desktop\master\FYP\Debug\Lab6.exe" /INCREMENTAL /NOLOGO /LIBPATH:./lib Box2D.lib SDL2main.lib SDL2_image.lib SDL2_mixer.lib SDL2.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libcurl.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Windows 8\Desktop\master\FYP\Debug\Lab6.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Windows 8\Desktop\master\FYP\Debug\Lab6.lib" /MACHINE:X86 Debug\Bullet.obj
          Debug\Button.obj
@@ -38,6 +21,7 @@
          Debug\Instructions.obj
          Debug\KeyBoardInput.obj
          Debug\Level.obj
+         Debug\MachineGun.obj
          Debug\main.obj
          Debug\Menu.obj
          Debug\Mine.obj
@@ -65,4 +49,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:07.48
+Time Elapsed 00:00:05.43

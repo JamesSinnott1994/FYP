@@ -5,7 +5,7 @@ Options::Options(int windowWidth, int windowHeight)
 {
 	// Create background image
 	m_backGroundImage = new Sprite();
-	m_backGroundImage->Init("Images/space.png",
+	m_backGroundImage->Init("Images/Backgrounds/space.png",
 		SDL_Rect{ windowWidth / 2, windowHeight / 2, windowWidth, windowHeight }, SDL_Rect{ 0, 0, 1280, 960 });
 	m_backGroundImage->SetOffset(SDL_Point{ windowWidth / 2, windowHeight / 2 });
 
@@ -17,7 +17,7 @@ Options::Options(int windowWidth, int windowHeight)
 	float backBtnXPos = windowWidth - (backBtnWidth);
 	float backBtnYPos = windowHeight - backBtnHeight;
 	m_backButton.Init(SDL_Rect{ backBtnXPos, backBtnYPos, backBtnWidth, backBtnHeight },
-		SDL_Rect{ 0, 0, 167, 144 }, "Images/BackButton.png");
+		SDL_Rect{ 0, 0, 167, 144 }, "Images/Menu/BackButton.png");
 
 	// Create Sound On Selected button
 	float onBtnWidth = 169;
@@ -27,7 +27,7 @@ Options::Options(int windowWidth, int windowHeight)
 	float onBtnXPos = windowWidth / 2 - (onBtnWidth / 2);
 	float onBtnYPos = (windowHeight * 0.5f) - onBtnHeight;
 	m_onBtnSelected.Init(SDL_Rect{ onBtnXPos, onBtnYPos, onBtnWidth, onBtnHeight },
-		SDL_Rect{ 0, 0, 167, 144 }, "Images/OnBtnSelected.png");
+		SDL_Rect{ 0, 0, 167, 144 }, "Images/Menu/OnBtnSelected.png");
 
 	// Create Sound On Not Selected button
 	float onBtnWidth2 = 169;
@@ -37,7 +37,7 @@ Options::Options(int windowWidth, int windowHeight)
 	float onBtnXPos2 = windowWidth / 2 - (onBtnWidth2 / 2);
 	float onBtnYPos2 = (windowHeight * 0.5f) - onBtnHeight2;
 	m_onBtnNotSelected.Init(SDL_Rect{ onBtnXPos2, onBtnYPos2, onBtnWidth2, onBtnHeight2 },
-		SDL_Rect{ 0, 0, 167, 144 }, "Images/OnBtnNotSelected.png");
+		SDL_Rect{ 0, 0, 167, 144 }, "Images/Menu/OnBtnNotSelected.png");
 
 	// Create Sound Off Selected button
 	float offBtnWidth = 169;
@@ -47,7 +47,7 @@ Options::Options(int windowWidth, int windowHeight)
 	float offBtnXPos = (windowWidth * 0.605f) - (offBtnWidth / 2);
 	float offBtnYPos = (windowHeight * 0.5f) - offBtnHeight;
 	m_offBtnSelected.Init(SDL_Rect{ offBtnXPos, offBtnYPos, offBtnWidth, offBtnHeight },
-		SDL_Rect{ 0, 0, 167, 144 }, "Images/OffBtnSelected.png");
+		SDL_Rect{ 0, 0, 167, 144 }, "Images/Menu/OffBtnSelected.png");
 
 	// Create Sound Off Not Selected button
 	float offBtnWidth2 = 169;
@@ -57,7 +57,7 @@ Options::Options(int windowWidth, int windowHeight)
 	float offBtnXPos2 = (windowWidth * 0.605f) - (offBtnWidth2 / 2);
 	float offBtnYPos2 = (windowHeight * 0.5f) - offBtnHeight2;
 	m_offBtnNotSelected.Init(SDL_Rect{ offBtnXPos2, offBtnYPos2, offBtnWidth2, offBtnHeight2 },
-		SDL_Rect{ 0, 0, 167, 144 }, "Images/OffBtnNotSelected.png");
+		SDL_Rect{ 0, 0, 167, 144 }, "Images/Menu/OffBtnNotSelected.png");
 
 	// Boolean for sound
 	onBtnSelected = true;
@@ -139,17 +139,6 @@ void Options::Draw()
 		m_onBtnNotSelected.Draw();
 		m_offBtnSelected.Draw();
 	}
-	/*if (onBtnSelected)
-	{
-		m_onBtnSelected.Draw();
-		m_offBtnNotSelected.Draw();
-	}
-	else
-	{
-		m_onBtnNotSelected.Draw();
-		m_offBtnSelected.Draw();
-	}*/
-
 	soundText.render(width * 0.15f, height * 0.5f - soundText.getHeight());
 
 	Renderer::GetInstance()->RenderScreen();

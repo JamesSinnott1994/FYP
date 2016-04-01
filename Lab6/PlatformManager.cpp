@@ -22,12 +22,12 @@ void PlatformManager::addPlatform(SDL_Rect pRect, b2World* world, string type)
 {
 	if (type == "topPlatform")
 	{
-		m_platformTexture = Sprite::loadTexture("Images/platform.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+		m_platformTexture = Sprite::loadTexture("Images/LevelEntities/platform.png", Renderer::GetInstance()->Get_SDL_RENDERER());
 		m_platformSource = { 0, 0, 106, 29 };
 	}
 	else
 	{
-		m_platformTexture = Sprite::loadTexture("Images/bottomPlatform.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+		m_platformTexture = Sprite::loadTexture("Images/LevelEntities/bottomPlatform.png", Renderer::GetInstance()->Get_SDL_RENDERER());
 		m_platformSource = { 0, 0, 106, 29 };
 	}
 
@@ -38,7 +38,7 @@ void PlatformManager::addPlatform(SDL_Rect pRect, b2World* world, string type)
 
 void PlatformManager::addMovingPlatform(SDL_Rect pRect, b2World* world, string type, bool pLeftRight)
 {
-	m_movingPlatformTexture = Sprite::loadTexture("Images/platform.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+	m_movingPlatformTexture = Sprite::loadTexture("Images/LevelEntities/platform.png", Renderer::GetInstance()->Get_SDL_RENDERER());
 	m_movingPlatformSource = { 0, 0, 106, 29 };
 
 	MovingPlatform* temp = new MovingPlatform(m_movingPlatformTexture, pRect, world, m_movingPlatformSource, type, pLeftRight);

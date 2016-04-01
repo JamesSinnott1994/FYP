@@ -153,6 +153,9 @@
     <ClCompile Include="MovingPlatform.cpp">
       <Filter>Source Files\Platform/Wall</Filter>
     </ClCompile>
+    <ClCompile Include="MachineGun.cpp">
+      <Filter>Source Files\Pickups</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -268,6 +271,9 @@
     </ClInclude>
     <ClInclude Include="MovingPlatform.h">
       <Filter>Header Files\Platform/Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="MachineGun.h">
+      <Filter>Header Files\Pickups</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

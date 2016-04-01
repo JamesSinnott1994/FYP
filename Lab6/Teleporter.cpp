@@ -41,7 +41,7 @@ void Teleporter::Init(SDL_Rect pRect, b2World *pWorld, string speedType)
 	// The body is also added to the world.
 	m_body = pWorld->CreateBody(&m_bodyDef);
 
-	m_texture = Sprite::loadTexture("Images/TeleporterAnimation.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+	m_texture = Sprite::loadTexture("Images/LevelEntities/TeleporterAnimation.png", Renderer::GetInstance()->Get_SDL_RENDERER());
 	m_source = { 0, 0, 1491, 236 };
 
 	// Add the ground fixture to the ground body.

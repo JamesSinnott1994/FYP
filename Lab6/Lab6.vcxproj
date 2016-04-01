@@ -88,6 +88,7 @@
     <ClCompile Include="Instructions.cpp" />
     <ClCompile Include="KeyBoardInput.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="MachineGun.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Mine.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="Instructions.h" />
     <ClInclude Include="KeyBoardInput.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="MachineGun.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Mine.h" />
     <ClInclude Include="MovingPlatform.h" />

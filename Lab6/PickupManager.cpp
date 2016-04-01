@@ -29,6 +29,8 @@ void PickupManager::Draw()
 	{
 		health->Draw();
 	}
+
+	m_machineGun->Draw();
 }
 
 void PickupManager::Update()
@@ -89,6 +91,11 @@ void PickupManager::addHealthPickups(SDL_Rect pRect, b2World* world)
 	Health* temp = new Health(m_healthTexture, pRect, world, m_healthSource);
 
 	m_healthPickups.push_back(temp);
+}
+
+void PickupManager::addMachineGun(SDL_Rect pRect, b2World* world)
+{
+	m_machineGun = new MachineGun(m_machineGunTexture, pRect, world, m_machineGunSource);
 }
 
 bool PickupManager::CheckScoreCollision(b2Body*playerBody)

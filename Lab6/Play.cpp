@@ -33,7 +33,7 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 
 	// Load background image
 	m_backGroundImage = new Sprite();
-	m_backGroundImage->Init("Images/space.png", SDL_Rect{ 0, 0, m_width * 2, m_height }, SDL_Rect{ 0, 0, 600, 360 });
+	m_backGroundImage->Init("Images/Backgrounds/space.png", SDL_Rect{ 0, 0, m_width * 2, m_height }, SDL_Rect{ 0, 0, 600, 360 });
 
 	// Load level
 	level = new Level();
@@ -267,7 +267,7 @@ void Play::LevelComplete()
 	string levelText = "Text/Level" + to_string(level->GetLevelNum()) + ".txt";
 	level->LoadLevel(levelText, world, whichSpeed, m_width, m_height);
 
-	string imagePath = "Images/space" + to_string(level->GetLevelNum()) + ".png";
+	string imagePath = "Images/Backgrounds/space" + to_string(level->GetLevelNum()) + ".png";
 	m_backGroundImage->Init(imagePath, SDL_Rect{ 0, 0, m_width * 2, m_height }, SDL_Rect{ 0, 0, 2560, 1024 });
 
 	m_player->SetReachedTeleporter(false);
