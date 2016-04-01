@@ -32,8 +32,6 @@ public:
 	void LevelComplete();
 	void FinishedLevel();
 
-	void CheckCollisions();
-
 	void SpriteClips();
 
 	b2Body* getBody();
@@ -53,6 +51,8 @@ public:
 	bool HasMachineGun();
 	void SetHasMachineGun(bool myMachineGun);
 
+	void ToggleWeapons();
+
 	// Alive
 	bool GetAlive();
 	void SetAlive(bool);
@@ -66,7 +66,9 @@ public:
 	bool GetReachedTeleporter();
 	void SetReachedTeleporter(bool);
 
-	//bool CheckBulletGruntCollision();
+	// Collision Checks
+	#pragma region Collision Checks
+	void CheckCollisions();
 	bool CheckScoreCollision();
 	bool CheckHealthCollision();
 	bool CheckMineCollision();
@@ -75,6 +77,8 @@ public:
 	bool CheckTeleporterCollision();
 	bool CheckMovingPlatformCollision();
 	bool CheckMachineGunCollision();
+	#pragma endregion
+
 private:
 	SDL_Rect m_rect;
 	SDL_Rect m_startRect;
@@ -88,6 +92,7 @@ private:
 
 	// Idle sprite
 	Sprite* m_playerIdleSprite;
+	Sprite* m_playerIdleMachineGunSprite;
 	bool m_idle;
 	bool m_drawn;
 
@@ -103,6 +108,18 @@ private:
 	int m_runningAnimationLimitLab;
 	int m_runningAnimationLimitLaptop;
 	bool m_running;
+
+	// Machine gun running animation
+	Sprite* m_playerRunningMGSprite;
+	const int RUNNING_MG_ANIMATION_FRAMES = 5;
+	SDL_Rect gSpriteRunningMGClipsRight[5];
+	SDL_Rect gSpriteRunningMGClipsLeft[5];
+	SDL_Rect* currentRunnerMGClip;
+	int m_runningMGFrames;
+	int m_runningMGAnimationTime;
+	int m_runningMGAnimationLimit;
+	int m_runningMGAnimationLimitLab;
+	int m_runningMGAnimationLimitLaptop;
 
 	// Blood splatter
 	Sprite* m_bloodSprite;
@@ -132,6 +149,7 @@ private:
 
 	// Machine gun
 	bool m_hasMachineGun;
+	bool m_machineGunEquipped;
 
 	// Bullets
 	list<Bullet*> m_bullets;

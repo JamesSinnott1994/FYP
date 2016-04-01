@@ -38,6 +38,12 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	m_idle = true;
 	m_drawn = true;
 
+	// Player machine gun idle sprite
+	m_playerIdleMachineGunSprite = new Sprite();
+	m_source = { 0, 0, 83, 108 };
+	m_playerIdleMachineGunSprite->Init("Images/Player/PlayerMachineGunIdleSpriteRight.png", m_rect, m_source);
+	m_playerIdleMachineGunSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
+
 	// Initial direction
 	m_movingLeft = false;
 	m_movingRight = true;
@@ -56,6 +62,19 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	gSpriteRunningClipsLeft[RUNNING_ANIMATION_FRAMES];
 	m_running = false;
 
+	// Player running animation with machine gun
+	m_playerRunningMGSprite = new Sprite();
+	m_source = { 0, 0, 414, 108 };
+	m_playerRunningMGSprite->Init("Images/Player/PlayerMachineGunRunningSpriteRight.png", pRect, m_source);
+	m_playerRunningMGSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
+	m_runningMGFrames = 0;
+	m_runningMGAnimationTime = 0;
+	m_runningMGAnimationLimit = 0;
+	m_runningMGAnimationLimitLab = 30;
+	m_runningMGAnimationLimitLaptop = 10;
+	gSpriteRunningMGClipsRight[RUNNING_MG_ANIMATION_FRAMES];
+	gSpriteRunningMGClipsLeft[RUNNING_MG_ANIMATION_FRAMES];
+
 	// Jump
 	m_canJump = false;
 
@@ -70,6 +89,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 
 	// Machine gun
 	m_hasMachineGun = false;
+	m_machineGunEquipped = false;
 
 	// Bullets
 	m_timeToShoot = 500;
@@ -96,12 +116,14 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 		m_shootTimerLimit = m_shootTimerLab;
 		m_bloodAnimationLimit = m_bloodAnimationLimitLab;
 		m_runningAnimationLimit = m_runningAnimationLimitLab;
+		m_runningMGAnimationLimit = m_runningMGAnimationLimitLab;
 	}
 	else
 	{
 		m_shootTimerLimit = m_shootTimerLaptop;
 		m_bloodAnimationLimit = m_bloodAnimationLimitLaptop;
 		m_runningAnimationLimit = m_runningAnimationLimitLaptop;
+		m_runningMGAnimationLimit = m_runningMGAnimationLimitLaptop;
 	}
 
 	SpriteClips();
@@ -142,6 +164,19 @@ void Player::SpriteClips()
 	bloodSpriteClips[3] = { 1659, 66, 294, 252 };
 	bloodSpriteClips[4] = { 2172, 64, 298, 269 };
 	bloodSpriteClips[5] = { 2684, 65, 306, 286 };
+
+	// Running with machine gun sprite clips
+	gSpriteRunningMGClipsRight[0] = { 1, 6, 81, 102 };
+	gSpriteRunningMGClipsRight[1] = { 108, 3, 67, 105 };
+	gSpriteRunningMGClipsRight[2] = { 200, 5, 83, 103 };
+	gSpriteRunningMGClipsRight[3] = { 307, 3, 66, 105 };
+	gSpriteRunningMGClipsRight[4] = { 398, 0, 74, 108 };
+
+	gSpriteRunningMGClipsLeft[0] = { 401, 6, 81, 102 };
+	gSpriteRunningMGClipsLeft[1] = { 308, 3, 67, 105 };
+	gSpriteRunningMGClipsLeft[2] = { 200, 5, 83, 103 };
+	gSpriteRunningMGClipsLeft[3] = { 108, 3, 68, 105 };
+	gSpriteRunningMGClipsLeft[4] = { 11, 0, 74, 108 };
 }
 
 void Player::Draw()
@@ -150,21 +185,45 @@ void Player::Draw()
 	{
 		//Render current frame
 		if (m_movingRight)
-			currentRunnerClip = &gSpriteRunningClipsRight[m_runningFrames / 10];
+		{
+			if (!m_machineGunEquipped)
+				currentRunnerClip = &gSpriteRunningClipsRight[m_runningFrames / 10];
+			else
+				currentRunnerMGClip = &gSpriteRunningMGClipsRight[m_runningMGFrames / 5];
+		}
 		else if (m_movingLeft)
-			currentRunnerClip = &gSpriteRunningClipsLeft[m_runningFrames / 10];
+		{
+			if (!m_machineGunEquipped)
+				currentRunnerClip = &gSpriteRunningClipsLeft[m_runningFrames / 10];
+			else
+				currentRunnerMGClip = &gSpriteRunningMGClipsLeft[m_runningMGFrames / 5];
+		}
 
+		// Draw IDLE sprite
 		if (m_idle)
 		{
-			m_playerIdleSprite->Draw(1);
+			if (!m_machineGunEquipped)
+				m_playerIdleSprite->Draw(1);
+			else
+				m_playerIdleMachineGunSprite->Draw(1);
 		}
+		// Draw RUNNING sprite
 		else if (m_running)
 		{
-			m_playerRunningSprite->SetSourceRect(*currentRunnerClip);
-			m_playerRunningSprite->Draw(1);
+			if (!m_machineGunEquipped)
+			{
+				m_playerRunningSprite->SetSourceRect(*currentRunnerClip);
+				m_playerRunningSprite->Draw(1);
+			}
+			else
+			{
+				m_playerRunningMGSprite->SetSourceRect(*currentRunnerMGClip);
+				m_playerRunningMGSprite->Draw(1);
+			}
 		}
 	}
 
+	// Draw BLOOD Sprite
 	if (!m_alive && !m_stopBloodAnimation)
 	{
 		currentBloodClip = &bloodSpriteClips[m_bloodFrames / 6];
@@ -225,22 +284,45 @@ void Player::Update()
 		Move();
 	}
 
+	// Toggle Weapons
+	ToggleWeapons();
+
 	// Draw player when idle
 	if (m_idle)
 	{
 		if (m_movingLeft && !m_drawn)
 		{
-			m_source = { 0, 0, 77, 107 };
-			m_playerIdleSprite->Init("Images/Player/PlayerIdleLeft.png", m_rect, m_source);
-			m_playerIdleSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
-			m_drawn = true;
+			//if (!m_machineGunEquipped)// NO MACHINE GUN
+			//{
+				m_source = { 0, 0, 77, 107 };
+				m_playerIdleSprite->Init("Images/Player/PlayerIdleLeft.png", m_rect, m_source);
+				m_playerIdleSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
+				m_drawn = true;
+			//}
+			//else// HAS MACHINE GUN
+			//{
+				m_source = { 0, 0, 83, 108 };
+				m_playerIdleMachineGunSprite->Init("Images/Player/PlayerMachineGunIdleSpriteLeft.png", m_rect, m_source);
+				m_playerIdleMachineGunSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
+				m_drawn = true;
+			//}
 		}
 		else if (m_movingRight && !m_drawn)
 		{
-			m_source = { 0, 0, 77, 107 };
-			m_playerIdleSprite->Init("Images/Player/PlayerIdleRight.png", m_rect, m_source);
-			m_playerIdleSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
-			m_drawn = true;
+			//if (!m_machineGunEquipped)// NO MACHINE GUN
+			//{
+				m_source = { 0, 0, 77, 107 };
+				m_playerIdleSprite->Init("Images/Player/PlayerIdleRight.png", m_rect, m_source);
+				m_playerIdleSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
+				m_drawn = true;
+			//}
+			//else// HAS MACHINE GUN
+			//{
+				m_source = { 0, 0, 83, 108 };
+				m_playerIdleMachineGunSprite->Init("Images/Player/PlayerMachineGunIdleSpriteRight.png", m_rect, m_source);
+				m_playerIdleMachineGunSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
+				m_drawn = true;
+			//}
 		}
 	}
 	
@@ -248,7 +330,9 @@ void Player::Update()
 	m_rect.x = m_body->GetPosition().x;
 	m_rect.y = m_body->GetPosition().y;
 	m_playerIdleSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+	m_playerIdleMachineGunSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 	m_playerRunningSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+	m_playerRunningMGSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 	m_bloodSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 
 	UpdateAnimations();
@@ -258,11 +342,23 @@ void Player::Update()
 void Player::UpdateAnimations()
 {
 	//Cycle animation
-	if (m_runningFrames / 10 >= RUNNING_ANIMATION_FRAMES)
+	if (!m_machineGunEquipped)
 	{
-		m_runningFrames = 0;
+		if (m_runningFrames / 10 >= RUNNING_ANIMATION_FRAMES)
+		{
+			m_runningFrames = 0;
+		}
+	}
+	// Cycle running machine gun animation
+	if (m_machineGunEquipped)
+	{
+		if (m_runningMGFrames / 5 >= RUNNING_MG_ANIMATION_FRAMES)
+		{
+			m_runningMGFrames = 0;
+		}
 	}
 
+	// Blood animation
 	if (!m_alive && !m_stopBloodAnimation)
 	{
 		//Cycle animation
@@ -308,6 +404,23 @@ void Player::UpdateBullets()
 	}
 }
 
+void Player::ToggleWeapons()
+{
+	if (m_hasMachineGun)
+	{
+		if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_1))
+		{
+			m_machineGunEquipped = false;
+		}
+		if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_2))
+		{
+			m_machineGunEquipped = true;
+		}
+	}
+}
+
+// Collision Checks
+#pragma region Collision Checks
 void Player::CheckCollisions()
 {
 	// Collision with health object
@@ -366,41 +479,35 @@ bool Player::CheckScoreCollision()
 {
 	return PickupManager::GetInstance()->CheckScoreCollision(m_body);
 }
-
 bool Player::CheckHealthCollision()
 {
 	return PickupManager::GetInstance()->CheckHealthCollision(m_body);
 }
-
 bool Player::CheckMineCollision()
 {
 	return ObstacleManager::GetInstance()->CheckMineCollision(m_body);
 }
-
 bool Player::CheckBarrierCollision()
 {
 	return ObstacleManager::GetInstance()->CheckBarrierCollision(m_body);
 }
-
 bool Player::CheckSwitchCollision()
 {
 	return ObstacleManager::GetInstance()->CheckSwitchCollision(m_body);
 }
-
 bool Player::CheckTeleporterCollision()
 {
 	return Teleporter::GetInstance()->CheckCollision(m_body);
 }
-
 bool Player::CheckMovingPlatformCollision()
 {
 	return PlatformManager::GetInstance()->CheckCollision(m_body);
 }
-
 bool Player::CheckMachineGunCollision()
 {
 	return PickupManager::GetInstance()->CheckMachineGunCollision(m_body);
 }
+#pragma endregion
 
 void Player::Move()
 {
@@ -420,9 +527,18 @@ void Player::Move()
 		// Change sprite image if not already moving left
 		if (!m_movingLeft)
 		{
-			m_source = { 0, 0, 912, 107 };
-			m_playerRunningSprite->Init("Images/Player/PlayerRunningLeft.png", m_rect, m_source);
-			m_playerRunningSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
+			//if (!m_machineGunEquipped)
+			//{
+				m_source = { 0, 0, 912, 107 };
+				m_playerRunningSprite->Init("Images/Player/PlayerRunningLeft.png", m_rect, m_source);
+				m_playerRunningSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
+			//}
+			//else
+			//{
+				m_source = { 0, 0, 414, 108 };
+				m_playerRunningMGSprite->Init("Images/Player/PlayerMachineGunRunningSpriteLeft.png", m_rect, m_source);
+				m_playerRunningMGSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
+			//}
 		}
 
 		// Change booleans
@@ -433,11 +549,23 @@ void Player::Move()
 		m_drawn = false;
 
 		// Increase running frames
-		m_runningAnimationTime++;
-		if (m_runningAnimationTime >= m_runningAnimationLimit)
+		if (!m_machineGunEquipped)
 		{
-			++m_runningFrames;
-			m_runningAnimationTime = 0;
+			m_runningAnimationTime++;
+			if (m_runningAnimationTime >= m_runningAnimationLimit)
+			{
+				++m_runningFrames;
+				m_runningAnimationTime = 0;
+			}
+		}
+		else
+		{
+			m_runningMGAnimationTime++;
+			if (m_runningMGAnimationTime >= m_runningMGAnimationLimit)
+			{
+				++m_runningMGFrames;
+				m_runningMGAnimationTime = 0;
+			}
 		}
 	}
 	// Move right
@@ -455,9 +583,18 @@ void Player::Move()
 		// Change sprite image if not already moving right
 		if (!m_movingRight)
 		{
-			m_source = { 0, 3, 912, 107 };
-			m_playerRunningSprite->Init("Images/Player/PlayerRunningRight.png", m_rect, m_source);
-			m_playerRunningSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
+			//if (!m_machineGunEquipped)
+			//{
+				m_source = { 0, 3, 912, 107 };
+				m_playerRunningSprite->Init("Images/Player/PlayerRunningRight.png", m_rect, m_source);
+				m_playerRunningSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
+			//}
+			//else
+			//{
+				m_source = { 0, 0, 414, 108 };
+				m_playerRunningMGSprite->Init("Images/Player/PlayerMachineGunRunningSpriteRight.png", m_rect, m_source);
+				m_playerRunningMGSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
+			//}
 		}
 
 		// Change booleans
@@ -468,11 +605,23 @@ void Player::Move()
 		m_drawn = false;
 
 		// Increase running frames
-		m_runningAnimationTime++;
-		if (m_runningAnimationTime >= m_runningAnimationLimit)
+		if (!m_machineGunEquipped)
 		{
-			++m_runningFrames;
-			m_runningAnimationTime = 0;
+			m_runningAnimationTime++;
+			if (m_runningAnimationTime >= m_runningAnimationLimit)
+			{
+				++m_runningFrames;
+				m_runningAnimationTime = 0;
+			}
+		}
+		else
+		{
+			m_runningMGAnimationTime++;
+			if (m_runningMGAnimationTime >= m_runningMGAnimationLimit)
+			{
+				++m_runningMGFrames;
+				m_runningMGAnimationTime = 0;
+			}
 		}
 	}
 	// Jump
@@ -480,6 +629,7 @@ void Player::Move()
 	{
 		Jump();
 	}
+	// Shoot
 	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_j))
 	{
 		if (m_timeToShoot >= m_shootTimerLimit)
@@ -555,6 +705,7 @@ void Player::Reset()
 
 	// Reset machine gun ???? Depends on level
 	m_hasMachineGun = false;
+	m_machineGunEquipped = false;
 }
 
 void Player::LevelComplete()
