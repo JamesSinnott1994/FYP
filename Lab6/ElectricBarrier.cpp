@@ -107,6 +107,11 @@ void ElectricBarrier::Destroy()
 bool ElectricBarrier::CheckCollision(b2Body* playerBody)
 {
 	bool collided = (b2TestOverlap(myBody->GetFixtureList()->GetAABB(0), playerBody->GetFixtureList()->GetAABB(0)));
+	if (collided)
+	{
+		if (SoundManager::GetInstance()->SoundOn())
+			SoundManager::GetInstance()->play(SoundManager::ELECTROCUTED);
+	}
 	return collided;
 }
 

@@ -12,7 +12,7 @@ using namespace std;
 class SoundManager
 {
 public:
-	static const int SCORE_PICKUP = 0, GUNSHOT = 1, HEALTH = 2, MINE = 3, MENU_MUSIC = 4, LEVEL_ONE_MUSIC = 5, LEVEL_TWO_MUSIC = 6;
+	static const int SCORE_PICKUP = 0, GUNSHOT = 1, HEALTH = 2, MINE = 3, MENU_MUSIC = 4, LEVEL_ONE_MUSIC = 5, LEVEL_TWO_MUSIC = 6, ELECTROCUTED = 7;
 
 	static SoundManager* GetInstance();
 	void play(int);
@@ -45,6 +45,7 @@ private:
 	Mix_Chunk* gunshot = NULL;
 	Mix_Chunk* health = NULL;
 	Mix_Chunk* mine = NULL;
+	Mix_Chunk* electrocuted = NULL;
 
 	Mix_Music* menuMusic = NULL;
 	Mix_Music* levelOneMusic = NULL;

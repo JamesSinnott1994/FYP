@@ -185,7 +185,8 @@ void Player::Update()
 	if (m_timeToShoot <= m_shootTimerLimit)
 		m_timeToShoot++;
 
-	CheckCollisions();
+	if (m_health > 0)
+		CheckCollisions();
 
 	// Checks if killed
 	if (m_health <= 0)

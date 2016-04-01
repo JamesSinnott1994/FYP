@@ -21,6 +21,7 @@ SoundManager* SoundManager::GetInstance()
 
 bool SoundManager::load_files()
 {
+	// Music
 	menuMusic = Mix_LoadMUS("Sound/EvilGenius.wav");
 	levelOneMusic = Mix_LoadMUS("Sound/Eno.wav");
 	levelTwoMusic = Mix_LoadMUS("Sound/VelocityX.wav");
@@ -30,10 +31,11 @@ bool SoundManager::load_files()
 	gunshot = Mix_LoadWAV("Sound/Gunshot.wav");
 	health = Mix_LoadWAV("Sound/Health.wav");
 	mine = Mix_LoadWAV("Sound/MineExplosion.wav");
+	electrocuted = Mix_LoadWAV("Sound/Electrocuted.wav");
 
 	//If there was a problem loading the sound effects
 	if (scorePickup == NULL || gunshot == NULL || health == NULL || mine == NULL || menuMusic == NULL
-		|| levelOneMusic == NULL || levelTwoMusic == NULL)
+		|| levelOneMusic == NULL || levelTwoMusic == NULL || electrocuted == NULL)
 	{
 		return false;
 	}
@@ -51,6 +53,7 @@ void SoundManager::clean_up()
 	Mix_FreeChunk(gunshot);
 	Mix_FreeChunk(health);
 	Mix_FreeChunk(mine);
+	Mix_FreeChunk(electrocuted);
 
 	//Free the music
 	Mix_FreeMusic(menuMusic);
@@ -80,6 +83,9 @@ void SoundManager::play(int i)
 		break;
 	case MINE:
 		Mix_PlayChannel(MINE, mine, 0);
+		break;
+	case ELECTROCUTED:
+		Mix_PlayChannel(ELECTROCUTED, electrocuted, 0);
 		break;
 	case MENU_MUSIC:
 		// If there is no music playing
