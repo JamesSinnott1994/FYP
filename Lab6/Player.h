@@ -49,6 +49,10 @@ public:
 	int GetHealth();
 	void SetHealth(int);
 
+	// Machine gun
+	bool HasMachineGun();
+	void SetHasMachineGun(bool myMachineGun);
+
 	// Alive
 	bool GetAlive();
 	void SetAlive(bool);
@@ -70,6 +74,7 @@ public:
 	bool CheckSwitchCollision();
 	bool CheckTeleporterCollision();
 	bool CheckMovingPlatformCollision();
+	bool CheckMachineGunCollision();
 private:
 	SDL_Rect m_rect;
 	SDL_Rect m_startRect;
@@ -124,6 +129,9 @@ private:
 	int m_health;
 	int m_lives;
 	bool m_alive;
+
+	// Machine gun
+	bool m_hasMachineGun;
 
 	// Bullets
 	list<Bullet*> m_bullets;

@@ -47,11 +47,11 @@ void PickupManager::Reset()
 	{
 		score->Reset();
 	}
-
 	for each(Health* health in m_healthPickups)
 	{
 		health->Reset();
 	}
+	m_machineGun->Reset();
 }
 
 void PickupManager::Destroy()
@@ -60,18 +60,17 @@ void PickupManager::Destroy()
 	{
 		score->Destroy();
 	}
-
 	for each(Health* health in m_healthPickups)
 	{
 		health->Destroy();
 	}
+	m_machineGun->Destroy();
 
 	// Iterate through list of bullets
 	if (m_scores.size() > 0)
 	{
 		m_scores.clear();
 	}
-
 	// Iterate through list of bullets
 	if (m_healthPickups.size() > 0)
 	{
@@ -125,6 +124,18 @@ bool PickupManager::CheckHealthCollision(b2Body*playerBody)
 			{
 				return true;
 			}
+		}
+	}
+	return false;
+}
+
+bool PickupManager::CheckMachineGunCollision(b2Body*playerBody)
+{
+	if (!m_machineGun->PickedUp())
+	{
+		if (m_machineGun->CheckCollision(playerBody))
+		{
+			return true;
 		}
 	}
 	return false;

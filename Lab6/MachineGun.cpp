@@ -52,7 +52,8 @@ void MachineGun::Reset()
 
 void MachineGun::Destroy()
 {
-	myBody->GetWorld()->DestroyBody(myBody);
+	if(myBody->GetNext() != NULL)
+		myBody->GetWorld()->DestroyBody(myBody);
 }
 
 bool MachineGun::CheckCollision(b2Body* playerBody)

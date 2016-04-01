@@ -68,6 +68,9 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	m_lives = 3;
 	m_alive = true;
 
+	// Machine gun
+	m_hasMachineGun = false;
+
 	// Bullets
 	m_timeToShoot = 500;
 	m_shootTimerLab = 600;
@@ -351,6 +354,12 @@ void Player::CheckCollisions()
 	{
 		collidingWithMovingPlat = false;
 	}
+
+	// Collision with machine gun
+	if (CheckMachineGunCollision() && !m_hasMachineGun)
+	{
+		m_hasMachineGun = true;
+	}
 }
 
 bool Player::CheckScoreCollision()
@@ -386,6 +395,11 @@ bool Player::CheckTeleporterCollision()
 bool Player::CheckMovingPlatformCollision()
 {
 	return PlatformManager::GetInstance()->CheckCollision(m_body);
+}
+
+bool Player::CheckMachineGunCollision()
+{
+	return PickupManager::GetInstance()->CheckMachineGunCollision(m_body);
 }
 
 void Player::Move()
@@ -537,7 +551,10 @@ void Player::Reset()
 	collidingWithMovingPlat = false;
 	m_health = 100;
 	m_score = OldScore;
+	m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y - 0.000001f));
 
+	// Reset machine gun ???? Depends on level
+	m_hasMachineGun = false;
 }
 
 void Player::LevelComplete()
@@ -606,6 +623,14 @@ int Player::GetLives()
 void Player::SetLives(int myLives)
 {
 	m_lives = myLives;
+}
+bool Player::HasMachineGun()
+{
+	return m_hasMachineGun;
+}
+void Player::SetHasMachineGun(bool myMachineGun)
+{
+	m_hasMachineGun = myMachineGun;
 }
 #pragma endregion
 
