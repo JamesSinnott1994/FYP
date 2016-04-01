@@ -63,7 +63,7 @@ bool MachineGun::CheckCollision(b2Body* playerBody)
 	{
 		m_pickedUp = true;
 		if (SoundManager::GetInstance()->SoundOn())
-			SoundManager::GetInstance()->play(SoundManager::SCORE_PICKUP);
+			SoundManager::GetInstance()->play(SoundManager::GUN_PICKUP);
 	}
 
 	return collided;

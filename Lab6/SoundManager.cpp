@@ -23,7 +23,6 @@ bool SoundManager::load_files()
 {
 	// Music
 	menuMusic = Mix_LoadMUS("Sound/EvilGenius.wav");
-	levelOneMusic = Mix_LoadMUS("Sound/Eno.wav");
 	levelTwoMusic = Mix_LoadMUS("Sound/VelocityX.wav");
 
 	// Load sound effects
@@ -32,10 +31,11 @@ bool SoundManager::load_files()
 	health = Mix_LoadWAV("Sound/Health.wav");
 	mine = Mix_LoadWAV("Sound/MineExplosion.wav");
 	electrocuted = Mix_LoadWAV("Sound/Electrocuted.wav");
+	gunPickup = Mix_LoadWAV("Sound/GunPickup.wav");
 
 	//If there was a problem loading the sound effects
 	if (scorePickup == NULL || gunshot == NULL || health == NULL || mine == NULL || menuMusic == NULL
-		|| levelOneMusic == NULL || levelTwoMusic == NULL || electrocuted == NULL)
+		|| levelTwoMusic == NULL || electrocuted == NULL || gunPickup == NULL)
 	{
 		return false;
 	}
@@ -54,10 +54,10 @@ void SoundManager::clean_up()
 	Mix_FreeChunk(health);
 	Mix_FreeChunk(mine);
 	Mix_FreeChunk(electrocuted);
+	Mix_FreeChunk(gunPickup);
 
 	//Free the music
 	Mix_FreeMusic(menuMusic);
-	Mix_FreeMusic(levelOneMusic);
 	Mix_FreeMusic(levelTwoMusic);
 
 	//Quit SDL_mixer
@@ -72,6 +72,9 @@ void SoundManager::play(int i)
 	//If there is no music playing
 	switch (i)
 	{
+	case GUN_PICKUP:
+		Mix_PlayChannel(GUN_PICKUP, gunPickup, 0);
+		break;
 	case SCORE_PICKUP:
 		Mix_PlayChannel(SCORE_PICKUP, scorePickup, 0);
 		break;
@@ -100,33 +103,6 @@ void SoundManager::play(int i)
 		{
 			//If the music is paused
 			if (Mix_PausedMusic() == 1 && SoundOn())
-			{
-				//Resume the music
-				Mix_ResumeMusic();
-			}
-			//If the music is playing
-			else
-			{
-				if (!SoundOn())
-				{
-					//Pause the music
-					Mix_PauseMusic();
-				}
-			}
-		}
-		break;
-	case LEVEL_ONE_MUSIC:
-		if (Mix_PlayingMusic() == 0)
-		{
-			//Play the music
-			Mix_PlayMusic(levelOneMusic, -1);
-
-		}
-
-		else
-		{
-			//If the music is paused
-			if (Mix_PausedMusic() == 1)// && SoundOn())
 			{
 				//Resume the music
 				Mix_ResumeMusic();
