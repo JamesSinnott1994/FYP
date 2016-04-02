@@ -74,7 +74,7 @@ void Level::LoadLevel(string name, b2World* world, string speedType, int width, 
 			}
 			else if (c == 'S')// 'S' for score
 			{
-				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE*0.75f, SCALE*0.75f };
 				PickupManager::GetInstance()->addScorePickups(temp, world, speedType);
 			}
 			else if (c == 'H')// 'H' for health
@@ -128,6 +128,12 @@ void Level::LoadLevel(string name, b2World* world, string speedType, int width, 
 				int enemyDir = (rand() % 2) + 1;
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
 				EnemyManager::GetInstance()->addGrunt(temp, world, enemyColor, enemyDir, speedType, width, height);
+			}
+			else if (c == 'R')// 'R' for Robot Enemy
+			{
+				int enemyDir = (rand() % 2) + 1;
+				SDL_Rect temp = { x*SCALE, y*SCALE-30, SCALE, SCALE };
+				EnemyManager::GetInstance()->addRobot(temp, world, enemyDir, speedType, width, height);
 			}
 		}// End inner for loop
 	}// End outer for loop

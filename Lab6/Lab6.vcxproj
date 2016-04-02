@@ -101,6 +101,7 @@
     <ClCompile Include="Play.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Robot.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Splash.cpp" />
@@ -141,6 +142,7 @@
     <ClInclude Include="Play.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Robot.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Splash.h" />

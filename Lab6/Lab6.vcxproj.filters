@@ -156,6 +156,9 @@
     <ClCompile Include="MachineGun.cpp">
       <Filter>Source Files\Pickups</Filter>
     </ClCompile>
+    <ClCompile Include="Robot.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -274,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="MachineGun.h">
       <Filter>Header Files\Pickups</Filter>
+    </ClInclude>
+    <ClInclude Include="Robot.h">
+      <Filter>Header Files\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -741,7 +741,7 @@ void Player::Reset()
 	m_score = OldScore;
 	m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y - 0.000001f));
 
-	// Reset machine gun ???? Depends on level
+	// Reset machine gun
 	m_hasMachineGun = oldPickedUp;
 	m_machineGunEquipped = oldPickedUp;
 }

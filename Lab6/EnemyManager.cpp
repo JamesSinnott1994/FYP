@@ -25,7 +25,10 @@ void EnemyManager::Draw()
 	{
 		grunt->Draw();
 	}
-
+	for each(Robot * robot in m_robots)
+	{
+		robot->Draw();
+	}
 	for each(GruntBullet * gruntBullet in m_gruntBullets)
 	{
 		gruntBullet->Draw();
@@ -47,6 +50,18 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 				{
 					m_gruntBullets = (*m_gruntIterator)->CreateBullet(m_gruntBullets);
 				}
+			}
+		}
+	}
+
+	// Update robots
+	if (m_robots.size() > 0)
+	{
+		for (m_robotIterator = m_robots.begin(); m_robotIterator != m_robots.end(); m_robotIterator++)
+		{
+			if ((*m_robotIterator)->GetAlive())
+			{
+				(*m_robotIterator)->Update(playerRect);
 			}
 		}
 	}
@@ -147,6 +162,12 @@ void EnemyManager::addGrunt(SDL_Rect pRect, b2World* world, int color, int direc
 {
 	Grunt* grunt = new Grunt(pRect, world, color, direction, speedType, width, height);
 	m_grunts.push_back(grunt);
+}
+
+void EnemyManager::addRobot(SDL_Rect pRect, b2World* world, int direction, string speedType, int width, int height)
+{
+	Robot* robot = new Robot(pRect, world, direction, speedType, width, height);
+	m_robots.push_back(robot);
 }
 
 void EnemyManager::Reset()
