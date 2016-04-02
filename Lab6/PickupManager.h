@@ -28,8 +28,6 @@ public:
 	bool CheckHealthCollision(b2Body*playerBody);
 	bool CheckMachineGunCollision(b2Body*playerBody);
 
-	bool MachineGunPickedUp();
-
 private:
 	PickupManager()
 	{
@@ -42,6 +40,7 @@ private:
 		m_healthSource = { 0, 0, 40, 40 };
 
 		// Machine Gun
+		m_machineGunPickups = list<MachineGun*>();
 		m_machineGunTexture = Sprite::loadTexture("Images/Pickups/MachineGun.png", Renderer::GetInstance()->Get_SDL_RENDERER());
 		m_machineGunSource = { 0, 0, 59, 24 };
 	}
@@ -60,9 +59,10 @@ private:
 	list<Health*>::iterator m_healthIterator;
 
 	// Machine Gun
-	MachineGun* m_machineGun;
+	list<MachineGun*> m_machineGunPickups;
 	SDL_Texture* m_machineGunTexture;
 	SDL_Rect m_machineGunSource;
+	list<MachineGun*>::iterator m_machineGunIterator;
 };
 
 #endif

@@ -90,6 +90,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	// Machine gun
 	m_hasMachineGun = false;
 	m_machineGunEquipped = false;
+	oldPickedUp = false;
 	m_shootTimerMGLab = 300;
 	m_shootTimerMGLaptop = 30;
 
@@ -741,8 +742,8 @@ void Player::Reset()
 	m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y - 0.000001f));
 
 	// Reset machine gun ???? Depends on level
-	m_hasMachineGun = false;
-	m_machineGunEquipped = false;
+	m_hasMachineGun = oldPickedUp;
+	m_machineGunEquipped = oldPickedUp;
 }
 
 void Player::LevelComplete()
@@ -750,6 +751,7 @@ void Player::LevelComplete()
 	// Reset variables
 	m_body->SetTransform(b2Vec2(m_startRect.x, m_startRect.y), 0);
 	OldScore = m_score;
+	oldPickedUp = m_hasMachineGun;
 	m_alive = true;
 	m_reachedTeleporter = false;
 	m_stopBloodAnimation = false;
@@ -812,13 +814,13 @@ void Player::SetLives(int myLives)
 {
 	m_lives = myLives;
 }
-bool Player::HasMachineGun()
+bool Player::MachineGunPickedUp()
 {
-	return m_hasMachineGun;
+	return oldPickedUp;
 }
-void Player::SetHasMachineGun(bool myMachineGun)
+void Player::SetMachineGunPickedUp(bool myMachineGun)
 {
-	m_hasMachineGun = myMachineGun;
+	oldPickedUp = myMachineGun;
 }
 #pragma endregion
 

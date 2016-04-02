@@ -29,8 +29,10 @@ void PickupManager::Draw()
 	{
 		health->Draw();
 	}
-
-	m_machineGun->Draw();
+	for each(MachineGun* mg in m_machineGunPickups)
+	{
+		mg->Draw();
+	}
 }
 
 void PickupManager::Update()
@@ -52,7 +54,10 @@ void PickupManager::Reset()
 		health->Reset();
 	}
 	
-	m_machineGun->Reset();
+	for each(MachineGun* mg in m_machineGunPickups)
+	{
+		mg->Reset();
+	}
 }
 
 void PickupManager::Destroy()
@@ -65,7 +70,10 @@ void PickupManager::Destroy()
 	{
 		health->Destroy();
 	}
-	m_machineGun->Destroy();
+	for each(MachineGun* mg in m_machineGunPickups)
+	{
+		mg->Destroy();
+	}
 
 	// Iterate through list of bullets
 	if (m_scores.size() > 0)
@@ -76,6 +84,10 @@ void PickupManager::Destroy()
 	if (m_healthPickups.size() > 0)
 	{
 		m_healthPickups.clear();
+	}
+	if (m_machineGunPickups.size() > 0)
+	{
+		m_machineGunPickups.clear();
 	}
 }
 
@@ -95,7 +107,9 @@ void PickupManager::addHealthPickups(SDL_Rect pRect, b2World* world)
 
 void PickupManager::addMachineGun(SDL_Rect pRect, b2World* world)
 {
-	m_machineGun = new MachineGun(m_machineGunTexture, pRect, world, m_machineGunSource);
+	MachineGun* temp = new MachineGun(m_machineGunTexture, pRect, world, m_machineGunSource);
+
+	m_machineGunPickups.push_back(temp);
 }
 
 bool PickupManager::CheckScoreCollision(b2Body*playerBody)
@@ -132,17 +146,15 @@ bool PickupManager::CheckHealthCollision(b2Body*playerBody)
 
 bool PickupManager::CheckMachineGunCollision(b2Body*playerBody)
 {
-	if (!m_machineGun->PickedUp())
+	for (m_machineGunIterator = m_machineGunPickups.begin(); m_machineGunIterator != m_machineGunPickups.end(); ++m_machineGunIterator)
 	{
-		if (m_machineGun->CheckCollision(playerBody))
+		if (!(*m_machineGunIterator)->PickedUp())
 		{
-			return true;
+			if ((*m_machineGunIterator)->CheckCollision(playerBody))
+			{
+				return true;
+			}
 		}
 	}
 	return false;
-}
-
-bool PickupManager::MachineGunPickedUp()
-{
-	return m_machineGun->PickedUp();
 }
