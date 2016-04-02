@@ -51,6 +51,7 @@ void PickupManager::Reset()
 	{
 		health->Reset();
 	}
+	
 	m_machineGun->Reset();
 }
 
@@ -139,4 +140,9 @@ bool PickupManager::CheckMachineGunCollision(b2Body*playerBody)
 		}
 	}
 	return false;
+}
+
+bool PickupManager::MachineGunPickedUp()
+{
+	return m_machineGun->PickedUp();
 }

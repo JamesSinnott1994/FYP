@@ -150,6 +150,9 @@ private:
 	// Machine gun
 	bool m_hasMachineGun;
 	bool m_machineGunEquipped;
+	int m_shootTimerMGLaptop;
+	int m_shootTimerMGLab;
+	int m_shootTimerMGLimit;
 
 	// Bullets
 	list<Bullet*> m_bullets;

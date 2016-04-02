@@ -59,6 +59,11 @@ void Bullet::Update()
 	sprite.SetPosition(myBody->GetPosition().x, myBody->GetPosition().y);
 }
 
+void Bullet::Destroy()
+{
+	myBody->GetWorld()->DestroyBody(myBody);
+}
+
 bool Bullet::OutOfBounds(SDL_Rect playerPos)
 {
 	float distance = playerPos.x - sprite.GetPosition().x;

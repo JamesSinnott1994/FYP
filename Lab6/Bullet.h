@@ -17,6 +17,7 @@ public:
 
 	bool CheckBulletGruntCollision();
 	bool OutOfBounds(SDL_Rect);
+	void Destroy();
 
 	b2Body* getBody();
 private:

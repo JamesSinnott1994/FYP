@@ -28,6 +28,8 @@ public:
 	bool CheckHealthCollision(b2Body*playerBody);
 	bool CheckMachineGunCollision(b2Body*playerBody);
 
+	bool MachineGunPickedUp();
+
 private:
 	PickupManager()
 	{

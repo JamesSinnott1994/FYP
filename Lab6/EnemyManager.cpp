@@ -177,4 +177,6 @@ void EnemyManager::Destroy()
 		m_grunts.clear();
 	}
 
+	DestroyBullets();
+
 }

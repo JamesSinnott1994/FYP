@@ -41,7 +41,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	// Player machine gun idle sprite
 	m_playerIdleMachineGunSprite = new Sprite();
 	m_source = { 0, 0, 83, 108 };
-	m_playerIdleMachineGunSprite->Init("Images/Player/PlayerMachineGunIdleSpriteRight.png", m_rect, m_source);
+	m_playerIdleMachineGunSprite->Init("Images/Player/PlayerMachineGunIdleSpriteRight.png", pRect, m_source);
 	m_playerIdleMachineGunSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
 
 	// Initial direction
@@ -90,6 +90,8 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	// Machine gun
 	m_hasMachineGun = false;
 	m_machineGunEquipped = false;
+	m_shootTimerMGLab = 300;
+	m_shootTimerMGLaptop = 30;
 
 	// Bullets
 	m_timeToShoot = 500;
@@ -114,6 +116,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	if (speedType == "labSpeed")
 	{
 		m_shootTimerLimit = m_shootTimerLab;
+		m_shootTimerMGLimit = m_shootTimerMGLab;
 		m_bloodAnimationLimit = m_bloodAnimationLimitLab;
 		m_runningAnimationLimit = m_runningAnimationLimitLab;
 		m_runningMGAnimationLimit = m_runningMGAnimationLimitLab;
@@ -121,6 +124,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	else
 	{
 		m_shootTimerLimit = m_shootTimerLaptop;
+		m_shootTimerMGLimit = m_shootTimerMGLaptop;
 		m_bloodAnimationLimit = m_bloodAnimationLimitLaptop;
 		m_runningAnimationLimit = m_runningAnimationLimitLaptop;
 		m_runningMGAnimationLimit = m_runningMGAnimationLimitLaptop;
@@ -254,6 +258,7 @@ void Player::Update()
 	if (m_health <= 0)
 	{
 		m_alive = false;
+		m_bloodSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 	}
 
 	// Can jump if y-velocity is 0
@@ -326,14 +331,20 @@ void Player::Update()
 		}
 	}
 	
-	// Update sprite position
+	// Update sprite positions
 	m_rect.x = m_body->GetPosition().x;
 	m_rect.y = m_body->GetPosition().y;
-	m_playerIdleSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
-	m_playerIdleMachineGunSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
-	m_playerRunningSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
-	m_playerRunningMGSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
-	m_bloodSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+
+	if (!m_machineGunEquipped)
+	{
+		m_playerIdleSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+		m_playerRunningSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+	}
+	else
+	{
+		m_playerIdleMachineGunSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+		m_playerRunningMGSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+	}
 
 	UpdateAnimations();
 	UpdateBullets();
@@ -390,6 +401,7 @@ void Player::UpdateBullets()
 
 			if ((*m_bulletIterator)->CheckBulletGruntCollision())
 			{
+				(*m_bulletIterator)->Destroy();
 				m_bullets.erase(m_bulletIterator);
 				break;
 			}
@@ -397,6 +409,7 @@ void Player::UpdateBullets()
 			// Remove bullet if out of bounds
 			if ((*m_bulletIterator)->OutOfBounds(m_rect))
 			{
+				(*m_bulletIterator)->Destroy();
 				m_bullets.erase(m_bulletIterator);
 				break;
 			}
@@ -472,6 +485,7 @@ void Player::CheckCollisions()
 	if (CheckMachineGunCollision() && !m_hasMachineGun)
 	{
 		m_hasMachineGun = true;
+		m_machineGunEquipped = true;
 	}
 }
 
@@ -632,12 +646,25 @@ void Player::Move()
 	// Shoot
 	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_j))
 	{
-		if (m_timeToShoot >= m_shootTimerLimit)
+		if (!m_machineGunEquipped)
 		{
-			Shoot();
-			m_timeToShoot = 0;
-			if(SoundManager::GetInstance()->SoundOn())
-				SoundManager::GetInstance()->play(SoundManager::GUNSHOT);
+			if (m_timeToShoot >= m_shootTimerLimit)
+			{
+				Shoot();
+				m_timeToShoot = 0;
+				if (SoundManager::GetInstance()->SoundOn())
+					SoundManager::GetInstance()->play(SoundManager::GUNSHOT);
+			}
+		}
+		else
+		{
+			if (m_timeToShoot >= m_shootTimerMGLimit)
+			{
+				Shoot();
+				m_timeToShoot = 0;
+				if (SoundManager::GetInstance()->SoundOn())
+					SoundManager::GetInstance()->play(SoundManager::GUNSHOT);
+			}
 		}
 	}
 	// IF NOT MOVING
@@ -681,9 +708,19 @@ void Player::Shoot()
 	SDL_Rect m_bulletPos;
 
 	if (m_movingRight)
-		m_bulletPos = { m_rect.x + m_rect.w - 22 * playerScale, m_rect.y - 24 * playerScale, 10 * playerScale, 10 * playerScale };
+	{
+		if (!m_machineGunEquipped)
+			m_bulletPos = { m_rect.x + m_rect.w - 22 * playerScale, m_rect.y - 21 * playerScale, 8 * playerScale, 8 * playerScale };
+		else
+			m_bulletPos = { m_rect.x + m_rect.w - 20 * playerScale, m_rect.y - 14 * playerScale, 7 * playerScale, 7 * playerScale };
+	}
 	else
-		m_bulletPos = { m_rect.x - 32 * playerScale, m_rect.y - 24 * playerScale, 10 * playerScale, 10 * playerScale };
+	{
+		if (!m_machineGunEquipped)
+			m_bulletPos = { m_rect.x - 26 * playerScale, m_rect.y - 21 * playerScale, 8 * playerScale, 8 * playerScale };
+		else
+			m_bulletPos = { m_rect.x - 27 * playerScale, m_rect.y - 14 * playerScale, 7 * playerScale, 7 * playerScale };
+	}
 
 	Bullet* bullet = new Bullet(m_bulletTexture, m_bulletPos, world, m_bulletSource, m_movingRight);
 
