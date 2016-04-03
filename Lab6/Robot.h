@@ -36,7 +36,8 @@ private:
 	int m_runningAnimationLimitLab;
 	int m_runningAnimationLimitLaptop;
 
-	// Shooting animation
+	// Health
+	int m_health;
 
 	// Boolean
 	bool m_facingRight;

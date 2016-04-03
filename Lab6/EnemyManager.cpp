@@ -116,6 +116,11 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 		}
 	}
 
+	return false;
+}
+
+bool EnemyManager::UpdateRobotBullets(SDL_Rect &playerRect, b2Body* playerBody)
+{
 	// Update robot bullets
 	if (m_robotBullets.size() > 0)
 	{

@@ -19,6 +19,9 @@ Grunt::Grunt(SDL_Rect pRect, b2World* wWorld, int color, int direction, string s
 
 	m_resetRect = m_rect;
 
+	// Health
+	m_health = 100;
+
 	// Direction
 	if (direction == 1)// RIGHT
 	{
@@ -353,6 +356,7 @@ void Grunt::Reset()
 	m_drawn = true;
 	m_canCreateBullet = false;
 	m_shootTimer = 0;
+	m_health = 100;
 	m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y - 0.000001f));
 }
 

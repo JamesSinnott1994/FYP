@@ -22,7 +22,8 @@ public:
 
 	void SpriteClips();
 
-	bool CheckCollision(b2Body* playerBody);
+	//bool CheckCollision(b2Body* playerBody);
+	bool CheckCollision(int playerXPos, int playerYPos, int width, int height);
 
 	SDL_Rect GetRect();
 private:

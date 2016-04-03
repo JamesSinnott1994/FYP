@@ -121,10 +121,12 @@ void Teleporter::Update()
 	m_animationSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 }
 
-bool Teleporter::CheckCollision(b2Body* playerBody)
+bool Teleporter::CheckCollision(int playerXPos, int playerYPos, int width, int height)
 {
-	if (playerBody->GetPosition().x >= m_body->GetPosition().x
-		&& playerBody->GetPosition().y >= m_body->GetPosition().y)
+	if (playerXPos + width >= m_body->GetPosition().x + 65
+		&& playerXPos <= m_body->GetPosition().x + m_rect.w - 65
+		&& playerYPos + height >= m_body->GetPosition().y
+		&& playerYPos <= m_body->GetPosition().y + m_rect.h)
 	{
 		return true;
 	}

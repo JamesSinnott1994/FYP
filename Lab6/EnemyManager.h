@@ -23,6 +23,8 @@ public:
 	void Draw();
 	bool Update(SDL_Rect &playerRect, b2Body* playerBody);
 
+	bool UpdateRobotBullets(SDL_Rect &playerRect, b2Body* playerBody);
+
 	bool GruntCheckCollision(b2Body* playerBody);
 	bool CheckBulletGruntCollision(b2Body* bulletBody);
 	bool CheckBulletRobotCollision(b2Body* bulletBody);

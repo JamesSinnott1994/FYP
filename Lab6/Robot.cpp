@@ -21,6 +21,9 @@ Robot::Robot(SDL_Rect pRect, b2World* wWorld, int direction, string speedType, i
 	m_rect.h = 96;
 	m_resetRect = m_rect;
 
+	// Health
+	m_health = 100;
+
 	// Direction
 	if (direction == 1)// RIGHT
 	{
@@ -226,6 +229,7 @@ void Robot::Reset()
 	m_drawn = true;
 	m_canCreateBullet = false;
 	m_shootTimer = 0;
+	m_health = 100;
 	m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y - 0.000001f));
 }
 
@@ -374,8 +378,13 @@ bool Robot::RobotCheckCollision(b2Body* bulletBody)
 	bool collided = (b2TestOverlap(m_body->GetFixtureList()->GetAABB(0), bulletBody->GetFixtureList()->GetAABB(0)));
 	if (collided)
 	{
-		m_alive = false;
-		m_body->SetActive(false);
+		m_health -= 20;
+
+		if (m_health <= 0)
+		{
+			m_alive = false;
+			m_body->SetActive(false);
+		}
 	}
 
 	return collided;

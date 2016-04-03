@@ -512,7 +512,7 @@ bool Player::CheckSwitchCollision()
 }
 bool Player::CheckTeleporterCollision()
 {
-	return Teleporter::GetInstance()->CheckCollision(m_body);
+	return Teleporter::GetInstance()->CheckCollision(m_body->GetPosition().x, m_body->GetPosition().y, m_rect.w, m_rect.h);
 }
 bool Player::CheckMovingPlatformCollision()
 {

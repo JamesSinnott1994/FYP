@@ -183,6 +183,11 @@ int Play::Update(SDL_Event e)
 			{
 				//m_player->SetHealth(m_player->GetHealth() - 10);
 			}
+			// Checks if player collides with robot bullets
+			if (EnemyManager::GetInstance()->UpdateRobotBullets(m_player->GetPosition(), m_player->getBody()))
+			{
+				//m_player->SetHealth(m_player->GetHealth() - 34);
+			}
 			// Opens menu
 			if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_o) && !menuOpen)
 			{
