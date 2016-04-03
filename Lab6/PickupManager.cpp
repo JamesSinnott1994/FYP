@@ -37,6 +37,10 @@ void PickupManager::Draw()
 	{
 		ammo->Draw();
 	}
+	for each(Ammo* ammo in m_ammoGeneratedPickups)
+	{
+		ammo->Draw();
+	}
 }
 
 void PickupManager::Update()
@@ -65,6 +69,14 @@ void PickupManager::Reset()
 	{
 		ammo->Reset();
 	}
+	for each(Ammo* ammo in m_ammoGeneratedPickups)
+	{
+		ammo->Destroy();
+	}
+	if (m_ammoGeneratedPickups.size() > 0)
+	{
+		m_ammoGeneratedPickups.clear();
+	}
 }
 
 void PickupManager::Destroy()
@@ -85,6 +97,10 @@ void PickupManager::Destroy()
 	{
 		ammo->Destroy();
 	}
+	for each(Ammo* ammo in m_ammoGeneratedPickups)
+	{
+		ammo->Destroy();
+	}
 
 	if (m_scores.size() > 0)
 	{
@@ -101,6 +117,10 @@ void PickupManager::Destroy()
 	if (m_ammoPickups.size() > 0)
 	{
 		m_ammoPickups.clear();
+	}
+	if (m_ammoGeneratedPickups.size() > 0)
+	{
+		m_ammoGeneratedPickups.clear();
 	}
 }
 
@@ -127,7 +147,6 @@ void PickupManager::addMachineGun(SDL_Rect pRect, b2World* world)
 
 void PickupManager::addAmmoPickups(SDL_Rect pRect, b2World* world)
 {
-	//Ammo* temp = new Ammo(m_ammoTexture, pRect, world, m_ammoSource);
 	Ammo* temp = new Ammo(m_ammoTexture, pRect, world, m_ammoSource);
 
 	m_ammoPickups.push_back(temp);
@@ -182,16 +201,42 @@ bool PickupManager::CheckMachineGunCollision(b2Body*playerBody)
 
 bool PickupManager::CheckAmmoCollision(b2Body*playerBody)
 {
-	// Iterate through list of bullets
-	for (m_ammoIterator = m_ammoPickups.begin(); m_ammoIterator != m_ammoPickups.end(); ++m_ammoIterator)
+	// Iterate through list of GENERATED ammo pickups
+	if (m_ammoGeneratedPickups.size() > 0)
 	{
-		if ((*m_ammoIterator)->GetAlive())
+		for (m_ammoIterator = m_ammoGeneratedPickups.begin(); m_ammoIterator != m_ammoGeneratedPickups.end(); ++m_ammoIterator)
 		{
-			if ((*m_ammoIterator)->CheckCollision(playerBody))
+			if ((*m_ammoIterator)->GetAlive())
 			{
-				return true;
+				if ((*m_ammoIterator)->CheckCollision(playerBody))
+				{
+					(*m_ammoIterator)->Destroy();
+					m_ammoGeneratedPickups.erase(m_ammoIterator);
+					return true;
+				}
+			}
+		}
+	}
+	// Iterate through list of ammo pickups
+	if (m_ammoPickups.size() > 0)
+	{
+		for (m_ammoIterator = m_ammoPickups.begin(); m_ammoIterator != m_ammoPickups.end(); ++m_ammoIterator)
+		{
+			if ((*m_ammoIterator)->GetAlive())
+			{
+				if ((*m_ammoIterator)->CheckCollision(playerBody))
+				{
+					return true;
+				}
 			}
 		}
 	}
 	return false;
+}
+
+void PickupManager::GenerateAmmo(SDL_Rect pRect, b2World* world)
+{
+	Ammo* temp = new Ammo(m_ammoTexture, pRect, world, m_ammoSource, 2);
+
+	m_ammoGeneratedPickups.push_back(temp);
 }

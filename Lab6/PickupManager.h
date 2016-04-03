@@ -31,6 +31,8 @@ public:
 	bool CheckMachineGunCollision(b2Body*playerBody);
 	bool CheckAmmoCollision(b2Body*playerBody);
 
+	void GenerateAmmo(SDL_Rect pRect, b2World* world);
+
 private:
 	PickupManager()
 	{
@@ -49,6 +51,7 @@ private:
 
 		// Ammo
 		m_ammoPickups = list<Ammo*>();
+		m_ammoGeneratedPickups = list<Ammo*>();
 		m_ammoTexture = Sprite::loadTexture("Images/Pickups/Ammo.png", Renderer::GetInstance()->Get_SDL_RENDERER());
 		m_ammoSource = { 0, 0, 27, 27 };
 	}
@@ -74,6 +77,7 @@ private:
 
 	// Ammo
 	list<Ammo*> m_ammoPickups;
+	list<Ammo*> m_ammoGeneratedPickups;
 	SDL_Texture* m_ammoTexture;
 	SDL_Rect m_ammoSource;
 	list<Ammo*>::iterator m_ammoIterator;

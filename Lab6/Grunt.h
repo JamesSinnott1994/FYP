@@ -3,6 +3,7 @@
 
 #include "Sprite.h"
 #include "GruntBullet.h"
+#include "PickupManager.h"
 #include <list>
 
 class Grunt

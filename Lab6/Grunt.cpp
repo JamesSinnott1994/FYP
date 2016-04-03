@@ -372,6 +372,12 @@ bool Grunt::GruntCheckCollision(b2Body* bulletBody)
 	{
 		m_alive = false;
 		m_body->SetActive(false);
+
+		int generateAmmo = rand() % 5 + 1;
+		if (generateAmmo == 1)
+		{
+			PickupManager::GetInstance()->GenerateAmmo(m_rect, world);
+		}
 	}
 
 	return collided;
