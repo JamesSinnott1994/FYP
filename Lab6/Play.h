@@ -16,6 +16,7 @@ private:
 	bool levelComplete;
 
 	Sprite* m_backGroundImage;
+	Sprite* m_ammoHUD;
 
 	// Splash screen object
 	Splash* splash;
@@ -30,6 +31,8 @@ private:
 	Text gScoreTextTexture;
 	Text gLevelTextTexture;
 	Text gLivesTextTexture;
+	Text gMGAmmoTextTexture;
+	int mgAmmo;
 
 	// Different speeds
 	float labComputerSpeed;

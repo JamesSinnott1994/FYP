@@ -19,6 +19,7 @@ public:
 	Player();
 
 	int OldScore;
+	int OldMachineGunAmmo;
 
 	void Init(SDL_Rect, b2World*, string speedType, float scale);
 	void Draw();
@@ -50,6 +51,11 @@ public:
 	// Machine gun
 	bool MachineGunPickedUp();
 	void SetMachineGunPickedUp(bool myMachineGun);
+
+	int GetMachineGunAmmo();
+	void SetMachineGunAmmo(int myMachineGunAmmo);
+
+	bool MachineGunEquipped();
 
 	void ToggleWeapons();
 
@@ -120,6 +126,7 @@ private:
 	int m_runningMGAnimationLimit;
 	int m_runningMGAnimationLimitLab;
 	int m_runningMGAnimationLimitLaptop;
+	int m_machineGunAmmo;
 
 	// Blood splatter
 	Sprite* m_bloodSprite;

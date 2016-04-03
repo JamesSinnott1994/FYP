@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "Play.h"
 
 Play::Play(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash)
@@ -26,6 +26,7 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 	float playerScale = 0.9f;
 	m_player->Init(SDL_Rect{ 200, 500, 77 * playerScale, 107 * playerScale }, world, whichSpeed, playerScale);
 	m_healthBar = new HealthBar();
+	mgAmmo = 0;
 
 	// Screen width and height
 	m_width = SCREEN_WIDTH;
@@ -34,6 +35,10 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 	// Load background image
 	m_backGroundImage = new Sprite();
 	m_backGroundImage->Init("Images/Backgrounds/space.png", SDL_Rect{ 0, 0, m_width * 2, m_height }, SDL_Rect{ 0, 0, 600, 360 });
+
+	// HUD Ammo Image
+	m_ammoHUD = new Sprite();
+	m_ammoHUD->Init("Images/Player/AmmoHud.png", SDL_Rect{ 180, 15, 36, 21 }, SDL_Rect{ 0, 0, 36, 21 });
 
 	// Load level
 	level = new Level();
@@ -121,6 +126,11 @@ bool Play::loadTTFMedia()
 			printf("Failed to render text texture!\n");
 			success = false;
 		}
+		if (!gMGAmmoTextTexture.loadFromRenderedText(to_string(m_player->GetMachineGunAmmo()), textColor, gFont))
+		{
+			printf("Failed to render text texture!\n");
+			success = false;
+		}
 	}
 	fontLoaded = true;
 	return success;
@@ -130,7 +140,7 @@ int Play::Update(SDL_Event e)
 {
 	// Play music
 	SoundManager::GetInstance()->play(SoundManager::GetInstance()->LEVEL_TWO_MUSIC);
-
+	
 	// Update Camera position
 	UpdateCameraPos();
 
@@ -209,6 +219,13 @@ int Play::Update(SDL_Event e)
 				return 2;// Quit game
 			}
 		}// End if
+
+		// Check if fired machine gun(Do this to update text)
+		if (mgAmmo != m_player->GetMachineGunAmmo())
+		{
+			loadTTFMedia();
+		}
+		mgAmmo = m_player->GetMachineGunAmmo();
 	}// End else
 
 	return 0;
@@ -297,6 +314,8 @@ void Play::Draw()
 void Play::AddAssetsToRenderer()
 {
 	m_backGroundImage->Draw(4);
+	if (m_player->MachineGunEquipped())
+		m_ammoHUD->DrawNoCamOffset();
 	m_player->Draw();
 	Teleporter::GetInstance()->Draw();
 	PlatformManager::GetInstance()->Draw();
@@ -319,6 +338,8 @@ void Play::AddAssetsToRenderer()
 	gScoreTextTexture.render(20, 10);
 	gLevelTextTexture.render(300, 10);
 	gLivesTextTexture.render(750, 10);
+	if (m_player->MachineGunEquipped())
+		gMGAmmoTextTexture.render(220, 10);
 }
 
 void Play::HandleSplash()

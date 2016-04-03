@@ -63,6 +63,8 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	m_running = false;
 
 	// Player running animation with machine gun
+	m_machineGunAmmo = 50;
+	OldMachineGunAmmo = 50;
 	m_playerRunningMGSprite = new Sprite();
 	m_source = { 0, 0, 414, 108 };
 	m_playerRunningMGSprite->Init("Images/Player/PlayerMachineGunRunningSpriteRight.png", pRect, m_source);
@@ -659,10 +661,11 @@ void Player::Move()
 		}
 		else
 		{
-			if (m_timeToShoot >= m_shootTimerMGLimit)
+			if (m_timeToShoot >= m_shootTimerMGLimit && m_machineGunAmmo >= 1)
 			{
 				Shoot();
 				m_timeToShoot = 0;
+				m_machineGunAmmo -= 1;
 				if (SoundManager::GetInstance()->SoundOn())
 					SoundManager::GetInstance()->play(SoundManager::GUNSHOT);
 			}
@@ -744,6 +747,7 @@ void Player::Reset()
 	// Reset machine gun
 	m_hasMachineGun = oldPickedUp;
 	m_machineGunEquipped = oldPickedUp;
+	m_machineGunAmmo = OldMachineGunAmmo;
 }
 
 void Player::LevelComplete()
@@ -751,6 +755,7 @@ void Player::LevelComplete()
 	// Reset variables
 	m_body->SetTransform(b2Vec2(m_startRect.x, m_startRect.y), 0);
 	OldScore = m_score;
+	OldMachineGunAmmo = m_machineGunAmmo;
 	oldPickedUp = m_hasMachineGun;
 	m_alive = true;
 	m_reachedTeleporter = false;
@@ -821,6 +826,18 @@ bool Player::MachineGunPickedUp()
 void Player::SetMachineGunPickedUp(bool myMachineGun)
 {
 	oldPickedUp = myMachineGun;
+}
+bool Player::MachineGunEquipped()
+{
+	return m_machineGunEquipped;
+}
+int Player::GetMachineGunAmmo()
+{
+	return m_machineGunAmmo;
+}
+void Player::SetMachineGunAmmo(int myMachineGunAmmo)
+{
+	m_machineGunAmmo = myMachineGunAmmo;
 }
 #pragma endregion
 
