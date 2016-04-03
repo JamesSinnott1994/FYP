@@ -80,7 +80,13 @@ bool Bullet::OutOfBounds(SDL_Rect playerPos)
 
 bool Bullet::CheckBulletGruntCollision()
 {
-	bool collided = EnemyManager::GetInstance()->CheckBulletCollision(myBody);
+	bool collided = EnemyManager::GetInstance()->CheckBulletGruntCollision(myBody);
+	return collided;
+}
+
+bool Bullet::CheckBulletRobotCollision()
+{
+	bool collided = EnemyManager::GetInstance()->CheckBulletRobotCollision(myBody);
 	return collided;
 }
 

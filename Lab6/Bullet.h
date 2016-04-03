@@ -16,6 +16,7 @@ public:
 	void SetAlive(bool);
 
 	bool CheckBulletGruntCollision();
+	bool CheckBulletRobotCollision();
 	bool OutOfBounds(SDL_Rect);
 	void Destroy();
 

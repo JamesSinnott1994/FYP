@@ -400,7 +400,7 @@ void Player::UpdateBullets()
 		{
 			(*m_bulletIterator)->Update();
 
-			if ((*m_bulletIterator)->CheckBulletGruntCollision())
+			if ((*m_bulletIterator)->CheckBulletGruntCollision() || (*m_bulletIterator)->CheckBulletRobotCollision())
 			{
 				(*m_bulletIterator)->Destroy();
 				m_bullets.erase(m_bulletIterator);

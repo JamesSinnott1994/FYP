@@ -24,7 +24,8 @@ public:
 	bool Update(SDL_Rect &playerRect, b2Body* playerBody);
 
 	bool GruntCheckCollision(b2Body* playerBody);
-	bool CheckBulletCollision(b2Body* bulletBody);
+	bool CheckBulletGruntCollision(b2Body* bulletBody);
+	bool CheckBulletRobotCollision(b2Body* bulletBody);
 
 	void Reset();
 	void ResetGruntTimers();
@@ -54,8 +55,10 @@ private:
 
 	// Robot
 	list<Robot*> m_robots;
+	list<RobotBullet*>m_robotBullets;
 	SDL_Texture* m_robotTexture;
 	SDL_Rect m_robotSource;
 	list<Robot*>::iterator m_robotIterator;
+	list<RobotBullet*>::iterator m_robotBulletIterator;
 };
 #endif

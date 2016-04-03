@@ -33,6 +33,10 @@ void EnemyManager::Draw()
 	{
 		gruntBullet->Draw();
 	}
+	for each(RobotBullet * robotBullet in m_robotBullets)
+	{
+		robotBullet->Draw();
+	}
 }
 
 bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
@@ -61,7 +65,12 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 		{
 			if ((*m_robotIterator)->GetAlive())
 			{
-				(*m_robotIterator)->Update(playerRect);
+				(*m_robotIterator)->Update(playerRect, m_robotBullets.size(), m_robots.size() * 1);
+			}
+
+			if ((*m_robotIterator)->CanCreateBullet())
+			{
+				m_robotBullets = (*m_robotIterator)->CreateBullet(m_robotBullets);
 			}
 		}
 	}
@@ -107,10 +116,51 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 		}
 	}
 
+	// Update robot bullets
+	if (m_robotBullets.size() > 0)
+	{
+		for (m_robotBulletIterator = m_robotBullets.begin(); m_robotBulletIterator != m_robotBullets.end(); m_robotBulletIterator++)
+		{
+			if (!(*m_robotBulletIterator)->Collided())
+			{
+				if ((*m_robotBulletIterator)->Update(playerBody))
+				{
+					(*m_robotBulletIterator)->SetAlive(false);
+					return true;
+				}
+			}
+
+			// Remove bullet if out of bounds
+			if (!(*m_robotBulletIterator)->GetAlive())
+			{
+				m_robotBullets.erase(m_robotBulletIterator);
+				break;
+			}
+
+			// Remove bullet if out of bounds
+			if ((*m_robotBulletIterator)->OutOfBounds(playerRect))
+			{
+				m_robotBullets.erase(m_robotBulletIterator);
+				break;
+			}
+		}
+	}
+
+	// Clear robot bullets if too many
+	if (m_robotBullets.size() > m_robots.size() * 2)
+	{
+		cout << "Too many bullets!!!" << endl;
+		while (m_robotBullets.size() > m_robots.size() * 2)
+		{
+			DestroyBullets();
+			ResetGruntTimers();
+		}
+	}
+
 	return false;
 }
 
-bool EnemyManager::CheckBulletCollision(b2Body*bulletBody)
+bool EnemyManager::CheckBulletGruntCollision(b2Body*bulletBody)
 {
 	// Iterate through list of bullets
 	for (m_gruntIterator = m_grunts.begin(); m_gruntIterator != m_grunts.end(); ++m_gruntIterator)
@@ -127,6 +177,23 @@ bool EnemyManager::CheckBulletCollision(b2Body*bulletBody)
 	return false;
 }
 
+bool EnemyManager::CheckBulletRobotCollision(b2Body*bulletBody)
+{
+	// Iterate through list of bullets
+	for (m_robotIterator = m_robots.begin(); m_robotIterator != m_robots.end(); ++m_robotIterator)
+	{
+		if ((*m_robotIterator)->GetAlive())
+		{
+			if ((*m_robotIterator)->RobotCheckCollision(bulletBody))
+			{
+				//m_grunts.erase(m_gruntIterator);
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 bool EnemyManager::GruntCheckCollision(b2Body* playerBody)
 {
 	if (m_gruntBullets.size() > 0)
@@ -134,8 +201,6 @@ bool EnemyManager::GruntCheckCollision(b2Body* playerBody)
 		for each(GruntBullet * gruntBullet in m_gruntBullets)
 		{
 			bool collided = gruntBullet->CheckBulletPlayerCollision(playerBody);
-			if (collided)
-				int t = 0;
 			return collided;
 		}
 	}
@@ -151,10 +216,18 @@ void EnemyManager::DestroyBullets()
 	{
 		grunt->Destroy();
 	}
+	for each(RobotBullet * robotBullet in m_robotBullets)
+	{
+		robotBullet->Destroy();
+	}
 
 	if (m_gruntBullets.size() > 0)
 	{
 		m_gruntBullets.clear();
+	}
+	if (m_robotBullets.size() > 0)
+	{
+		m_robotBullets.clear();
 	}
 }
 
@@ -176,6 +249,10 @@ void EnemyManager::Reset()
 	{
 		grunt->Reset();
 	}
+	for each(Robot * robot in m_robots)
+	{
+		robot->Reset();
+	}
 }
 
 void EnemyManager::ResetGruntTimers()
@@ -192,10 +269,18 @@ void EnemyManager::Destroy()
 	{
 		grunt->Destroy();
 	}
+	for each(Robot * robot in m_robots)
+	{
+		robot->Destroy();
+	}
 	
 	if (m_grunts.size() > 0)
 	{
 		m_grunts.clear();
+	}
+	if (m_robots.size() > 0)
+	{
+		m_robots.clear();
 	}
 
 	DestroyBullets();

@@ -2,6 +2,8 @@
 #define ROBOT_H
 
 #include "Sprite.h"
+#include "RobotBullet.h"
+#include <list>
 
 class Robot
 {
@@ -24,15 +26,17 @@ private:
 
 	// Running animation
 	Sprite* m_runningSprite;
-	const int RUNNING_ANIMATION_FRAMES = 8;
-	SDL_Rect gSpriteRunningClipsRight[8];
-	SDL_Rect gSpriteRunningClipsLeft[8];
+	const int RUNNING_ANIMATION_FRAMES = 10;
+	SDL_Rect gSpriteRunningClipsRight[10];
+	SDL_Rect gSpriteRunningClipsLeft[10];
 	SDL_Rect* currentRunnerClip;
 	int m_runningFrames;
 	int m_runningAnimationTime;
 	int m_runningAnimationLimit;
 	int m_runningAnimationLimitLab;
 	int m_runningAnimationLimitLaptop;
+
+	// Shooting animation
 
 	// Boolean
 	bool m_facingRight;
@@ -58,25 +62,50 @@ private:
 	int m_shootTimerLab;
 	int m_shootTimerLimit;
 
+	// Bullets
+	list<RobotBullet*> m_bullets;
+	list<RobotBullet*>::iterator m_bulletIterator;
+
 public:
 	Robot();
 
 	Robot(SDL_Rect pRect, b2World* wWorld, int direction, string speedType, int width, int height);
 
+	void SpriteClips();
+
 	void Draw();
-	void Update(SDL_Rect &playerRect);
+	void Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets);
 	void Reset();
 	void ResetTimer();
 	void Destroy();
+
+	void Running();
+	void Animation();
+	void Shoot(int noOfBullets, int maxBullets);
+	list<RobotBullet*> CreateBullet(list<RobotBullet*>m_robotBullets);
 
 	// Grunt states
 	enum State { IDLE, RUNNING, SHOOTING, DEAD };
 	State FiniteStateMachine();
 
-	void ChangeDirection(int &playerXPos);
+	bool InRange();
+	void SetInRange(bool);
+	bool InRangeOfPlayer(SDL_Rect &playerRect);
+
+	bool CanCreateBullet();
+	void SetCanCreateBullet(bool myCanCreateBullet);
 
 	bool GetAlive();
 	void SetAlive(bool);
+
+	void ChangeDirection(int &playerXPos);
+	bool PlayerToTheLeft();
+	void SetPlayerToTheLeft(bool);
+
+	bool RobotCheckCollision(b2Body* bulletBody);
+	bool CheckBulletPlayerCollision(b2Body* playerBody);
+
+	void Fell();
 };
 
 #endif
