@@ -15,7 +15,6 @@ public:
 	Health(SDL_Texture*, SDL_Rect, b2World*, SDL_Rect src);
 	// Public member functions
 	void Draw();
-	void Update();// bool hit);
 	void Reset();
 	void Destroy();
 

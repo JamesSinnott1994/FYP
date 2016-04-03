@@ -1,9 +1,7 @@
 #include "stdafx.h"
 #include "Health.h"
 
-Health::Health()
-{
-}
+Health::Health(){}
 
 Health::Health(SDL_Texture* text, SDL_Rect pRect, b2World *wWorld, SDL_Rect src)
 {
@@ -30,7 +28,7 @@ Health::Health(SDL_Texture* text, SDL_Rect pRect, b2World *wWorld, SDL_Rect src)
 	// Add the ground fixture to the ground body.
 	myBody->CreateFixture(&myBodyFixtureDef);
 	sprite.Init(text, pRect, src);
-	sprite.SetOffset(SDL_Point{ 16, 16 });
+	sprite.SetOffset(SDL_Point{ pRect.w / 2, pRect.h / 2 });
 
 	m_alive = true;
 }
@@ -39,11 +37,6 @@ void Health::Draw()
 {
 	if (m_alive)
 		sprite.Draw(1);
-}
-
-void Health::Update()
-{
-
 }
 
 void Health::Reset()

@@ -162,6 +162,9 @@
     <ClCompile Include="RobotBullet.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Ammo.cpp">
+      <Filter>Source Files\Pickups</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -286,6 +289,9 @@
     </ClInclude>
     <ClInclude Include="RobotBullet.h">
       <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Ammo.h">
+      <Filter>Header Files\Pickups</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

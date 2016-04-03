@@ -500,6 +500,10 @@ bool Player::CheckHealthCollision()
 {
 	return PickupManager::GetInstance()->CheckHealthCollision(m_body);
 }
+bool Player::CheckAmmoCollision()
+{
+	return PickupManager::GetInstance()->CheckAmmoCollision(m_body);
+}
 bool Player::CheckMineCollision()
 {
 	return ObstacleManager::GetInstance()->CheckMineCollision(m_body);

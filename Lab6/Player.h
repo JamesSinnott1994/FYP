@@ -77,6 +77,7 @@ public:
 	void CheckCollisions();
 	bool CheckScoreCollision();
 	bool CheckHealthCollision();
+	bool CheckAmmoCollision();
 	bool CheckMineCollision();
 	bool CheckBarrierCollision();
 	bool CheckSwitchCollision();

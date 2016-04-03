@@ -184,6 +184,13 @@ int Play::Update(SDL_Event e)
 				loadTTFMedia();
 			}
 
+			// Increment player ammo if collided with ammo pickup
+			if (m_player->CheckAmmoCollision())
+			{
+				m_player->SetMachineGunAmmo(m_player->GetMachineGunAmmo() + 20);
+				loadTTFMedia();
+			}
+
 			ObstacleManager::GetInstance()->Update();
 			Teleporter::GetInstance()->Update();
 			PickupManager::GetInstance()->Update();
@@ -315,7 +322,10 @@ void Play::AddAssetsToRenderer()
 {
 	m_backGroundImage->Draw(4);
 	if (m_player->MachineGunEquipped())
+	{
 		m_ammoHUD->DrawNoCamOffset();
+		gMGAmmoTextTexture.render(220, 10);
+	}
 	m_player->Draw();
 	Teleporter::GetInstance()->Draw();
 	PlatformManager::GetInstance()->Draw();
@@ -338,8 +348,6 @@ void Play::AddAssetsToRenderer()
 	gScoreTextTexture.render(20, 10);
 	gLevelTextTexture.render(300, 10);
 	gLivesTextTexture.render(750, 10);
-	if (m_player->MachineGunEquipped())
-		gMGAmmoTextTexture.render(220, 10);
 }
 
 void Play::HandleSplash()

@@ -82,6 +82,11 @@ void Level::LoadLevel(string name, b2World* world, string speedType, int width, 
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
 				PickupManager::GetInstance()->addHealthPickups(temp, world);
 			}
+			else if (c == 'A')// 'A' for Ammo
+			{
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
+				PickupManager::GetInstance()->addAmmoPickups(temp, world);
+			}
 			else if (c == 'g')// 'g' for 'Machine Gun'
 			{
 				SDL_Rect temp = { x*SCALE, y*SCALE, 59, SCALE };

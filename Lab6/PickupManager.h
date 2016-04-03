@@ -5,6 +5,7 @@
 #include "Score.h"
 #include "Health.h"
 #include "MachineGun.h"
+#include "Ammo.h"
 
 class PickupManager
 {
@@ -23,10 +24,12 @@ public:
 	void addScorePickups(SDL_Rect pRect, b2World* world, string speedType);
 	void addHealthPickups(SDL_Rect pRect, b2World* world);
 	void addMachineGun(SDL_Rect pRect, b2World* world);
+	void addAmmoPickups(SDL_Rect pRect, b2World* world);
 
 	bool CheckScoreCollision(b2Body*playerBody);
 	bool CheckHealthCollision(b2Body*playerBody);
 	bool CheckMachineGunCollision(b2Body*playerBody);
+	bool CheckAmmoCollision(b2Body*playerBody);
 
 private:
 	PickupManager()
@@ -43,6 +46,11 @@ private:
 		m_machineGunPickups = list<MachineGun*>();
 		m_machineGunTexture = Sprite::loadTexture("Images/Pickups/MachineGun.png", Renderer::GetInstance()->Get_SDL_RENDERER());
 		m_machineGunSource = { 0, 0, 59, 24 };
+
+		// Ammo
+		m_ammoPickups = list<Ammo*>();
+		m_ammoTexture = Sprite::loadTexture("Images/Pickups/Ammo.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+		m_ammoSource = { 0, 0, 27, 27 };
 	}
 
 	static bool instanceFlag;
@@ -63,6 +71,12 @@ private:
 	SDL_Texture* m_machineGunTexture;
 	SDL_Rect m_machineGunSource;
 	list<MachineGun*>::iterator m_machineGunIterator;
+
+	// Ammo
+	list<Ammo*> m_ammoPickups;
+	SDL_Texture* m_ammoTexture;
+	SDL_Rect m_ammoSource;
+	list<Ammo*>::iterator m_ammoIterator;
 };
 
 #endif

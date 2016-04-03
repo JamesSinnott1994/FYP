@@ -33,6 +33,10 @@ void PickupManager::Draw()
 	{
 		mg->Draw();
 	}
+	for each(Ammo* ammo in m_ammoPickups)
+	{
+		ammo->Draw();
+	}
 }
 
 void PickupManager::Update()
@@ -53,10 +57,13 @@ void PickupManager::Reset()
 	{
 		health->Reset();
 	}
-	
 	for each(MachineGun* mg in m_machineGunPickups)
 	{
 		mg->Reset();
+	}
+	for each(Ammo* ammo in m_ammoPickups)
+	{
+		ammo->Reset();
 	}
 }
 
@@ -74,13 +81,15 @@ void PickupManager::Destroy()
 	{
 		mg->Destroy();
 	}
+	for each(Ammo* ammo in m_ammoPickups)
+	{
+		ammo->Destroy();
+	}
 
-	// Iterate through list of bullets
 	if (m_scores.size() > 0)
 	{
 		m_scores.clear();
 	}
-	// Iterate through list of bullets
 	if (m_healthPickups.size() > 0)
 	{
 		m_healthPickups.clear();
@@ -88,6 +97,10 @@ void PickupManager::Destroy()
 	if (m_machineGunPickups.size() > 0)
 	{
 		m_machineGunPickups.clear();
+	}
+	if (m_ammoPickups.size() > 0)
+	{
+		m_ammoPickups.clear();
 	}
 }
 
@@ -110,6 +123,14 @@ void PickupManager::addMachineGun(SDL_Rect pRect, b2World* world)
 	MachineGun* temp = new MachineGun(m_machineGunTexture, pRect, world, m_machineGunSource);
 
 	m_machineGunPickups.push_back(temp);
+}
+
+void PickupManager::addAmmoPickups(SDL_Rect pRect, b2World* world)
+{
+	//Ammo* temp = new Ammo(m_ammoTexture, pRect, world, m_ammoSource);
+	Ammo* temp = new Ammo(m_ammoTexture, pRect, world, m_ammoSource);
+
+	m_ammoPickups.push_back(temp);
 }
 
 bool PickupManager::CheckScoreCollision(b2Body*playerBody)
@@ -151,6 +172,22 @@ bool PickupManager::CheckMachineGunCollision(b2Body*playerBody)
 		if (!(*m_machineGunIterator)->PickedUp())
 		{
 			if ((*m_machineGunIterator)->CheckCollision(playerBody))
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+bool PickupManager::CheckAmmoCollision(b2Body*playerBody)
+{
+	// Iterate through list of bullets
+	for (m_ammoIterator = m_ammoPickups.begin(); m_ammoIterator != m_ammoPickups.end(); ++m_ammoIterator)
+	{
+		if ((*m_ammoIterator)->GetAlive())
+		{
+			if ((*m_ammoIterator)->CheckCollision(playerBody))
 			{
 				return true;
 			}
