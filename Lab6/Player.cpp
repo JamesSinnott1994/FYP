@@ -56,7 +56,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	m_runningFrames = 0;
 	m_runningAnimationTime = 0;
 	m_runningAnimationLimit = 0;
-	m_runningAnimationLimitLab = 30;
+	m_runningAnimationLimitLab = 20;
 	m_runningAnimationLimitLaptop = 3;
 	gSpriteRunningClipsRight[RUNNING_ANIMATION_FRAMES];
 	gSpriteRunningClipsLeft[RUNNING_ANIMATION_FRAMES];
@@ -72,7 +72,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	m_runningMGFrames = 0;
 	m_runningMGAnimationTime = 0;
 	m_runningMGAnimationLimit = 0;
-	m_runningMGAnimationLimitLab = 30;
+	m_runningMGAnimationLimitLab = 60;
 	m_runningMGAnimationLimitLaptop = 10;
 	gSpriteRunningMGClipsRight[RUNNING_MG_ANIMATION_FRAMES];
 	gSpriteRunningMGClipsLeft[RUNNING_MG_ANIMATION_FRAMES];
@@ -534,117 +534,9 @@ void Player::Move()
 {
 	// Key presses
 	// Move left
-	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a) && !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d))
-	{
-		if (!collidingWithMovingPlat)
-		{
-			m_body->SetLinearVelocity(b2Vec2(-2, m_body->GetLinearVelocity().y - 0.000001f));
-		}
-		else
-		{
-			m_body->SetLinearVelocity(b2Vec2(PlatformManager::GetInstance()->xSpeedOfMovingPlatform - 2, PlatformManager::GetInstance()->ySpeedOfMovingPlatform));
-		}
-
-		// Change sprite image if not already moving left
-		if (!m_movingLeft)
-		{
-			//if (!m_machineGunEquipped)
-			//{
-				m_source = { 0, 0, 912, 107 };
-				m_playerRunningSprite->Init("Images/Player/PlayerRunningLeft.png", m_rect, m_source);
-				m_playerRunningSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
-			//}
-			//else
-			//{
-				m_source = { 0, 0, 414, 108 };
-				m_playerRunningMGSprite->Init("Images/Player/PlayerMachineGunRunningSpriteLeft.png", m_rect, m_source);
-				m_playerRunningMGSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
-			//}
-		}
-
-		// Change booleans
-		m_movingLeft = true;
-		m_movingRight = false;
-		m_running = true;
-		m_idle = false;
-		m_drawn = false;
-
-		// Increase running frames
-		if (!m_machineGunEquipped)
-		{
-			m_runningAnimationTime++;
-			if (m_runningAnimationTime >= m_runningAnimationLimit)
-			{
-				++m_runningFrames;
-				m_runningAnimationTime = 0;
-			}
-		}
-		else
-		{
-			m_runningMGAnimationTime++;
-			if (m_runningMGAnimationTime >= m_runningMGAnimationLimit)
-			{
-				++m_runningMGFrames;
-				m_runningMGAnimationTime = 0;
-			}
-		}
-	}
+	MoveLeft();
 	// Move right
-	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d) && !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a))
-	{
-		if (!collidingWithMovingPlat)
-		{
-			m_body->SetLinearVelocity(b2Vec2(2, m_body->GetLinearVelocity().y - 0.000001f));
-		}
-		else
-		{
-			m_body->SetLinearVelocity(b2Vec2(PlatformManager::GetInstance()->xSpeedOfMovingPlatform + 2, PlatformManager::GetInstance()->ySpeedOfMovingPlatform));
-		}
-
-		// Change sprite image if not already moving right
-		if (!m_movingRight)
-		{
-			//if (!m_machineGunEquipped)
-			//{
-				m_source = { 0, 3, 912, 107 };
-				m_playerRunningSprite->Init("Images/Player/PlayerRunningRight.png", m_rect, m_source);
-				m_playerRunningSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
-			//}
-			//else
-			//{
-				m_source = { 0, 0, 414, 108 };
-				m_playerRunningMGSprite->Init("Images/Player/PlayerMachineGunRunningSpriteRight.png", m_rect, m_source);
-				m_playerRunningMGSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
-			//}
-		}
-
-		// Change booleans
-		m_movingLeft = false;
-		m_movingRight = true;
-		m_running = true;
-		m_idle = false;
-		m_drawn = false;
-
-		// Increase running frames
-		if (!m_machineGunEquipped)
-		{
-			m_runningAnimationTime++;
-			if (m_runningAnimationTime >= m_runningAnimationLimit)
-			{
-				++m_runningFrames;
-				m_runningAnimationTime = 0;
-			}
-		}
-		else
-		{
-			m_runningMGAnimationTime++;
-			if (m_runningMGAnimationTime >= m_runningMGAnimationLimit)
-			{
-				++m_runningMGFrames;
-				m_runningMGAnimationTime = 0;
-			}
-		}
-	}
+	MoveRight();
 	// Jump
 	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_SPACE) && m_canJump)
 	{
@@ -690,6 +582,124 @@ void Player::Move()
 		{
 			m_body->SetLinearVelocity(b2Vec2(PlatformManager::GetInstance()->xSpeedOfMovingPlatform, PlatformManager::GetInstance()->ySpeedOfMovingPlatform));
 			m_canJump = true;
+		}
+	}
+}
+
+void Player::MoveLeft()
+{
+	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a) && !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d))
+	{
+		if (!collidingWithMovingPlat)
+		{
+			m_body->SetLinearVelocity(b2Vec2(-2, m_body->GetLinearVelocity().y - 0.000001f));
+		}
+		else
+		{
+			m_body->SetLinearVelocity(b2Vec2(PlatformManager::GetInstance()->xSpeedOfMovingPlatform - 2, PlatformManager::GetInstance()->ySpeedOfMovingPlatform));
+		}
+
+		// Change sprite image if not already moving left
+		if (!m_movingLeft)
+		{
+			//if (!m_machineGunEquipped)
+			//{
+			m_source = { 0, 0, 912, 107 };
+			m_playerRunningSprite->Init("Images/Player/PlayerRunningLeft.png", m_rect, m_source);
+			m_playerRunningSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
+			//}
+			//else
+			//{
+			m_source = { 0, 0, 414, 108 };
+			m_playerRunningMGSprite->Init("Images/Player/PlayerMachineGunRunningSpriteLeft.png", m_rect, m_source);
+			m_playerRunningMGSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
+			//}
+		}
+
+		// Change booleans
+		m_movingLeft = true;
+		m_movingRight = false;
+		m_running = true;
+		m_idle = false;
+		m_drawn = false;
+
+		// Increase running frames
+		if (!m_machineGunEquipped)
+		{
+			m_runningAnimationTime++;
+			if (m_runningAnimationTime >= m_runningAnimationLimit)
+			{
+				++m_runningFrames;
+				m_runningAnimationTime = 0;
+			}
+		}
+		else
+		{
+			m_runningMGAnimationTime++;
+			if (m_runningMGAnimationTime >= m_runningMGAnimationLimit)
+			{
+				++m_runningMGFrames;
+				m_runningMGAnimationTime = 0;
+			}
+		}
+	}
+}
+
+void Player::MoveRight()
+{
+	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d) && !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a))
+	{
+		if (!collidingWithMovingPlat)
+		{
+			m_body->SetLinearVelocity(b2Vec2(2, m_body->GetLinearVelocity().y - 0.000001f));
+		}
+		else
+		{
+			m_body->SetLinearVelocity(b2Vec2(PlatformManager::GetInstance()->xSpeedOfMovingPlatform + 2, PlatformManager::GetInstance()->ySpeedOfMovingPlatform));
+		}
+
+		// Change sprite image if not already moving right
+		if (!m_movingRight)
+		{
+			//if (!m_machineGunEquipped)
+			//{
+			m_source = { 0, 3, 912, 107 };
+			m_playerRunningSprite->Init("Images/Player/PlayerRunningRight.png", m_rect, m_source);
+			m_playerRunningSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
+			//}
+			//else
+			//{
+			m_source = { 0, 0, 414, 108 };
+			m_playerRunningMGSprite->Init("Images/Player/PlayerMachineGunRunningSpriteRight.png", m_rect, m_source);
+			m_playerRunningMGSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
+			//}
+		}
+
+		// Change booleans
+		m_movingLeft = false;
+		m_movingRight = true;
+		m_running = true;
+		m_idle = false;
+		m_drawn = false;
+
+		// Increase running frames
+		if (!m_machineGunEquipped)
+		{
+			m_runningAnimationTime++;
+			if (m_runningAnimationTime >= m_runningAnimationLimit)
+			{
+				++m_runningFrames;
+				m_runningAnimationTime = 0;
+			}
+		}
+		else
+		{
+			m_runningMGAnimationTime++;
+			if (m_runningMGAnimationTime >= m_runningMGAnimationLimit)
+			{
+				++m_runningMGFrames;
+				m_runningMGAnimationTime = 0;
+			}
 		}
 	}
 }

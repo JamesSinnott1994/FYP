@@ -96,7 +96,7 @@ int _tmain(int argc, _TCHAR* argv[])
 					else if (menu->Update(e) == 2)// Options button clicked
 						gameState = OPTIONS;
 					else if (menu->Update(e) == 1)// Play button clicked
-						gameState = INSTRUCTIONS;
+						gameState = ENTER_NAME_SCREEN;// ********************************
 					break;
 
 				case OPTIONS:

@@ -164,7 +164,7 @@ void HighScoreScreen::GetServerData()
 	std::string readBuffer;
 
 	// Data to send
-	string url = "http://52.18.41.64:443/score";
+	string url = "http://52.49.207.224:443/score";
 
 	// Sets URL
 	curl_easy_setopt(myHandle, CURLOPT_URL, url.c_str());
@@ -196,7 +196,7 @@ void HighScoreScreen::PostServerData(string pName, int pScore)
 	CURLcode result;
 
 	// Data to send
-	string url = "http://52.18.41.64:443/score";
+	string url = "http://52.49.207.224:443/score";
 
 	string postMessage = "";
 	string name = pName;
@@ -237,10 +237,10 @@ void HighScoreScreen::Draw()
 
 int HighScoreScreen::Update()
 {
-	/*if (!haveScores)
+	if (!haveScores)
 		GetServerData();
 	if (haveScores && !tableLoaded)
-		loadTTFMedia();*/
+		loadTTFMedia();
 
 	// Check if pressed enter
 	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_RETURN))

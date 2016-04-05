@@ -48,7 +48,7 @@ void ElectricSwitch::Reset()
 {
 	m_on = true;
 	SDL_Rect m_source = { 0, 0, 180, 216 };
-	sprite.Init("Images/OnSwitch.png", myRect, m_source);
+	sprite.Init("Images/Obstacles/OnSwitch.png", myRect, m_source);
 	sprite.SetOffset(SDL_Point{ myRect.w / 2, myRect.h / 2 });
 	myBody->SetActive(true);
 }

@@ -32,7 +32,7 @@ Score::Score(SDL_Texture* text, SDL_Rect pRect, b2World *wWorld, SDL_Rect src, s
 
 	// Speed
 	m_animationTimeLaptop = 10;
-	m_animationTimeLab = 30;
+	m_animationTimeLab = 35;
 
 	if (speedType == "labSpeed")
 	{

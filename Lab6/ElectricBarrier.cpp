@@ -39,7 +39,7 @@ ElectricBarrier::ElectricBarrier(SDL_Texture* text, SDL_Rect pRect, b2World *wWo
 
 	// Speed
 	m_animationTimeLaptop = 10;
-	m_animationTimeLab = 30;
+	m_animationTimeLab = 60;
 
 	if (speedType == "labSpeed")
 	{

@@ -27,6 +27,8 @@ public:
 	void UpdateAnimations();
 	void UpdateBullets();
 	void Move();
+	void MoveLeft();
+	void MoveRight();
 	void Jump();
 	void Shoot();
 	void Reset();
