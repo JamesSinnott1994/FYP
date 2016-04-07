@@ -62,7 +62,7 @@ void Level::LoadLevel(string name, b2World* world, string speedType, int width, 
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
 				PlatformManager::GetInstance()->addMovePlatSensor(temp, world, 1);
 			}
-			else if (c == 'u')// 'b' for up sensor, used for stopping moving platform
+			else if (c == 'u')// 'u' for up sensor, used for stopping moving platform
 			{
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
 				PlatformManager::GetInstance()->addMovePlatSensor(temp, world, 3);

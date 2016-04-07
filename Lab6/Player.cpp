@@ -722,7 +722,7 @@ void Player::Jump()
 void Player::Shoot()
 {
 	SDL_Texture* m_bulletTexture = Sprite::loadTexture("Images/Player/Bullet.png", Renderer::GetInstance()->Get_SDL_RENDERER());
-	SDL_Rect m_bulletSource = { 0, 0, 63, 64 };
+	SDL_Rect m_bulletSource = { 0, 0, 63, 63 };
 	SDL_Rect m_bulletPos;
 
 	if (m_movingRight)
