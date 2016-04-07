@@ -76,6 +76,9 @@ Grunt::Grunt(SDL_Rect pRect, b2World* wWorld, int color, int direction, string s
 	m_drawn = true;
 	m_canCreateBullet = false;
 
+	// For player score
+	m_scoreAdded = false;
+
 	// Running Frames/Animation
 	gSpriteRunningClipsRight[RUNNING_ANIMATION_FRAMES];
 	gSpriteRunningClipsLeft[RUNNING_ANIMATION_FRAMES];
@@ -357,6 +360,7 @@ void Grunt::Reset()
 	m_canCreateBullet = false;
 	m_shootTimer = 0;
 	m_health = 100;
+	m_scoreAdded = false;
 	m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y - 0.000001f));
 }
 
@@ -523,6 +527,16 @@ bool Grunt::CanCreateBullet()
 void Grunt::SetCanCreateBullet(bool myCanCreateBullet)
 {
 	m_canCreateBullet = myCanCreateBullet;
+}
+
+bool Grunt::GetScoreAdded()
+{
+	return m_scoreAdded;
+}
+
+void Grunt::SetScoreAdded(bool myScoreAdded)
+{
+	m_scoreAdded = myScoreAdded;
 }
 
 #pragma endregion

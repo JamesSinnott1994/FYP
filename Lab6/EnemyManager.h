@@ -37,11 +37,21 @@ public:
 	void addGrunt(SDL_Rect pRect, b2World* world, int color, int direction, string speedType, int width, int height);
 	void addRobot(SDL_Rect pRect, b2World* world, int direction, string speedType, int width, int height);
 
+	bool IncreasePlayerScore();
+	void SetIncreasePlayerScore(bool myIncreasePlayerScore);
+
+	int GetPlayerScoreToAdd();
+	void SetPlayerScoreToAdd(int myPlayerScoreToAdd);
+
 private:
 	EnemyManager()
 	{
 		m_grunts = list<Grunt*>();
 		m_robots = list<Robot*>();
+
+		// Player score
+		m_increasePlayerScore = false;
+		m_playerScoreToAdd = 0;
 	}
 
 	static bool instanceFlag;
@@ -62,5 +72,9 @@ private:
 	SDL_Rect m_robotSource;
 	list<Robot*>::iterator m_robotIterator;
 	list<RobotBullet*>::iterator m_robotBulletIterator;
+
+	// Player score
+	bool m_increasePlayerScore;
+	int m_playerScoreToAdd;
 };
 #endif

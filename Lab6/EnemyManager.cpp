@@ -41,6 +41,10 @@ void EnemyManager::Draw()
 
 bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 {
+	// Reset these for player score
+	SetIncreasePlayerScore(false);
+	SetPlayerScoreToAdd(0);
+
 	// Update grunts
 	if (m_grunts.size() > 0)
 	{
@@ -55,6 +59,12 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 					m_gruntBullets = (*m_gruntIterator)->CreateBullet(m_gruntBullets);
 				}
 			}
+			else if (!(*m_gruntIterator)->GetAlive() && !(*m_gruntIterator)->GetScoreAdded())
+			{
+				SetIncreasePlayerScore(true);
+				SetPlayerScoreToAdd(10);
+				(*m_gruntIterator)->SetScoreAdded(true);
+			}
 		}
 	}
 
@@ -66,6 +76,12 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 			if ((*m_robotIterator)->GetAlive())
 			{
 				(*m_robotIterator)->Update(playerRect, m_robotBullets.size(), m_robots.size() * 1);
+			}
+			else if (!(*m_robotIterator)->GetAlive() && !(*m_robotIterator)->GetScoreAdded())
+			{
+				SetIncreasePlayerScore(true);
+				SetPlayerScoreToAdd(20);
+				(*m_robotIterator)->SetScoreAdded(true);
 			}
 
 			if ((*m_robotIterator)->CanCreateBullet())
@@ -291,3 +307,22 @@ void EnemyManager::Destroy()
 	DestroyBullets();
 
 }
+
+#pragma region Getters/Setters
+bool EnemyManager::IncreasePlayerScore()
+{
+	return m_increasePlayerScore;
+}
+void EnemyManager::SetIncreasePlayerScore(bool myIncreasePlayerScore)
+{
+	m_increasePlayerScore = myIncreasePlayerScore;
+}
+int EnemyManager::GetPlayerScoreToAdd()
+{
+	return m_playerScoreToAdd;
+}
+void EnemyManager::SetPlayerScoreToAdd(int myPlayerScoreToAdd)
+{
+	m_playerScoreToAdd = myPlayerScoreToAdd;
+}
+#pragma endregion

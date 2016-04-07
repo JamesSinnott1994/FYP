@@ -53,6 +53,9 @@ private:
 	bool m_drawn;// For drawing idle image when changing direction
 	bool m_canCreateBullet;
 
+	// For player score
+	bool m_scoreAdded;
+
 	// Screen width and height
 	int m_width;
 	int m_height;
@@ -107,6 +110,9 @@ public:
 	bool CheckBulletPlayerCollision(b2Body* playerBody);
 
 	void Fell();
+
+	bool GetScoreAdded();
+	void SetScoreAdded(bool myScoreAdded);
 };
 
 #endif

@@ -54,6 +54,9 @@ private:
 	bool m_drawn;// For drawing idle image when changing direction
 	bool m_canCreateBullet;
 
+	// For player score
+	bool m_scoreAdded;
+
 	// Strings used to read in images
 	string colorString;
 	string directionString;
@@ -114,6 +117,9 @@ public:
 	bool CheckBulletPlayerCollision(b2Body* playerBody);
 
 	void Fell();
+
+	bool GetScoreAdded();
+	void SetScoreAdded(bool myScoreAdded);
 };
 
 #endif

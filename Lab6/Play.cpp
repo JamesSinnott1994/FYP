@@ -211,6 +211,13 @@ int Play::Update(SDL_Event e)
 				menuOpen = true;
 				paused = true;
 			}
+
+			// Update player score if enemy killed
+			if (EnemyManager::GetInstance()->IncreasePlayerScore())
+			{
+				m_player->SetScore(m_player->GetScore() + EnemyManager::GetInstance()->GetPlayerScoreToAdd());
+				loadTTFMedia();
+			}
 		}// End if
 
 		// Paused
