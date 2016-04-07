@@ -21,11 +21,12 @@ void GameOver::Draw()
 	Renderer::GetInstance()->RenderScreen();
 }
 
-int GameOver::Update(string name, HighScoreScreen* highscore, int score)
+int GameOver::Update(string name, HighScoreScreen* highscore, int score, bool highscoreEnabled)
 {
 	SoundManager::GetInstance()->play(SoundManager::GetInstance()->MENU_MUSIC);
 
-	//highscore->PostServerData(name, score);
+	if (highscoreEnabled)
+		highscore->PostServerData(name, score);
 
 	// Start timer if not already started
 	if (!timer->isStarted())

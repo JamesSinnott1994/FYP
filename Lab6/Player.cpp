@@ -86,7 +86,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 
 	// Health
 	m_health = 100;
-	m_lives = 3;
+	m_lives = 1;
 	m_alive = true;
 
 	// Machine gun

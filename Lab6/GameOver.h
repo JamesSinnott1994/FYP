@@ -17,7 +17,7 @@ public:
 	GameOver(int windowWidth, int windowHeight);
 
 	void Draw();
-	int Update(string name, HighScoreScreen* highscore, int score);
+	int Update(string name, HighScoreScreen* highscore, int score, bool highscoreEnabled);
 
 	const int MENU = 1;
 };

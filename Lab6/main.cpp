@@ -41,7 +41,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	srand(time(NULL));
 
 	// Enable highscore table
-	bool highscoreEnabled = false;
+	bool highscoreEnabled = true;
 
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);
@@ -140,7 +140,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 				case GAMEOVER:
 					gameOver->Draw();
-					if (gameOver->Update(enterNameScreen->GetName(), highScoreScreen, play->GetScore()) == 1)
+					if (gameOver->Update(enterNameScreen->GetName(), highScoreScreen, play->GetScore(), highscoreEnabled) == 1)
 					{
 						if (highscoreEnabled)
 							gameState = HIGH_SCORE_SCREEN;
