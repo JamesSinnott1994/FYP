@@ -40,6 +40,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	// initialize random seed
 	srand(time(NULL));
 
+	// Enable highscore table
+	bool highscoreEnabled = false;
+
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);
 
@@ -96,7 +99,12 @@ int _tmain(int argc, _TCHAR* argv[])
 					else if (menu->Update(e) == 2)// Options button clicked
 						gameState = OPTIONS;
 					else if (menu->Update(e) == 1)// Play button clicked
-						gameState = ENTER_NAME_SCREEN;// ********************************
+					{
+						if (highscoreEnabled)
+							gameState = ENTER_NAME_SCREEN;// ********************************
+						else
+							gameState = INSTRUCTIONS;
+					}
 					break;
 
 				case OPTIONS:
@@ -134,7 +142,14 @@ int _tmain(int argc, _TCHAR* argv[])
 					gameOver->Draw();
 					if (gameOver->Update(enterNameScreen->GetName(), highScoreScreen, play->GetScore()) == 1)
 					{
-						gameState = HIGH_SCORE_SCREEN;
+						if (highscoreEnabled)
+							gameState = HIGH_SCORE_SCREEN;
+						else
+						{
+							play->Quit();
+							playInitial = true;// Used whenever we exit out of a game so that we can re-initialize the game
+							gameState = MENU;
+						}
 					}
 					break;
 
