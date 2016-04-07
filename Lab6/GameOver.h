@@ -13,6 +13,8 @@ private:
 	Sprite* m_backGroundImage;
 
 	Timer* timer;
+
+	bool scoreAddedToDatabase;
 public:
 	GameOver(int windowWidth, int windowHeight);
 

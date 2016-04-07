@@ -12,6 +12,9 @@ GameOver::GameOver(int windowWidth, int windowHeight)
 
 	// Timer
 	timer = new Timer();
+
+	// Boolean to prevent constantly adding to database
+	scoreAddedToDatabase = false;
 }
 
 void GameOver::Draw()
@@ -25,8 +28,11 @@ int GameOver::Update(string name, HighScoreScreen* highscore, int score, bool hi
 {
 	SoundManager::GetInstance()->play(SoundManager::GetInstance()->MENU_MUSIC);
 
-	if (highscoreEnabled)
+	if (highscoreEnabled && !scoreAddedToDatabase)
+	{
 		highscore->PostServerData(name, score);
+		scoreAddedToDatabase = true;
+	}
 
 	// Start timer if not already started
 	if (!timer->isStarted())
