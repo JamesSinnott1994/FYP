@@ -47,3 +47,8 @@ int GameOver::Update(string name, HighScoreScreen* highscore, int score, bool hi
 	}
 	return 0;
 }
+
+void GameOver::SetScoreAddedToDatabase(bool myScoreAddedToDatabase)
+{
+	scoreAddedToDatabase = myScoreAddedToDatabase;
+}

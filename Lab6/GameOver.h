@@ -22,6 +22,8 @@ public:
 	int Update(string name, HighScoreScreen* highscore, int score, bool highscoreEnabled);
 
 	const int MENU = 1;
+
+	void SetScoreAddedToDatabase(bool myScoreAddedToDatabase);
 };
 
 #endif

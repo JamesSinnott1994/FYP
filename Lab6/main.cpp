@@ -167,6 +167,7 @@ int _tmain(int argc, _TCHAR* argv[])
 					{
 						play->Quit();
 						playInitial = true;// Used whenever we exit out of a game so that we can re-initialize the game
+						gameOver->SetScoreAddedToDatabase(false);
 						gameState = MENU;
 					}
 					break;
