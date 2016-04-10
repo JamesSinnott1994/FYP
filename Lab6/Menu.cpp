@@ -33,10 +33,19 @@ Menu::Menu(int windowWidth, int windowHeight)
 	m_exitButton.Init(SDL_Rect{ exitBtnXPos, exitBtnYPos, exitBtnWidth, exitBtnHeight },
 		SDL_Rect{ 0, 0, 127, 62 }, "Images/Menu/ExitBtnNotOver.png");
 
+	// Create Tutorial button
+	float tutorialBtnWidth = 229;
+	float tutorialBtnHeight = 62;
+	float tutorialBtnXPos = windowWidth / 5 - (tutorialBtnWidth / 2);
+	float tutorialBtnYPos = (windowHeight*0.85f) - tutorialBtnHeight;
+	m_tutorialButton.Init(SDL_Rect{ tutorialBtnXPos, tutorialBtnYPos, tutorialBtnWidth, tutorialBtnHeight },
+		SDL_Rect{ 0, 0, 229, 62 }, "Images/Menu/TutorialBtnNotOver.png");
+
 	// Prevents constant draw when over buttons
 	m_playImageOver = false;
 	m_optionsImageOver = false;
 	m_exitImageOver = false;
+	m_tutorialImageOver = false;
 }
 
 void Menu::Draw()
@@ -46,6 +55,7 @@ void Menu::Draw()
 	m_playButton.Draw();
 	m_optionsButton.Draw();
 	m_exitButton.Draw();
+	m_tutorialButton.Draw();
 	Renderer::GetInstance()->RenderScreen();
 }
 
@@ -123,6 +133,27 @@ int Menu::Update(SDL_Event e)
 	}
 	#pragma endregion
 
+	// Checks if mouse is over Tutorial button
+	#pragma region TutorialButton
+	if (m_tutorialButton.IsOver(e.button.x, e.button.y))
+	{
+		if (!m_tutorialImageOver)
+		{
+			m_tutorialButton.Init(SDL_Rect{ m_tutorialButton.GetRectangle().x, m_tutorialButton.GetRectangle().y, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h },
+				SDL_Rect{ 0, 0, m_tutorialButton.GetRectangle().w, m_tutorialButton.GetRectangle().h }, "Images/Menu/TutorialBtnOver.png");
+		}
+		m_tutorialImageOver = true;
+	}
+	else
+	{
+		if (m_tutorialImageOver)
+		{
+			m_tutorialButton.Init(SDL_Rect{ m_tutorialButton.GetRectangle().x, m_tutorialButton.GetRectangle().y, m_optionsButton.GetRectangle().w, m_optionsButton.GetRectangle().h },
+				SDL_Rect{ 0, 0, m_tutorialButton.GetRectangle().w, m_tutorialButton.GetRectangle().h }, "Images/Menu/TutorialBtnNotOver.png");
+		}
+		m_tutorialImageOver = false;
+	}
+	#pragma endregion
 
 	#pragma endregion
 
@@ -150,6 +181,10 @@ int Menu::Update(SDL_Event e)
 				else if (m_exitButton.IsClicked(mouse_x, mouse_y))
 				{
 					return EXIT;
+				}
+				else if (m_tutorialButton.IsClicked(mouse_x, mouse_y))
+				{
+					return TUTORIAL;
 				}
 			}
 		}

@@ -18,17 +18,20 @@ public:
 	const int PLAY = 1;
 	const int OPTIONS = 2;
 	const int EXIT = 3;
+	const int TUTORIAL = 4;
 
 	// Prevents constant draw when over buttons
 	bool m_playImageOver;
 	bool m_optionsImageOver;
 	bool m_exitImageOver;
+	bool m_tutorialImageOver;
 private:
 	Sprite* m_backGroundImage;
 
 	Button m_playButton;
 	Button m_optionsButton;
 	Button m_exitButton;
+	Button m_tutorialButton;
 };
 
 #endif

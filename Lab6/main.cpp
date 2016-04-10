@@ -50,7 +50,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	SDL_Window* window = NULL;
 
 	// Game state
-	const int MENU = 0, OPTIONS = 1, INSTRUCTIONS = 2, PLAY = 3, GAMEOVER = 4, ENTER_NAME_SCREEN = 5, HIGH_SCORE_SCREEN = 6;
+	const int MENU = 0, OPTIONS = 1, INSTRUCTIONS = 2, PLAY = 3, GAMEOVER = 4, ENTER_NAME_SCREEN = 5, HIGH_SCORE_SCREEN = 6, TUTORIAL = 7;
 	int gameState = MENU;
 	int returnedType;
 
@@ -94,7 +94,9 @@ int _tmain(int argc, _TCHAR* argv[])
 				{
 				case MENU:
 					menu->Draw();
-					if (menu->Update(e) == 3)// Exit button clicked
+					if (menu->Update(e) == 4)
+						gameState = TUTORIAL;
+					else if (menu->Update(e) == 3)// Exit button clicked
 						quit = true;
 					else if (menu->Update(e) == 2)// Options button clicked
 						gameState = OPTIONS;
@@ -111,6 +113,9 @@ int _tmain(int argc, _TCHAR* argv[])
 					options->Draw();
 					if (options->Update(e) == 1)// Back button clicked
 						gameState = MENU;
+					break;
+
+				case TUTORIAL:
 					break;
 
 				case INSTRUCTIONS:
