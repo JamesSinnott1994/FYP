@@ -11,6 +11,7 @@
 #include "GameOver.h"
 #include "EnterNameScreen.h"
 #include "HighScoreScreen.h"
+#include "Tutorial.h"
 #include <time.h>
 
 // Window width and height
@@ -30,6 +31,7 @@ Splash* splash;
 GameOver* gameOver;
 EnterNameScreen* enterNameScreen;
 HighScoreScreen* highScoreScreen;
+Tutorial* tutorial;
 bool playInitial = false;
 
 // Methods
@@ -116,6 +118,7 @@ int _tmain(int argc, _TCHAR* argv[])
 					break;
 
 				case TUTORIAL:
+					tutorial->Draw();
 					break;
 
 				case INSTRUCTIONS:
@@ -194,6 +197,7 @@ void Init()
 	gameOver = new GameOver(windowWidth, windowHeight);
 	enterNameScreen = new EnterNameScreen(windowWidth, windowHeight);
 	highScoreScreen = new HighScoreScreen(windowWidth, windowHeight);
+	tutorial = new Tutorial(windowWidth, windowHeight);
 
 	if (!SoundManager::GetInstance()->load_files())
 	{

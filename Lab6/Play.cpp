@@ -343,8 +343,8 @@ void Play::AddAssetsToRenderer()
 	// Draw Health Bar
 	SDL_Color red = SDL_Color{ 255, 0, 0, 255 };
 	SDL_Color green = SDL_Color{ 0, 255, 0, 255 };
-	m_healthBar->RenderHPBar(480, 15, 200, 25, m_player->GetHealth()*0.01f, green, red);
-	m_healthBar->RenderPlayerLives();
+	//m_healthBar->RenderHPBar(480, 15, 200, 25, m_player->GetHealth()*0.01f, green, red);
+	//m_healthBar->RenderPlayerLives();
 
 	if (paused) // Draw In-Game menu
 	{
@@ -352,9 +352,9 @@ void Play::AddAssetsToRenderer()
 	}
 
 	// Draw text at position
-	gScoreTextTexture.render(20, 10);
-	gLevelTextTexture.render(300, 10);
-	gLivesTextTexture.render(750, 10);
+	//gScoreTextTexture.render(20, 10);
+	//gLevelTextTexture.render(300, 10);
+	//gLivesTextTexture.render(750, 10);
 }
 
 void Play::HandleSplash()

@@ -313,7 +313,6 @@ void Player::Update()
 				m_playerIdleMachineGunSprite->Init("Images/Player/PlayerMachineGunIdleSpriteLeft.png", m_rect, m_source);
 				m_playerIdleMachineGunSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
 				m_drawn = true;
-			//}
 		}
 		else if (m_movingRight && !m_drawn)
 		{
@@ -330,7 +329,6 @@ void Player::Update()
 				m_playerIdleMachineGunSprite->Init("Images/Player/PlayerMachineGunIdleSpriteRight.png", m_rect, m_source);
 				m_playerIdleMachineGunSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
 				m_drawn = true;
-			//}
 		}
 	}
 	
@@ -588,7 +586,7 @@ void Player::Move()
 
 void Player::MoveLeft()
 {
-	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a) && !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d))
+	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a))
 	{
 		if (!collidingWithMovingPlat)
 		{
@@ -602,23 +600,19 @@ void Player::MoveLeft()
 		// Change sprite image if not already moving left
 		if (!m_movingLeft)
 		{
-			//if (!m_machineGunEquipped)
-			//{
 			m_source = { 0, 0, 912, 107 };
 			m_playerRunningSprite->Init("Images/Player/PlayerRunningLeft.png", m_rect, m_source);
 			m_playerRunningSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
-			//}
-			//else
-			//{
+
 			m_source = { 0, 0, 414, 108 };
 			m_playerRunningMGSprite->Init("Images/Player/PlayerMachineGunRunningSpriteLeft.png", m_rect, m_source);
 			m_playerRunningMGSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
-			//}
+
+			m_movingLeft = true;
+			m_movingRight = false;
 		}
 
 		// Change booleans
-		m_movingLeft = true;
-		m_movingRight = false;
 		m_running = true;
 		m_idle = false;
 		m_drawn = false;
@@ -647,7 +641,7 @@ void Player::MoveLeft()
 
 void Player::MoveRight()
 {
-	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d) && !KeyBoardInput::GetInstance()->isKeyPressed(SDLK_a))
+	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_d))
 	{
 		if (!collidingWithMovingPlat)
 		{
@@ -672,12 +666,12 @@ void Player::MoveRight()
 			m_source = { 0, 0, 414, 108 };
 			m_playerRunningMGSprite->Init("Images/Player/PlayerMachineGunRunningSpriteRight.png", m_rect, m_source);
 			m_playerRunningMGSprite->SetOffset(SDL_Point{ m_rect.w / 2, m_rect.h / 2 });
-			//}
+			
+			m_movingLeft = false;
+			m_movingRight = true;
 		}
 
 		// Change booleans
-		m_movingLeft = false;
-		m_movingRight = true;
 		m_running = true;
 		m_idle = false;
 		m_drawn = false;

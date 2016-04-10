@@ -112,6 +112,7 @@
     <ClCompile Include="Teleporter.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WallManager.cpp" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <ClInclude Include="Teleporter.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Tutorial.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="WallManager.h" />
   </ItemGroup>
