@@ -18,8 +18,8 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 	timer = new Timer();
 
 	// Which speed to use
-	whichSpeed = "labSpeed";
-	//whichSpeed = "laptopSpeed";
+	//whichSpeed = "labSpeed";
+	whichSpeed = "laptopSpeed";
 
 	// Load player
 	m_player = new Player();
@@ -100,7 +100,7 @@ bool Play::loadTTFMedia()
 
 	//Open the font
 	if (!fontLoaded)
-		gFont = TTF_OpenFont("Font/ARDESTINE.ttf", 28);
+		gFont = TTF_OpenFont("Font/timesbd.ttf", 28);
 
 	if (gFont == NULL)
 	{

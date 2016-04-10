@@ -62,13 +62,13 @@ bool HighScoreScreen::loadTTFMedia()
 	bool success = true;
 
 	//Open the font
-	gFont = TTF_OpenFont("Font/ARDESTINE.ttf", 40);
+	gFont = TTF_OpenFont("Font/timesbd.ttf", 40);
 	if (gFont == NULL)
 	{
 		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
 		success = false;
 	}
-	gFont2 = TTF_OpenFont("Font/ARDESTINE.ttf", 25);
+	gFont2 = TTF_OpenFont("Font/timesbd.ttf", 25);
 	if (gFont2 == NULL)
 	{
 		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());

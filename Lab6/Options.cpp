@@ -100,7 +100,7 @@ bool Options::loadTTFMedia()
 	bool success = true;
 
 	//Open the font
-	gFont = TTF_OpenFont("Font/ARDESTINE.ttf", 30);
+	gFont = TTF_OpenFont("Font/timesbd.ttf", 30);
 	if (gFont == NULL)
 	{
 		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());

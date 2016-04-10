@@ -46,7 +46,7 @@ bool InGameMenu::loadTTFMedia(int width, int textNum)
 	//Loading success flag
 	bool success = true;
 
-	gFont = TTF_OpenFont("Font/ARDESTINE.ttf", width);
+	gFont = TTF_OpenFont("Font/timesbd.ttf", width);
 	if (gFont == NULL)
 	{
 		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());

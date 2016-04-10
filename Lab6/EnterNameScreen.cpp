@@ -42,7 +42,7 @@ bool EnterNameScreen::loadTTFMedia()
 	bool success = true;
 
 	//Open the font
-	gFont = TTF_OpenFont("Font/ARDESTINE.ttf", 60);
+	gFont = TTF_OpenFont("Font/timesbd.ttf", 60);
 	if (gFont == NULL)
 	{
 		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
