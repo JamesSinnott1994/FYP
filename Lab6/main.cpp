@@ -53,7 +53,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	// Game state
 	const int MENU = 0, OPTIONS = 1, INSTRUCTIONS = 2, PLAY = 3, GAMEOVER = 4, ENTER_NAME_SCREEN = 5, HIGH_SCORE_SCREEN = 6, TUTORIAL = 7;
-	int gameState = MENU;
+	int gameState = TUTORIAL;
 	int returnedType;
 
 	//SDL
@@ -119,6 +119,10 @@ int _tmain(int argc, _TCHAR* argv[])
 
 				case TUTORIAL:
 					tutorial->Draw();
+					if (tutorial->Update() == 1)// Go back to main menu
+					{
+						gameState = MENU;
+					}
 					break;
 
 				case INSTRUCTIONS:
