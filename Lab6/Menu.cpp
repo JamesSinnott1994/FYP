@@ -5,41 +5,41 @@ Menu::Menu(int windowWidth, int windowHeight)
 {
 	// Create background image
 	m_backGroundImage = new Sprite();
-	m_backGroundImage->Init("Images/Menu/MainMenuBackground.png",
-		SDL_Rect{ windowWidth / 2, windowHeight / 2, windowWidth, windowHeight }, SDL_Rect{ 0, 0, 1280, 960 });
+	m_backGroundImage->Init("Images/Menu/MenuBackground.png",
+		SDL_Rect{ windowWidth / 2, windowHeight / 2, windowWidth, windowHeight }, SDL_Rect{ 0, 0, 800, 600 });
 	m_backGroundImage->SetOffset(SDL_Point{ windowWidth / 2, windowHeight / 2 });
 
 	// Create Play button
-	float playBtnWidth = 167;
-	float playBtnHeight = 144;
-	float playBtnXPos = windowWidth / 2 - (playBtnWidth / 2);
-	float playBtnYPos = windowHeight - playBtnHeight;
+	float playBtnWidth = 191;
+	float playBtnHeight = 46;
+	float playBtnXPos = windowWidth * 0.1f;
+	float playBtnYPos = windowHeight *0.4f;
 	m_playButton.Init(SDL_Rect{ playBtnXPos, playBtnYPos, playBtnWidth, playBtnHeight },
-		SDL_Rect{ 0, 0, 167, 144 }, "Images/Menu/PlayBtnNotOver.png");
-
-	// Create Options button
-	float optionsBtnWidth = 229;
-	float optionsBtnHeight = 62;
-	float optionsBtnXPos = windowWidth / 5 - (optionsBtnWidth / 2);
-	float optionsBtnYPos = windowHeight - optionsBtnHeight;
-	m_optionsButton.Init(SDL_Rect{ optionsBtnXPos, optionsBtnYPos, optionsBtnWidth, optionsBtnHeight },
-		SDL_Rect{ 0, 0, 229, 62 }, "Images/Menu/OptionsBtnNotOver.png");
-
-	// Create Exit button
-	float exitBtnWidth = 127;
-	float exitBtnHeight = 62;
-	float exitBtnXPos = windowWidth - (exitBtnWidth * 2);
-	float exitBtnYPos = windowHeight - exitBtnHeight;
-	m_exitButton.Init(SDL_Rect{ exitBtnXPos, exitBtnYPos, exitBtnWidth, exitBtnHeight },
-		SDL_Rect{ 0, 0, 127, 62 }, "Images/Menu/ExitBtnNotOver.png");
+		SDL_Rect{ 0, 0, 191, 46 }, "Images/Menu/PlayBtnNotOver.png");
 
 	// Create Tutorial button
-	float tutorialBtnWidth = 229;
-	float tutorialBtnHeight = 62;
-	float tutorialBtnXPos = windowWidth / 5 - (tutorialBtnWidth / 2);
-	float tutorialBtnYPos = (windowHeight*0.85f) - tutorialBtnHeight;
+	float tutorialBtnWidth = 191;
+	float tutorialBtnHeight = 46;
+	float tutorialBtnXPos = windowWidth * 0.1f;
+	float tutorialBtnYPos = windowHeight *0.55f;
 	m_tutorialButton.Init(SDL_Rect{ tutorialBtnXPos, tutorialBtnYPos, tutorialBtnWidth, tutorialBtnHeight },
-		SDL_Rect{ 0, 0, 229, 62 }, "Images/Menu/TutorialBtnNotOver.png");
+		SDL_Rect{ 0, 0, 191, 46 }, "Images/Menu/TutorialBtnNotOver.png");
+
+	// Create Options button
+	float optionsBtnWidth = 191;
+	float optionsBtnHeight = 46;
+	float optionsBtnXPos = windowWidth * 0.1f;
+	float optionsBtnYPos = windowHeight *0.7f;
+	m_optionsButton.Init(SDL_Rect{ optionsBtnXPos, optionsBtnYPos, optionsBtnWidth, optionsBtnHeight },
+		SDL_Rect{ 0, 0, 191, 46 }, "Images/Menu/OptionsBtnNotOver.png");
+
+	// Create Exit button
+	float exitBtnWidth = 191;
+	float exitBtnHeight = 46;
+	float exitBtnXPos = windowWidth * 0.1f;
+	float exitBtnYPos = windowHeight *0.85f;
+	m_exitButton.Init(SDL_Rect{ exitBtnXPos, exitBtnYPos, exitBtnWidth, exitBtnHeight },
+		SDL_Rect{ 0, 0, 191, 46 }, "Images/Menu/ExitBtnNotOver.png");
 
 	// Prevents constant draw when over buttons
 	m_playImageOver = false;
