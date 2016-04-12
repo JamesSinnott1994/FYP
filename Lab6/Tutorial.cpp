@@ -14,6 +14,16 @@ Tutorial::Tutorial(int windowWidth, int windowHeight)
 		SDL_Rect{ windowWidth / 2, windowHeight / 2, windowWidth, windowHeight }, SDL_Rect{ 0, 0, 3840, 2400 });
 	m_backGroundImage->SetOffset(SDL_Point{ windowWidth / 2, windowHeight / 2 });
 
+	// Right arrow
+	m_rightArrow = new Sprite();
+	m_rightArrow->Init("Images/Tutorial/RightArrow.png",
+		SDL_Rect{ windowWidth - 60, (windowHeight / 2) - 34, 52, 69 }, SDL_Rect{ 0, 0, 52, 69 });
+
+	// Left arrow
+	m_leftArrow = new Sprite();
+	m_leftArrow->Init("Images/Tutorial/LeftArrow.png",
+		SDL_Rect{ 10, (windowHeight / 2) - 34, 52, 69 }, SDL_Rect{ 0, 0, 52, 69 });
+
 	// Screen Number
 	screenNo = 1;
 
@@ -24,6 +34,10 @@ Tutorial::Tutorial(int windowWidth, int windowHeight)
 
 	// Timer
 	timer = new Timer();
+
+	// Bool
+	m_drawLeftArrow = false;
+	m_drawRightArrow = true;
 
 	initializeTTF();
 	loadTTFMedia();
@@ -85,6 +99,11 @@ void Tutorial::Draw()
 
 	m_backGroundImage->DrawNoCamOffset();
 
+	if (m_drawRightArrow)
+		m_rightArrow->DrawNoCamOffset();
+	if (m_drawLeftArrow)
+		m_leftArrow->DrawNoCamOffset();
+
 	SDL_Rect outerRect = { 80 - 5, 60 - 5, 640 + 10, 480 + 10 };
 	SDL_SetRenderDrawColor(Renderer::GetInstance()->Get_SDL_RENDERER(), 0, 162, 232, 255);// LightBlue
 	SDL_RenderFillRect(Renderer::GetInstance()->Get_SDL_RENDERER(), &outerRect);
@@ -130,6 +149,26 @@ int Tutorial::Update()
 	{
 		screenNo = 0;
 		return MAIN_MENU;
+	}
+
+	// Left Arrow
+	if (screenNo > 1)
+	{
+		m_drawLeftArrow = true;
+	}
+	else
+	{
+		m_drawLeftArrow = false;
+	}
+
+	// Right Arrow
+	if (screenNo < 10)
+	{
+		m_drawRightArrow = true;
+	}
+	else
+	{
+		m_drawRightArrow = false;
 	}
 	return 0;
 }

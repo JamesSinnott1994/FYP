@@ -12,7 +12,7 @@ private:
 	Sprite* m_backGroundImage;
 	Sprite* m_screenImage;
 	Sprite* m_leftArrow;
-	Sprite m_rightArrow;
+	Sprite* m_rightArrow;
 
 	//Globally used font
 	TTF_Font *gFont = NULL;
@@ -29,6 +29,10 @@ private:
 
 	// States
 	const int MAIN_MENU = 1;
+
+	// Bool
+	bool m_drawLeftArrow;
+	bool m_drawRightArrow;
 public:
 	Tutorial();
 	Tutorial(int windowWidth, int windowHeight);
