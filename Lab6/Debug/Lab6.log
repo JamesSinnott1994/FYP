@@ -1,9 +1,12 @@
-﻿Build started 12/04/2016 12:39:01.
+﻿Build started 12/04/2016 16:40:22.
      1>Project "C:\Users\Windows 8\Desktop\master\FYP\Lab6\Lab6.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I./ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CURL_STATICLIB /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Tutorial.cpp
-         Tutorial.cpp
-     1>c:\users\windows 8\desktop\master\fyp\lab6\tutorial.cpp(33): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I./ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CURL_STATICLIB /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Play.cpp
+         Play.cpp
+     1>c:\users\windows 8\desktop\master\fyp\lab6\level.h(9): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>c:\users\windows 8\desktop\master\fyp\lab6\button.h(26): warning C4091: 'static ' : ignored on left of 'Button' when no variable is declared
+     1>c:\users\windows 8\desktop\master\fyp\lab6\play.cpp(27): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\windows 8\desktop\master\fyp\lab6\play.cpp(382): warning C4244: 'argument' : conversion from 'const float32' to 'int', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Windows 8\Desktop\master\FYP\Debug\Lab6.exe" /INCREMENTAL /NOLOGO /LIBPATH:./lib Box2D.lib SDL2main.lib SDL2_image.lib SDL2_mixer.lib SDL2.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libcurl.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Windows 8\Desktop\master\FYP\Debug\Lab6.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Windows 8\Desktop\master\FYP\Debug\Lab6.lib" /MACHINE:X86 Debug\Ammo.obj
          Debug\Bullet.obj
@@ -53,4 +56,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:04.29
+Time Elapsed 00:00:04.69

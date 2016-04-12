@@ -5,6 +5,7 @@
 #include "KeyBoardInput.h"
 #include "Text.h"
 #include "Timer.h"
+#include <vector>
 
 class Tutorial
 {
@@ -21,8 +22,13 @@ private:
 	//Rendered texture
 	Text returnText;
 
+	// Width and Height
+	int width;
+	int height;
+
 	// Screens
 	int screenNo;
+	int noOfScreens;
 
 	// Timer
 	Timer* timer;
@@ -33,12 +39,26 @@ private:
 	// Bool
 	bool m_drawLeftArrow;
 	bool m_drawRightArrow;
+
+	// Outer rect
+	SDL_Rect* outerRect;
+
+	// Squares
+	list<SDL_Rect*> m_squares;
+	int rectNo;
+	list<SDL_Rect*>::iterator m_squareIterator;
+	list<SDL_Rect*> m_squaresOutline;
+	list<SDL_Rect*>::iterator m_squareOutlineIterator;
 public:
 	Tutorial();
 	Tutorial(int windowWidth, int windowHeight);
 
+	// Sqaures
+	void CreateSquares();
+
 	void Draw();
-	int Update();
+	int Update(SDL_Event* e);
+	void MouseDown(SDL_Event* e);
 
 	// Used for drawing text
 	bool initializeTTF();
