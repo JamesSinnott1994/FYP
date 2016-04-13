@@ -69,7 +69,10 @@ private:
 	// Bullets
 	list<RobotBullet*> m_bullets;
 	list<RobotBullet*>::iterator m_bulletIterator;
-
+	float bulletDirX;
+	float bulletDirY;
+	float angle;
+	bool angleOkToShoot;
 public:
 	Robot();
 
@@ -105,6 +108,8 @@ public:
 	void ChangeDirection(int &playerXPos);
 	bool PlayerToTheLeft();
 	void SetPlayerToTheLeft(bool);
+
+	void GetDirectionToPlayer(SDL_Rect* playerRect);
 
 	bool RobotCheckCollision(b2Body* bulletBody);
 	bool CheckBulletPlayerCollision(b2Body* playerBody);

@@ -12,6 +12,9 @@ private:
 	int m_width;
 	int m_height;
 
+	float bulletDirX;
+	float bulletDirY;
+
 	b2Body* myBody;
 	b2BodyDef myBodyDef;
 	b2FixtureDef myBodyFixtureDef;
@@ -25,7 +28,7 @@ private:
 
 public:
 	RobotBullet();
-	RobotBullet(SDL_Texture* text, int width, int height, SDL_Rect pRect, b2World* wWorld, SDL_Rect src, bool facingRight, SDL_Rect gruntRect);
+	RobotBullet(SDL_Texture* text, int width, int height, SDL_Rect pRect, b2World* wWorld, SDL_Rect src, bool facingRight, SDL_Rect gruntRect, float bulDirX, float bulDirY);
 
 	void Draw();
 	bool Update(b2Body* playerBody);

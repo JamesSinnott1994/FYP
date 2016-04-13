@@ -488,6 +488,9 @@ void Player::CheckCollisions()
 		m_hasMachineGun = true;
 		m_machineGunEquipped = true;
 	}
+
+	// Collision with platform currently on
+	CheckStaticPlatCollision();
 }
 
 bool Player::CheckScoreCollision()
@@ -525,6 +528,13 @@ bool Player::CheckMovingPlatformCollision()
 bool Player::CheckMachineGunCollision()
 {
 	return PickupManager::GetInstance()->CheckMachineGunCollision(m_body);
+}
+SDL_Rect* Player::CheckStaticPlatCollision()
+{
+	platformOn = PlatformManager::GetInstance()->CheckStaticPlatCollision(m_body);
+	///if (platformOn.size() > 0)
+		//cout << "{ " << platformOn.at(0) << ", " << platformOn.at(1) << ", " << platformOn.at(2) << ", " << platformOn.at(3) << " }" << endl;
+	return NULL;
 }
 #pragma endregion
 
@@ -846,6 +856,10 @@ int Player::GetMachineGunAmmo()
 void Player::SetMachineGunAmmo(int myMachineGunAmmo)
 {
 	m_machineGunAmmo = myMachineGunAmmo;
+}
+std::vector<int> Player::GetPlatformOn()
+{
+	return platformOn;
 }
 #pragma endregion
 

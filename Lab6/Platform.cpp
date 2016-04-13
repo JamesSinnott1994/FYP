@@ -8,7 +8,7 @@ Platform::Platform()
 
 Platform::Platform(SDL_Texture* text, SDL_Rect pRect, b2World* wWorld, SDL_Rect src)
 {
-	m_rect = pRect;
+	m_rect = &pRect;
 
 	// Define the ground body.
 	m_bodyDef.position.Set(pRect.x, pRect.y);
@@ -31,8 +31,14 @@ Platform::Platform(SDL_Texture* text, SDL_Rect pRect, b2World* wWorld, SDL_Rect 
 
 	// Add the ground fixture to the ground body.
 	m_body->CreateFixture(&m_bodyFixtureDef);
-	m_sprite.Init(text, pRect, src);
-	m_sprite.SetOffset(SDL_Point{ 48, 16 });
+	m_sprite = new Sprite();
+	m_sprite->Init(text, pRect, src);
+	m_sprite->SetOffset(SDL_Point{ m_rect->w / 2, m_rect->h / 2 });
+}
+
+bool Platform::CheckStaticPlatCollision(b2Body* playerBody)
+{
+	return(b2TestOverlap(m_body->GetFixtureList()->GetAABB(0), playerBody->GetFixtureList()->GetAABB(0)));
 }
 
 void Platform::Destroy()
@@ -42,5 +48,10 @@ void Platform::Destroy()
 
 void Platform::Draw()
 {
-	m_sprite.Draw(1);
+	m_sprite->Draw(1);
+}
+
+SDL_Rect* Platform::GetRect()
+{
+	return &m_sprite->getDestRect();
 }

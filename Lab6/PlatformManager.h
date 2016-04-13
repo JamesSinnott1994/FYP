@@ -2,6 +2,7 @@
 #define PLATFORMMANAGER_H
 
 #include <list>
+#include <vector>
 #include "Platform.h"
 #include "MovingPlatform.h"
 
@@ -25,6 +26,8 @@ public:
 	bool CheckCollision(b2Body*);
 	bool IsLeftRight();
 
+	std::vector<int>CheckStaticPlatCollision(b2Body*);
+
 	int xSpeedOfMovingPlatform;
 	int ySpeedOfMovingPlatform;
 
@@ -45,6 +48,7 @@ private:
 	list<Platform*> m_platforms;
 	SDL_Texture* m_platformTexture;
 	SDL_Rect m_platformSource;
+	vector<int> platformOn;
 
 	// Moving platforms
 	list<MovingPlatform*> m_movingPlatforms;

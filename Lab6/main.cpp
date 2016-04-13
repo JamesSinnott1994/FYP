@@ -4,13 +4,12 @@
 #include "Sprite.h"
 #include "Menu.h"
 #include "Options.h"
-#include "Instructions.h"
 #include "Play.h"
 #include "SoundManager.h"
 #include "Splash.h"
 #include "GameOver.h"
 #include "EnterNameScreen.h"
-#include "HighScoreScreen.h"
+#include "HighScoreScreen.h" 
 #include "Tutorial.h"
 #include <time.h>
 
@@ -25,7 +24,6 @@ b2World* world = new b2World(gravity);
 // Class instances
 Menu* menu;
 Options* options;
-Instructions* instructions;
 Play* play;
 Splash* splash;
 GameOver* gameOver;
@@ -36,6 +34,10 @@ bool playInitial = false;
 
 // Methods
 void Init();
+
+// I'm not entirely sure to be honest with you.
+// I'm working on a project where I have to determine the type of NAT that I'm behind by implementing STUN.
+// The question that I asked is one of the steps involved.
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -52,7 +54,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	SDL_Window* window = NULL;
 
 	// Game state
-	const int MENU = 0, OPTIONS = 1, INSTRUCTIONS = 2, PLAY = 3, GAMEOVER = 4, ENTER_NAME_SCREEN = 5, HIGH_SCORE_SCREEN = 6, TUTORIAL = 7;
+	const int MENU = 0, OPTIONS = 1, PLAY = 2, GAMEOVER = 3, ENTER_NAME_SCREEN = 4, HIGH_SCORE_SCREEN = 5, TUTORIAL = 6;
 	int gameState = MENU;
 	int returnedType;
 
@@ -107,7 +109,7 @@ int _tmain(int argc, _TCHAR* argv[])
 						if (highscoreEnabled)
 							gameState = ENTER_NAME_SCREEN;// ********************************
 						else
-							gameState = INSTRUCTIONS;
+							gameState = PLAY;
 					}
 					break;
 
@@ -122,16 +124,6 @@ int _tmain(int argc, _TCHAR* argv[])
 					if (tutorial->Update(&e) == 1)// Go back to main menu
 					{
 						gameState = MENU;
-					}
-					break;
-
-				case INSTRUCTIONS:
-					instructions->Draw();
-					if (instructions->Update() == 1)
-					{
-						if (playInitial)
-							play->Init(world, windowWidth, windowHeight, splash);
-						gameState = PLAY;
 					}
 					break;
 
@@ -169,7 +161,7 @@ int _tmain(int argc, _TCHAR* argv[])
 					enterNameScreen->Draw();
 					if (enterNameScreen->Update() == 1)
 					{
-						gameState = INSTRUCTIONS;
+						gameState = PLAY;
 					}
 					break;
 
@@ -195,7 +187,6 @@ void Init()
 {
 	menu = new Menu(windowWidth, windowHeight);
 	options = new Options(windowWidth, windowHeight);
-	instructions = new Instructions(windowWidth, windowHeight);
 	splash = new Splash(windowWidth, windowHeight);
 	play = new Play(world, windowWidth, windowHeight, splash);
 	gameOver = new GameOver(windowWidth, windowHeight);

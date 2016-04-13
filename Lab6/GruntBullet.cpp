@@ -3,13 +3,16 @@
 
 GruntBullet::GruntBullet() {}
 
-GruntBullet::GruntBullet(SDL_Texture* text, int width, int height, SDL_Rect pRect, b2World* wWorld, SDL_Rect src, bool facingRight, SDL_Rect gruntRect)
+GruntBullet::GruntBullet(SDL_Texture* text, int width, int height, SDL_Rect pRect, b2World* wWorld, SDL_Rect src, bool facingRight, SDL_Rect gruntRect, float bulDirX, float bulDirY)
 {
 	m_rect = pRect;
 	m_gruntRect = gruntRect;
 
 	m_width = width;
 	m_height = height;
+
+	bulletDirX = bulDirX;
+	bulletDirY = bulDirY;
 
 	// Define the ground body.
 	myBodyDef.position.Set(m_rect.x, m_rect.y);
@@ -55,9 +58,15 @@ void GruntBullet::Draw()
 bool GruntBullet::Update(b2Body* playerBody)
 {
 	if (m_facingRight)
-		myBody->SetLinearVelocity(b2Vec2(4, myBody->GetLinearVelocity().y));
+	{
+		//myBody->SetLinearVelocity(b2Vec2(4, myBody->GetLinearVelocity().y));
+		myBody->SetLinearVelocity(b2Vec2(bulletDirX * 4, bulletDirY * 4));
+	}
 	else
-		myBody->SetLinearVelocity(b2Vec2(-4, myBody->GetLinearVelocity().y));
+	{
+		//myBody->SetLinearVelocity(b2Vec2(-4, myBody->GetLinearVelocity().y));
+		myBody->SetLinearVelocity(b2Vec2(bulletDirX * 4, bulletDirY * 4));
+	}
 
 	m_rect.x = myBody->GetPosition().x;
 	m_rect.y = myBody->GetPosition().y;

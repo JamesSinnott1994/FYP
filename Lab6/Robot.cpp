@@ -93,8 +93,14 @@ Robot::Robot(SDL_Rect pRect, b2World* wWorld, int direction, string speedType, i
 	m_runningAnimationLimitLaptop = 5;
 
 	// Shoot timer
-	m_shootTimerLaptop = 200;
+	m_shootTimerLaptop = 100;
 	m_shootTimerLab = 2000;
+
+	// Bullet
+	bulletDirX = 0;
+	bulletDirY = 0;
+	angle = 0;
+	angleOkToShoot = false;
 
 	// Speed
 	if (speedType == "labSpeed")
@@ -191,8 +197,10 @@ void Robot::Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets)
 	}
 
 	ChangeDirection(playerRect.x);
+	GetDirectionToPlayer(&playerRect);
 
-	m_inRange = InRangeOfPlayer(playerRect);
+	//m_inRange = InRangeOfPlayer(playerRect);
+	m_inRange = true;
 
 	//Animation();
 
@@ -234,6 +242,13 @@ void Robot::Reset()
 	m_shootTimer = 0;
 	m_health = 100;
 	m_scoreAdded = false;
+
+	// Bullet
+	bulletDirX = 0;
+	bulletDirY = 0;
+	angle = 0;
+	angleOkToShoot = false;
+
 	m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y - 0.000001f));
 }
 
@@ -301,7 +316,7 @@ void Robot::Animation()
 
 void Robot::Shoot(int noOfBullets, int maxBullets)
 {
-	if (m_shootTimer >= m_shootTimerLimit && noOfBullets <= maxBullets)
+	if (m_shootTimer >= m_shootTimerLimit && noOfBullets <= maxBullets && angleOkToShoot)
 	{
 		//CreateBullet(m_gruntBullets);
 		m_canCreateBullet = true;
@@ -340,7 +355,7 @@ list<RobotBullet*> Robot::CreateBullet(list<RobotBullet*>m_robotBullets)
 		m_bulletPos = { m_rect.x - 40, m_rect.y - 15, 10, 7 };
 	}
 
-	RobotBullet* bullet = new RobotBullet(m_bulletTexture, m_width, m_height, m_bulletPos, world, m_bulletSource, m_facingRight, m_rect);
+	RobotBullet* bullet = new RobotBullet(m_bulletTexture, m_width, m_height, m_bulletPos, world, m_bulletSource, m_facingRight, m_rect, bulletDirX, bulletDirY);
 
 	m_robotBullets.push_back(bullet);
 
@@ -392,6 +407,43 @@ bool Robot::RobotCheckCollision(b2Body* bulletBody)
 	}
 
 	return collided;
+}
+
+void Robot::GetDirectionToPlayer(SDL_Rect* playerRect)
+{
+	float playerXPos = playerRect->x;// +(playerRect->w / 2);
+	float playerYPos = playerRect->y;// +(playerRect->h / 2);
+
+	bulletDirX = playerXPos - m_body->GetPosition().x;
+	bulletDirY = playerYPos - m_body->GetPosition().y;
+
+	angle = atan2(bulletDirY, bulletDirX) * 180 / 3.141;
+
+	angleOkToShoot = false;
+	if (m_facingRight)// RIGHT
+	{
+		if ((angle >= -45 && angle <= 0)
+			|| (angle >= 0 && angle <= 45))
+		{
+			angleOkToShoot = true;
+		}
+	}
+	else // LEFT
+	{
+		if ((angle <= -135 && angle >= -180)
+			|| (angle >= 135 && angle <= 180))
+		{
+			angleOkToShoot = true;
+		}
+	}
+
+	// Normalize
+	float length = sqrt((bulletDirX*bulletDirX) + (bulletDirY*bulletDirY));
+	if (length > 0)
+	{
+		bulletDirX = bulletDirX / length;
+		bulletDirY = bulletDirY / length;
+	}
 }
 
 bool Robot::InRangeOfPlayer(SDL_Rect &playerRect)

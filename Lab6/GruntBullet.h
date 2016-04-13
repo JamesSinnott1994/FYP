@@ -23,9 +23,12 @@ private:
 
 	bool m_collided;
 
+	float bulletDirX;
+	float bulletDirY;
+
 public:
 	GruntBullet();
-	GruntBullet(SDL_Texture* text, int width, int height, SDL_Rect pRect, b2World* wWorld, SDL_Rect src, bool facingRight, SDL_Rect gruntRect);
+	GruntBullet(SDL_Texture* text, int width, int height, SDL_Rect pRect, b2World* wWorld, SDL_Rect src, bool facingRight, SDL_Rect gruntRect, float bulDirX, float bulDirY);
 
 	void Draw();
 	bool Update(b2Body* playerBody);

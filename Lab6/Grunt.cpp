@@ -92,6 +92,12 @@ Grunt::Grunt(SDL_Rect pRect, b2World* wWorld, int color, int direction, string s
 	m_shootTimerLaptop = 200;
 	m_shootTimerLab = 2000;
 
+	// Bullet
+	bulletDirX = 0;
+	bulletDirY = 0;
+	angle = 0;
+	angleOkToShoot = false;
+
 	// Speed
 	if (speedType == "labSpeed")
 	{
@@ -192,6 +198,9 @@ void Grunt::Draw()
 
 void Grunt::Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets)
 {
+	// NEED TO GET PLATFORM THAT PLAYER IS ON
+	// GET THE BODY OF THE PLATFORM THAT THE PLAYER IS ON
+
 	// Update time to shoot
 	if (m_shootTimer <= m_shootTimerLimit && m_inRange)
 		m_shootTimer++;
@@ -200,7 +209,6 @@ void Grunt::Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets)
 		m_canCreateBullet = false;
 		m_shootTimer = m_shootTimerLimit + 2;
 	}
-
 	State s = FiniteStateMachine();
 
 	switch (s)
@@ -218,8 +226,10 @@ void Grunt::Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets)
 	}
 
 	ChangeDirection(playerRect.x);
+	GetDirectionToPlayer(&playerRect);
 
-	m_inRange = InRangeOfPlayer(playerRect);
+	//m_inRange = InRangeOfPlayer(playerRect);
+	m_inRange = true;
 
 	//Animation();
 
@@ -315,9 +325,8 @@ void Grunt::Running()
 
 void Grunt::Shoot(int noOfBullets, int maxBullets)
 {
-	if (m_shootTimer >= m_shootTimerLimit && noOfBullets <= maxBullets)
+	if (m_shootTimer >= m_shootTimerLimit && noOfBullets <= maxBullets && angleOkToShoot)
 	{
-		//CreateBullet(m_gruntBullets);
 		m_canCreateBullet = true;
 		m_shootTimer = 0;
 	}
@@ -338,7 +347,7 @@ list<GruntBullet*> Grunt::CreateBullet(list<GruntBullet*>m_gruntBullets)
 	else
 		m_bulletPos = { m_rect.x - 32, m_rect.y - 3, 9, 6 };
 
-	GruntBullet* bullet = new GruntBullet(m_bulletTexture, m_width, m_height, m_bulletPos, world, m_bulletSource, m_facingRight, m_rect);
+	GruntBullet* bullet = new GruntBullet(m_bulletTexture, m_width, m_height, m_bulletPos, world, m_bulletSource, m_facingRight, m_rect, bulletDirX, bulletDirY);
 
 	m_gruntBullets.push_back(bullet);
 
@@ -361,6 +370,13 @@ void Grunt::Reset()
 	m_shootTimer = 0;
 	m_health = 100;
 	m_scoreAdded = false;
+
+	// Bullet
+	bulletDirX = 0;
+	bulletDirY = 0;
+	angle = 0;
+	angleOkToShoot = false;
+
 	m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y - 0.000001f));
 }
 
@@ -390,6 +406,43 @@ bool Grunt::GruntCheckCollision(b2Body* bulletBody)
 void Grunt::Destroy()
 {
 	m_body->GetWorld()->DestroyBody(m_body);
+}
+
+void Grunt::GetDirectionToPlayer(SDL_Rect* playerRect)
+{
+	float playerXPos = playerRect->x;// +(playerRect->w / 2);
+	float playerYPos = playerRect->y;// +(playerRect->h / 2);
+
+	bulletDirX = playerXPos - m_body->GetPosition().x;
+	bulletDirY = playerYPos - m_body->GetPosition().y;
+
+	angle = atan2(bulletDirY, bulletDirX) * 180 / 3.141;
+
+	angleOkToShoot = false;
+	if (m_facingRight)// RIGHT
+	{
+		if ((angle >= -45 && angle <= 0)
+			|| (angle >= 0 && angle <= 45))
+		{
+			angleOkToShoot = true;
+		}
+	}
+	else // LEFT
+	{
+		if ((angle <= -135 && angle >= -180)
+			|| (angle >= 135 && angle <= 180))
+		{
+			angleOkToShoot = true;
+		}
+	}
+
+	// Normalize
+	float length = sqrt((bulletDirX*bulletDirX) + (bulletDirY*bulletDirY));
+	if (length > 0)
+	{
+		bulletDirX = bulletDirX / length;
+		bulletDirY = bulletDirY / length;
+	}
 }
 
 void Grunt::ChangeDirection(int &playerXPos)

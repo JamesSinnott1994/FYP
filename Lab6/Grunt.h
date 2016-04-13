@@ -75,6 +75,10 @@ private:
 	// Bullets
 	list<GruntBullet*> m_bullets;
 	list<GruntBullet*>::iterator m_bulletIterator;
+	float bulletDirX;
+	float bulletDirY;
+	float angle;
+	bool angleOkToShoot;
 
 public:
 	Grunt();
@@ -112,6 +116,8 @@ public:
 	void ChangeDirection(int &playerXPos);
 	bool PlayerToTheLeft();
 	void SetPlayerToTheLeft(bool);
+
+	void GetDirectionToPlayer(SDL_Rect* playerRect);
 
 	bool GruntCheckCollision(b2Body* bulletBody);
 	bool CheckBulletPlayerCollision(b2Body* playerBody);

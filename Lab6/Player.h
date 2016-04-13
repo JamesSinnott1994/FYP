@@ -70,6 +70,9 @@ public:
 	// Position
 	SDL_Rect GetPosition();
 
+	// Get Platform On
+	std::vector<int> GetPlatformOn();
+
 	// ReachedTeleporter
 	bool GetReachedTeleporter();
 	void SetReachedTeleporter(bool);
@@ -86,6 +89,7 @@ public:
 	bool CheckTeleporterCollision();
 	bool CheckMovingPlatformCollision();
 	bool CheckMachineGunCollision();
+	SDL_Rect* CheckStaticPlatCollision();
 	#pragma endregion
 
 private:
@@ -164,6 +168,9 @@ private:
 	int m_shootTimerMGLaptop;
 	int m_shootTimerMGLab;
 	int m_shootTimerMGLimit;
+
+	// Platform currently on
+	std::vector<int> platformOn;
 
 	// Bullets
 	list<Bullet*> m_bullets;

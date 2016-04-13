@@ -73,6 +73,27 @@ void PlatformManager::Update()
 	}
 }
 
+std::vector<int>PlatformManager::CheckStaticPlatCollision(b2Body*playerBody)
+{
+	for each (Platform* plat in m_platforms)
+	{
+		if (plat->CheckStaticPlatCollision(playerBody))
+		{
+			int x = plat->GetRect()->x;
+			int y = plat->GetRect()->y;
+			int w = plat->GetRect()->w;
+			int h = plat->GetRect()->h;
+			platformOn.push_back(x);
+			platformOn.push_back(y);
+			platformOn.push_back(w);
+			platformOn.push_back(h);
+			return platformOn;
+		}
+	}
+	platformOn.clear();
+	return vector<int>();;
+}
+
 bool PlatformManager::CheckCollision(b2Body*playerBody)
 {
 	for each (MovingPlatform* mPlat in m_movingPlatforms)

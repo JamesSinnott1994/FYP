@@ -86,7 +86,6 @@
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="HighScoreScreen.cpp" />
     <ClCompile Include="InGameMenu.cpp" />
-    <ClCompile Include="Instructions.cpp" />
     <ClCompile Include="KeyBoardInput.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="MachineGun.cpp" />
@@ -131,7 +130,6 @@
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="HighScoreScreen.h" />
     <ClInclude Include="InGameMenu.h" />
-    <ClInclude Include="Instructions.h" />
     <ClInclude Include="KeyBoardInput.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="MachineGun.h" />

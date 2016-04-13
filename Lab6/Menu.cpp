@@ -172,6 +172,7 @@ int Menu::Update(SDL_Event e)
 				// Check if button clicked
 				if (m_playButton.IsClicked(mouse_x, mouse_y))
 				{
+					SoundManager::GetInstance()->stopMusic();
 					return PLAY;
 				}
 				else if (m_optionsButton.IsClicked(mouse_x, mouse_y))
