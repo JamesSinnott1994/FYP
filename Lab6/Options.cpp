@@ -3,65 +3,73 @@
 
 Options::Options(int windowWidth, int windowHeight)
 {
+	// Timer
+	timer = new Timer();
+
 	// Create background image
 	m_backGroundImage = new Sprite();
 	m_backGroundImage->Init("Images/Backgrounds/space.png",
 		SDL_Rect{ windowWidth / 2, windowHeight / 2, windowWidth, windowHeight }, SDL_Rect{ 0, 0, 1280, 960 });
 	m_backGroundImage->SetOffset(SDL_Point{ windowWidth / 2, windowHeight / 2 });
 
+	// Create Options image
+	m_optionsImage = new Sprite();
+	float optionsWidth = 382;
+	float optionsHeight = 184;
+	m_optionsImage->Init("Images/Options/GameOptions.png",
+		SDL_Rect{ windowWidth / 2 - (optionsWidth / 2), windowHeight *0.2f - (optionsHeight/2), optionsWidth, optionsHeight }, 
+		SDL_Rect{ 0, 0, 382, 184 });
+
 	// Create back button
-	float backBtnWidth = 169;
-	float backBtnHeight = 92;
-	backBtnWidth = backBtnWidth / 2;
-	backBtnHeight = backBtnHeight / 2;
-	float backBtnXPos = windowWidth - (backBtnWidth);
+	float backBtnWidth = 191/2;
+	float backBtnHeight = 92/2;
+	float backBtnXPos = windowWidth - backBtnWidth;
 	float backBtnYPos = windowHeight - backBtnHeight;
 	m_backButton.Init(SDL_Rect{ backBtnXPos, backBtnYPos, backBtnWidth, backBtnHeight },
-		SDL_Rect{ 0, 0, 167, 144 }, "Images/Menu/BackButton.png");
+		SDL_Rect{ 0, 0, 191, 92 }, "Images/Options/BackButtonNotOver.png");
 
-	// Create Sound On Selected button
-	float onBtnWidth = 169;
-	float onBtnHeight = 92;
-	onBtnWidth = onBtnWidth / 2;
-	onBtnHeight = onBtnHeight / 2;
-	float onBtnXPos = windowWidth / 2 - (onBtnWidth / 2);
+	// Create On button
+	float onBtnWidth = 191/2;
+	float onBtnHeight = 92/2;
+	float onBtnXPos = windowWidth / 2 - (onBtnWidth / 2) + 100;
 	float onBtnYPos = (windowHeight * 0.5f) - onBtnHeight;
-	m_onBtnSelected.Init(SDL_Rect{ onBtnXPos, onBtnYPos, onBtnWidth, onBtnHeight },
-		SDL_Rect{ 0, 0, 167, 144 }, "Images/Menu/OnBtnSelected.png");
+	m_onButton.Init(SDL_Rect{ onBtnXPos, onBtnYPos, onBtnWidth, onBtnHeight },
+		SDL_Rect{ 0, 0, 191, 92 }, "Images/Options/OnBtnNotOver.png");
 
-	// Create Sound On Not Selected button
-	float onBtnWidth2 = 169;
-	float onBtnHeight2 = 92;
-	onBtnWidth2 = onBtnWidth2 / 2;
-	onBtnHeight2 = onBtnHeight2 / 2;
-	float onBtnXPos2 = windowWidth / 2 - (onBtnWidth2 / 2);
-	float onBtnYPos2 = (windowHeight * 0.5f) - onBtnHeight2;
-	m_onBtnNotSelected.Init(SDL_Rect{ onBtnXPos2, onBtnYPos2, onBtnWidth2, onBtnHeight2 },
-		SDL_Rect{ 0, 0, 167, 144 }, "Images/Menu/OnBtnNotSelected.png");
-
-	// Create Sound Off Selected button
-	float offBtnWidth = 169;
-	float offBtnHeight = 92;
-	offBtnWidth = offBtnWidth / 2;
-	offBtnHeight = offBtnHeight / 2;
-	float offBtnXPos = (windowWidth * 0.605f) - (offBtnWidth / 2);
+	// Create Off button
+	float offBtnWidth = 191 / 2;
+	float offBtnHeight = 92 / 2;
+	float offBtnXPos = windowWidth / 2 - (offBtnWidth / 2) + 100;
 	float offBtnYPos = (windowHeight * 0.5f) - offBtnHeight;
-	m_offBtnSelected.Init(SDL_Rect{ offBtnXPos, offBtnYPos, offBtnWidth, offBtnHeight },
-		SDL_Rect{ 0, 0, 167, 144 }, "Images/Menu/OffBtnSelected.png");
+	m_offButton.Init(SDL_Rect{ offBtnXPos, offBtnYPos, offBtnWidth, offBtnHeight },
+		SDL_Rect{ 0, 0, 191, 92 }, "Images/Options/OffBtnNotOver.png");
 
-	// Create Sound Off Not Selected button
-	float offBtnWidth2 = 169;
-	float offBtnHeight2 = 92;
-	offBtnWidth2 = offBtnWidth2 / 2;
-	offBtnHeight2 = offBtnHeight2 / 2;
-	float offBtnXPos2 = (windowWidth * 0.605f) - (offBtnWidth2 / 2);
-	float offBtnYPos2 = (windowHeight * 0.5f) - offBtnHeight2;
-	m_offBtnNotSelected.Init(SDL_Rect{ offBtnXPos2, offBtnYPos2, offBtnWidth2, offBtnHeight2 },
-		SDL_Rect{ 0, 0, 167, 144 }, "Images/Menu/OffBtnNotSelected.png");
+	// Create Easy button
+	float easyBtnWidth = 191 / 2;
+	float easyBtnHeight = 92 / 2;
+	float easyBtnXPos = windowWidth / 2 - (easyBtnWidth / 2) + 100;
+	float easyBtnYPos = (windowHeight * 0.625f) - easyBtnHeight;
+	m_easyButton.Init(SDL_Rect{ easyBtnXPos, easyBtnYPos, easyBtnWidth, easyBtnHeight },
+		SDL_Rect{ 0, 0, 191, 92 }, "Images/Options/EasyButtonNotOver.png");
 
-	// Boolean for sound
+	// Create Hard button
+	float hardBtnWidth = 191 / 2;
+	float hardBtnHeight = 92 / 2;
+	float hardBtnXPos = windowWidth / 2 - (hardBtnWidth / 2) + 100;
+	float hardBtnYPos = (windowHeight * 0.625f) - hardBtnHeight;
+	m_hardButton.Init(SDL_Rect{ hardBtnXPos, hardBtnYPos, hardBtnWidth, hardBtnHeight },
+		SDL_Rect{ 0, 0, 191, 92 }, "Images/Options/HardButtonNotOver.png");
+
+	// Booleans
 	onBtnSelected = true;
-	offBtnSelected = false;
+	difficultyOnEasy = true;
+
+	// Prevents constant draw when over buttons
+	m_overBackBtn = false;
+	m_overOnBtn = false;
+	m_overOffBtn = false;
+	m_overEasyBtn = false;
+	m_overHardBtn = false;
 
 	// Width and Height
 	width = windowWidth;
@@ -100,7 +108,7 @@ bool Options::loadTTFMedia()
 	bool success = true;
 
 	//Open the font
-	gFont = TTF_OpenFont("Font/timesbd.ttf", 30);
+	gFont = TTF_OpenFont("Font/FORTE.ttf", 30);
 	if (gFont == NULL)
 	{
 		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
@@ -115,6 +123,11 @@ bool Options::loadTTFMedia()
 			printf("Failed to render text texture!\n");
 			success = false;
 		}
+		else if (!difficultyText.loadFromRenderedText("Difficulty:", textColor, gFont))
+		{
+			printf("Failed to render text texture!\n");
+			success = false;
+		}
 	}
 
 	return success;
@@ -125,21 +138,32 @@ void Options::Draw()
 	Renderer::GetInstance()->ClearRenderer();
 
 	m_backGroundImage->DrawNoCamOffset();
+	m_optionsImage->DrawNoCamOffset();
 	m_backButton.Draw();
 
+	// Sound on
 	if (SoundManager::GetInstance()->SoundOn())
 	{
 		onBtnSelected = true;
-		m_onBtnSelected.Draw();
-		m_offBtnNotSelected.Draw();
+		m_onButton.Draw();
 	}
 	else
 	{
 		onBtnSelected = false;
-		m_onBtnNotSelected.Draw();
-		m_offBtnSelected.Draw();
+		m_offButton.Draw();
 	}
-	soundText.render(width * 0.15f, height * 0.5f - soundText.getHeight());
+
+	// Difficulty easy/hard
+	if (difficultyOnEasy)
+	{
+		m_easyButton.Draw();
+	}
+	else
+	{
+		m_hardButton.Draw();
+	}
+	soundText.render(width * 0.15f + 100, height * 0.5f - soundText.getHeight() - 5);
+	difficultyText.render(width * 0.15f + 100, height * 0.5f - soundText.getHeight() + 65);
 
 	Renderer::GetInstance()->RenderScreen();
 }
@@ -148,8 +172,129 @@ int Options::Update(SDL_Event e)
 {
 	SoundManager::GetInstance()->play(SoundManager::GetInstance()->MENU_MUSIC);
 
-#pragma region Mousedown
+	// Start timer if not already started
+	if (!timer->isStarted())
+	{
+		timer->start();
+	}
 
+	// Checks if mouse is over Back button
+	#pragma region BackButton
+	if (m_backButton.IsOver(e.button.x, e.button.y))
+	{
+		if (!m_overBackBtn)
+		{
+			m_backButton.Init(SDL_Rect{ m_backButton.GetRectangle().x, m_backButton.GetRectangle().y, m_backButton.GetRectangle().w, m_backButton.GetRectangle().h },
+				SDL_Rect{ 0, 0, 191, 92 }, "Images/Options/BackButtonOver.png");
+		}
+		m_overBackBtn = true;
+	}
+	else
+	{
+		if (m_overBackBtn)
+		{
+			m_backButton.Init(SDL_Rect{ m_backButton.GetRectangle().x, m_backButton.GetRectangle().y, m_backButton.GetRectangle().w, m_backButton.GetRectangle().h },
+				SDL_Rect{ 0, 0, 191, 92 }, "Images/Options/BackButtonNotOver.png");
+		}
+		m_overBackBtn = false;
+	}
+	#pragma endregion
+
+	#pragma region On/Off Button
+	// On
+	if (onBtnSelected)
+	{
+		if (m_onButton.IsOver(e.button.x, e.button.y))
+		{
+			if (!m_overOnBtn)
+			{
+				m_onButton.Init(SDL_Rect{ m_onButton.GetRectangle().x, m_onButton.GetRectangle().y, m_onButton.GetRectangle().w, m_onButton.GetRectangle().h },
+					SDL_Rect{ 0, 0, 191, 92 }, "Images/Options/OnBtnOver.png");
+			}
+			m_overOnBtn = true;
+		}
+		else
+		{
+			if (m_overOnBtn)
+			{
+				m_onButton.Init(SDL_Rect{ m_onButton.GetRectangle().x, m_onButton.GetRectangle().y, m_onButton.GetRectangle().w, m_onButton.GetRectangle().h },
+					SDL_Rect{ 0, 0, 191, 92 }, "Images/Options/OnBtnNotOver.png");
+			}
+			m_overOnBtn = false;
+		}
+	}
+	// Off
+	if (!onBtnSelected)
+	{
+		if (m_offButton.IsOver(e.button.x, e.button.y))
+		{
+			if (!m_overOffBtn)
+			{
+				m_offButton.Init(SDL_Rect{ m_offButton.GetRectangle().x, m_offButton.GetRectangle().y, m_offButton.GetRectangle().w, m_offButton.GetRectangle().h },
+					SDL_Rect{ 0, 0, 191, 92 }, "Images/Options/OffBtnOver.png");
+			}
+			m_overOffBtn = true;
+		}
+		else
+		{
+			if (m_overOffBtn)
+			{
+				m_offButton.Init(SDL_Rect{ m_offButton.GetRectangle().x, m_offButton.GetRectangle().y, m_offButton.GetRectangle().w, m_offButton.GetRectangle().h },
+					SDL_Rect{ 0, 0, 191, 92 }, "Images/Options/OffBtnNotOver.png");
+			}
+			m_overOffBtn = false;
+		}
+	}
+	#pragma endregion
+
+	#pragma region Easy/Hard Button
+	// Easy
+	if (difficultyOnEasy)
+	{
+		if (m_easyButton.IsOver(e.button.x, e.button.y))
+		{
+			if (!m_overEasyBtn)
+			{
+				m_easyButton.Init(SDL_Rect{ m_easyButton.GetRectangle().x, m_easyButton.GetRectangle().y, m_easyButton.GetRectangle().w, m_easyButton.GetRectangle().h },
+					SDL_Rect{ 0, 0, 191, 92 }, "Images/Options/EasyButtonOver.png");
+			}
+			m_overEasyBtn = true;
+		}
+		else
+		{
+			if (m_overEasyBtn)
+			{
+				m_easyButton.Init(SDL_Rect{ m_easyButton.GetRectangle().x, m_easyButton.GetRectangle().y, m_easyButton.GetRectangle().w, m_easyButton.GetRectangle().h },
+					SDL_Rect{ 0, 0, 191, 92 }, "Images/Options/EasyButtonNotOver.png");
+			}
+			m_overEasyBtn = false;
+		}
+	}
+	// Hard
+	if (!difficultyOnEasy)
+	{
+		if (m_hardButton.IsOver(e.button.x, e.button.y))
+		{
+			if (!m_overHardBtn)
+			{
+				m_hardButton.Init(SDL_Rect{ m_hardButton.GetRectangle().x, m_hardButton.GetRectangle().y, m_hardButton.GetRectangle().w, m_hardButton.GetRectangle().h },
+					SDL_Rect{ 0, 0, 191, 92 }, "Images/Options/HardButtonOver.png");
+			}
+			m_overHardBtn = true;
+		}
+		else
+		{
+			if (m_overHardBtn)
+			{
+				m_hardButton.Init(SDL_Rect{ m_hardButton.GetRectangle().x, m_hardButton.GetRectangle().y, m_hardButton.GetRectangle().w, m_hardButton.GetRectangle().h },
+					SDL_Rect{ 0, 0, 191, 92 }, "Images/Options/HardButtonNotOver.png");
+			}
+			m_overHardBtn = false;
+		}
+	}
+	#pragma endregion
+
+	#pragma region Mousedown
 	// Mousedown
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
@@ -170,24 +315,43 @@ int Options::Update(SDL_Event e)
 			// Check if ON/OFF buttons are clicked
 			if (onBtnSelected)
 			{
-				if (m_offBtnNotSelected.IsClicked(mouse_x, mouse_y))
+				if (m_onButton.IsClicked(mouse_x, mouse_y) && (timer->getTicks()/1000) > 0)
 				{
+					timer->reset();
 					onBtnSelected = false;
 					SoundManager::GetInstance()->SetSoundOn(false);
 				}
 			}
 			else
 			{
-				if (m_onBtnNotSelected.IsClicked(mouse_x, mouse_y))
+				if (m_offButton.IsClicked(mouse_x, mouse_y) && (timer->getTicks() / 1000) > 0)
 				{
+					timer->reset();
 					onBtnSelected = true;
 					SoundManager::GetInstance()->SetSoundOn(true);
 				}
 			}
+
+			// Check if EASY/HARD buttons are clicked
+			if (difficultyOnEasy)
+			{
+				if (m_easyButton.IsClicked(mouse_x, mouse_y) && (timer->getTicks() / 1000) > 0)
+				{
+					timer->reset();
+					difficultyOnEasy = false;
+				}
+			}
+			else
+			{
+				if (m_hardButton.IsClicked(mouse_x, mouse_y) && (timer->getTicks() / 1000) > 0)
+				{
+					timer->reset();
+					difficultyOnEasy = true;
+				}
+			}
 		}
 	}
-
-#pragma endregion
+	#pragma endregion
 
 	return OPTIONS;
 }
