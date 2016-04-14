@@ -23,7 +23,9 @@ bool SoundManager::load_files()
 {
 	// Music
 	menuMusic = Mix_LoadMUS("Sound/EvilGenius.wav");
-	levelTwoMusic = Mix_LoadMUS("Sound/VelocityX.wav");
+	levelOneMusic = Mix_LoadMUS("Sound/VelocityX.wav");
+	levelTwoMusic = Mix_LoadMUS("Sound/Eno.wav");
+	levelThreeMusic = Mix_LoadMUS("Sound/FastMusic.wav");
 
 	// Load sound effects
 	scorePickup = Mix_LoadWAV("Sound/Pickup.wav");
@@ -35,7 +37,7 @@ bool SoundManager::load_files()
 
 	//If there was a problem loading the sound effects
 	if (scorePickup == NULL || gunshot == NULL || health == NULL || mine == NULL || menuMusic == NULL
-		|| levelTwoMusic == NULL || electrocuted == NULL || gunPickup == NULL)
+		|| levelOneMusic == NULL || levelTwoMusic == NULL || levelThreeMusic == NULL || electrocuted == NULL || gunPickup == NULL)
 	{
 		return false;
 	}
@@ -58,7 +60,9 @@ void SoundManager::clean_up()
 
 	//Free the music
 	Mix_FreeMusic(menuMusic);
+	Mix_FreeMusic(levelOneMusic);
 	Mix_FreeMusic(levelTwoMusic);
+	Mix_FreeMusic(levelThreeMusic);
 
 	//Quit SDL_mixer
 	Mix_CloseAudio();
@@ -118,11 +122,67 @@ void SoundManager::play(int i)
 			}
 		}
 		break;
+	case LEVEL_ONE_MUSIC:
+		if (Mix_PlayingMusic() == 0)
+		{
+			//Play the music
+			Mix_PlayMusic(levelOneMusic, -1);
+
+		}
+
+		else
+		{
+			//If the music is paused
+			if (Mix_PausedMusic() == 1 && SoundOn())
+			{
+				//Resume the music
+				Mix_ResumeMusic();
+			}
+			//If the music is playing
+			else
+			{
+				if (!SoundOn())
+				{
+					//Pause the music
+					Mix_PauseMusic();
+				}
+			}
+		}
+		break;
+
 	case LEVEL_TWO_MUSIC:
 		if (Mix_PlayingMusic() == 0)
 		{
 			//Play the music
 			Mix_PlayMusic(levelTwoMusic, -1);
+
+		}
+
+		else
+		{
+			//If the music is paused
+			if (Mix_PausedMusic() == 1 && SoundOn())
+			{
+				//Resume the music
+				Mix_ResumeMusic();
+			}
+			//If the music is playing
+			else
+			{
+				if (!SoundOn())
+				{
+					//Pause the music
+					Mix_PauseMusic();
+				}
+			}
+		}
+		break;
+
+	case LEVEL_THREE_MUSIC:
+		if (Mix_PlayingMusic() == 0)
+		{
+			//Play the music
+			Mix_PlayMusic(levelThreeMusic, -1);
 
 		}
 

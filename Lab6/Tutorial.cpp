@@ -211,7 +211,9 @@ int Tutorial::Update(SDL_Event* e)
 	// Go back to main menu
 	if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_RETURN) || KeyBoardInput::GetInstance()->isKeyPressed(SDLK_ESCAPE))
 	{
-		screenNo = 0;
+		screenNo = 1;
+		m_screenImage->Init("Images/Tutorial/Screen" + to_string(screenNo) + ".png",
+			SDL_Rect{ width *0.1f, height * 0.1f, width * 0.8f, height * 0.8f }, SDL_Rect{ 0, 0, 800, 600 });
 		return MAIN_MENU;
 	}
 

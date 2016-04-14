@@ -119,7 +119,7 @@ public:
 
 	void GetDirectionToPlayer(SDL_Rect* playerRect);
 
-	bool GruntCheckCollision(b2Body* bulletBody);
+	bool GruntCheckCollision(b2Body* bulletBody, bool hasMachineGun);
 	bool CheckBulletPlayerCollision(b2Body* playerBody);
 
 	void Fell();

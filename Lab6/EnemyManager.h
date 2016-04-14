@@ -26,7 +26,7 @@ public:
 	bool UpdateRobotBullets(SDL_Rect &playerRect, b2Body* playerBody);
 
 	bool GruntCheckCollision(b2Body* playerBody);
-	bool CheckBulletGruntCollision(b2Body* bulletBody);
+	bool CheckBulletGruntCollision(b2Body* bulletBody, bool hasMachineGun);
 	bool CheckBulletRobotCollision(b2Body* bulletBody);
 
 	void Reset();

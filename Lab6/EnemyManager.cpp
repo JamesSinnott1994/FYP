@@ -181,14 +181,14 @@ bool EnemyManager::UpdateRobotBullets(SDL_Rect &playerRect, b2Body* playerBody)
 	return false;
 }
 
-bool EnemyManager::CheckBulletGruntCollision(b2Body*bulletBody)
+bool EnemyManager::CheckBulletGruntCollision(b2Body*bulletBody, bool hasMachineGun)
 {
 	// Iterate through list of bullets
 	for (m_gruntIterator = m_grunts.begin(); m_gruntIterator != m_grunts.end(); ++m_gruntIterator)
 	{
 		if ((*m_gruntIterator)->GetAlive())
 		{
-			if ((*m_gruntIterator)->GruntCheckCollision(bulletBody))
+			if ((*m_gruntIterator)->GruntCheckCollision(bulletBody, hasMachineGun))
 			{
 				//m_grunts.erase(m_gruntIterator);
 				return true;

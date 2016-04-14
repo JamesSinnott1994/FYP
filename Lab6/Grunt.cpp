@@ -385,7 +385,7 @@ void Grunt::ResetTimer()
 	m_shootTimer = 0;
 }
 
-bool Grunt::GruntCheckCollision(b2Body* bulletBody)
+bool Grunt::GruntCheckCollision(b2Body* bulletBody, bool hasMachineGun)
 {
 	bool collided = (b2TestOverlap(m_body->GetFixtureList()->GetAABB(0), bulletBody->GetFixtureList()->GetAABB(0)));
 	if (collided)
@@ -393,10 +393,13 @@ bool Grunt::GruntCheckCollision(b2Body* bulletBody)
 		m_alive = false;
 		m_body->SetActive(false);
 
-		int generateAmmo = rand() % 5 + 1;
-		if (generateAmmo == 1)
+		if (hasMachineGun)
 		{
-			PickupManager::GetInstance()->GenerateAmmo(m_rect, world);
+			int generateAmmo = rand() % 5 + 1;
+			if (generateAmmo == 1)
+			{
+				PickupManager::GetInstance()->GenerateAmmo(m_rect, world);
+			}
 		}
 	}
 

@@ -78,9 +78,9 @@ bool Bullet::OutOfBounds(SDL_Rect playerPos)
 	}
 }
 
-bool Bullet::CheckBulletGruntCollision()
+bool Bullet::CheckBulletGruntCollision(bool hasMachineGun)
 {
-	bool collided = EnemyManager::GetInstance()->CheckBulletGruntCollision(myBody);
+	bool collided = EnemyManager::GetInstance()->CheckBulletGruntCollision(myBody, hasMachineGun);
 	return collided;
 }
 

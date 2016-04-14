@@ -97,7 +97,7 @@ bool Ammo::CheckCollision(b2Body* playerBody)
 		m_alive = false;
 		myBody->SetActive(false);
 		if (SoundManager::GetInstance()->SoundOn())
-			SoundManager::GetInstance()->play(SoundManager::HEALTH);
+			SoundManager::GetInstance()->play(SoundManager::GUN_PICKUP);
 	}
 
 	return collided;
