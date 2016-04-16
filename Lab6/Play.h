@@ -21,6 +21,9 @@ private:
 	// Splash screen object
 	Splash* splash;
 
+	// Levels
+	int noOfLevels;
+
 	HealthBar* m_healthBar;
 
 	//Globally used font
@@ -64,7 +67,7 @@ public:
 	void Reset();
 	void Quit();
 	void Draw();
-	void LevelComplete();
+	int LevelComplete();
 	void UpdateCameraPos();
 	void HandleSplash();
 

@@ -111,7 +111,7 @@ int _tmain(int argc, _TCHAR* argv[])
 						if (highscoreEnabled)
 							gameState = ENTER_NAME_SCREEN;// ********************************
 						else
-							gameState = GAME_WON;
+							gameState = PLAY;
 					}
 					break;
 
@@ -141,6 +141,10 @@ int _tmain(int argc, _TCHAR* argv[])
 					if (returnedType == 3)// Lose game
 					{
 						gameState = GAMEOVER;
+					}
+					if (returnedType == 4)
+					{
+						gameState = GAME_WON;
 					}
 					break;
 

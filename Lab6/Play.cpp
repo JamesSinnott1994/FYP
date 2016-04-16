@@ -17,6 +17,9 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 	// Timer
 	timer = new Timer();
 
+	// Levels
+	noOfLevels = 3;
+
 	// Which speed to use
 	//whichSpeed = "labSpeed";
 	whichSpeed = "laptopSpeed";
@@ -168,7 +171,10 @@ int Play::Update(SDL_Event e)
 	// Call LevelComplete() if player has reached teleporter
 	if (m_player->GetReachedTeleporter() && !levelComplete)
 	{
-		LevelComplete();
+		if (LevelComplete() == 1)// GAMW WON CONDITION
+		{
+			return 4;
+		}
 	}
 	else // Update game
 	{
@@ -283,13 +289,19 @@ void Play::Quit()
 	splash->SetCanDraw(true);
 }
 
-void Play::LevelComplete()
+int Play::LevelComplete()
 {
 	// Draw splash screen
 	splash->SetCanDraw(true);
 
 	// Increment level
 	level->SetLevelNum(level->GetLevelNum() + 1);
+
+	// DETERMINES IF YOU HAVE WON GAME
+	if (level->GetLevelNum() == noOfLevels + 1)
+	{
+		return 1;
+	}
 
 	// Destroy objects
 	PickupManager::GetInstance()->Destroy();
@@ -310,6 +322,8 @@ void Play::LevelComplete()
 	levelComplete = false;
 
 	loadTTFMedia();
+
+	return 0;
 }
 
 void Play::Draw() 
