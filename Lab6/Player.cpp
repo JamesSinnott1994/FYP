@@ -18,7 +18,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	m_bodyDef.position.Set(m_rect.x, m_rect.y);
 	m_body = pWorld->CreateBody(&m_bodyDef);
 
-	m_shape.SetAsBox(m_rect.w / 2 - 20, (m_rect.h / 2) - 2);
+	m_shape.SetAsBox(m_rect.w / 2 - 20, (m_rect.h / 2)-2);
 	m_bodyFixtureDef.shape = &m_shape;
 
 	// Collision Filtering
@@ -27,6 +27,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	short GROUP_BARRIER = -2;
 
 	m_bodyFixtureDef.filter.groupIndex = GROUP_BARRIER;
+	m_bodyFixtureDef.friction = 0;
 
 	m_body->CreateFixture(&m_bodyFixtureDef);
 
@@ -600,7 +601,7 @@ void Player::MoveLeft()
 	{
 		if (!collidingWithMovingPlat)
 		{
-			m_body->SetLinearVelocity(b2Vec2(-2, m_body->GetLinearVelocity().y - 0.000001f));
+			m_body->SetLinearVelocity(b2Vec2(-2, m_body->GetLinearVelocity().y - 0.001f));
 		}
 		else
 		{
@@ -655,7 +656,7 @@ void Player::MoveRight()
 	{
 		if (!collidingWithMovingPlat)
 		{
-			m_body->SetLinearVelocity(b2Vec2(2, m_body->GetLinearVelocity().y - 0.000001f));
+			m_body->SetLinearVelocity(b2Vec2(2, m_body->GetLinearVelocity().y - 0.001f));
 		}
 		else
 		{

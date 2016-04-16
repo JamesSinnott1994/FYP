@@ -28,6 +28,7 @@ Platform::Platform(SDL_Texture* text, SDL_Rect pRect, b2World* wWorld, SDL_Rect 
 	short GROUP_PLATFORM = 3;
 
 	m_bodyFixtureDef.filter.groupIndex = GROUP_PLATFORM;
+	m_bodyFixtureDef.friction = 0;
 
 	// Add the ground fixture to the ground body.
 	m_body->CreateFixture(&m_bodyFixtureDef);
