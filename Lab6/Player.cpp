@@ -18,7 +18,26 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 	m_bodyDef.position.Set(m_rect.x, m_rect.y);
 	m_body = pWorld->CreateBody(&m_bodyDef);
 
-	m_shape.SetAsBox(m_rect.w / 2 - 20, (m_rect.h / 2)-2);
+	b2Vec2 vertices[8];
+
+	// Bottom Left (-,+)
+	vertices[0].Set(-14, 46.0);
+	vertices[1].Set(-14.5, 45.5);
+
+	// Bottom Right (+,+)
+	vertices[6].Set(14.5, 45.5);
+	vertices[7].Set(14, 46.0);
+
+	// Top Left (-,-)
+	vertices[2].Set(-14.5, -47.5);
+	vertices[3].Set(-14, -48);
+
+	// Top Right (+,-)
+	vertices[4].Set(14, -48);
+	vertices[5].Set(14.5, -47.5);
+
+	//m_shape.SetAsBox(m_rect.w / 2 - 20, (m_rect.h / 2)-2);
+	m_shape.Set(vertices, 8);
 	m_bodyFixtureDef.shape = &m_shape;
 
 	// Collision Filtering
@@ -601,7 +620,7 @@ void Player::MoveLeft()
 	{
 		if (!collidingWithMovingPlat)
 		{
-			m_body->SetLinearVelocity(b2Vec2(-2, m_body->GetLinearVelocity().y - 0.001f));
+			m_body->SetLinearVelocity(b2Vec2(-2, m_body->GetLinearVelocity().y));
 		}
 		else
 		{
@@ -656,7 +675,7 @@ void Player::MoveRight()
 	{
 		if (!collidingWithMovingPlat)
 		{
-			m_body->SetLinearVelocity(b2Vec2(2, m_body->GetLinearVelocity().y - 0.001f));
+			m_body->SetLinearVelocity(b2Vec2(2, m_body->GetLinearVelocity().y));
 		}
 		else
 		{
