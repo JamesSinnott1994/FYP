@@ -8,6 +8,7 @@
 #include "SoundManager.h"
 #include "Splash.h"
 #include "GameOver.h"
+#include "GameWon.h"
 #include "EnterNameScreen.h"
 #include "HighScoreScreen.h" 
 #include "Tutorial.h"
@@ -27,6 +28,7 @@ Options* options;
 Play* play;
 Splash* splash;
 GameOver* gameOver;
+GameWon* gameWon;
 EnterNameScreen* enterNameScreen;
 HighScoreScreen* highScoreScreen;
 Tutorial* tutorial;
@@ -54,7 +56,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	SDL_Window* window = NULL;
 
 	// Game state
-	const int MENU = 0, OPTIONS = 1, PLAY = 2, GAMEOVER = 3, ENTER_NAME_SCREEN = 4, HIGH_SCORE_SCREEN = 5, TUTORIAL = 6;
+	const int MENU = 0, OPTIONS = 1, PLAY = 2, GAMEOVER = 3, ENTER_NAME_SCREEN = 4, HIGH_SCORE_SCREEN = 5, TUTORIAL = 6, GAME_WON = 7;
 	int gameState = MENU;
 	int returnedType;
 
@@ -109,7 +111,7 @@ int _tmain(int argc, _TCHAR* argv[])
 						if (highscoreEnabled)
 							gameState = ENTER_NAME_SCREEN;// ********************************
 						else
-							gameState = PLAY;
+							gameState = GAME_WON;
 					}
 					break;
 
@@ -157,6 +159,15 @@ int _tmain(int argc, _TCHAR* argv[])
 					}
 					break;
 
+				case GAME_WON:
+					gameWon->Draw();
+					if (gameWon->Update(e) == 1)
+					{
+						e.button.x = 50;
+						gameState = MENU;
+					}
+					break;
+
 				case ENTER_NAME_SCREEN:
 					enterNameScreen->Draw();
 					if (enterNameScreen->Update() == 1)
@@ -190,6 +201,7 @@ void Init()
 	splash = new Splash(windowWidth, windowHeight);
 	play = new Play(world, windowWidth, windowHeight, splash);
 	gameOver = new GameOver(windowWidth, windowHeight);
+	gameWon = new GameWon(windowWidth, windowHeight);
 	enterNameScreen = new EnterNameScreen(windowWidth, windowHeight);
 	highScoreScreen = new HighScoreScreen(windowWidth, windowHeight);
 	tutorial = new Tutorial(windowWidth, windowHeight);

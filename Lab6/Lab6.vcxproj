@@ -80,6 +80,7 @@
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="EnterNameScreen.cpp" />
     <ClCompile Include="GameOver.cpp" />
+    <ClCompile Include="GameWon.cpp" />
     <ClCompile Include="Grunt.cpp" />
     <ClCompile Include="GruntBullet.cpp" />
     <ClCompile Include="Health.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnterNameScreen.h" />
     <ClInclude Include="GameOver.h" />
+    <ClInclude Include="GameWon.h" />
     <ClInclude Include="Grunt.h" />
     <ClInclude Include="GruntBullet.h" />
     <ClInclude Include="Health.h" />

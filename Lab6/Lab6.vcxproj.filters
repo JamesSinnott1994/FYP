@@ -165,6 +165,9 @@
     <ClCompile Include="Tutorial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameWon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -291,6 +294,9 @@
       <Filter>Header Files\Pickups</Filter>
     </ClInclude>
     <ClInclude Include="Tutorial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
