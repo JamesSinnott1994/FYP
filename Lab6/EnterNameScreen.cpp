@@ -76,7 +76,10 @@ int EnterNameScreen::Update()
 	cin >> name;
 
 	if (name != "")
+	{
+		SoundManager::GetInstance()->stopMusic();
 		return 1;
+	}
 	else
 		return 0;
 }

@@ -10,22 +10,22 @@ GameWon::GameWon(int windowWidth, int windowHeight)
 	m_backGroundImage->SetOffset(SDL_Point{ windowWidth / 2, windowHeight / 2 });
 
 	// Create menu button
-	float backMenuWidth = 191;
-	float backMenuHeight = 46;
-	float backMenuXPos = windowWidth * 0.1f;
-	float backMenuYPos = windowHeight *0.85f;
-	m_menuButton.Init(SDL_Rect{ backMenuXPos, backMenuYPos, backMenuWidth, backMenuHeight },
-		SDL_Rect{ 0, 0, 191, 46 }, "Images/Menu/MainMenuNotOver.png");
+	float backContinueWidth = 191;
+	float backContinueHeight = 46;
+	float backContinueXPos = windowWidth * 0.1f;
+	float backContinueYPos = windowHeight *0.85f;
+	m_continueButton.Init(SDL_Rect{ backContinueXPos, backContinueYPos, backContinueWidth, backContinueHeight },
+		SDL_Rect{ 0, 0, 191, 46 }, "Images/Menu/ContinueBtnNotOver.png");
 
 	// Prevents constant draw when over buttons
-	m_overMenuBtn = false;
+	m_overContinueBtn = false;
 }
 
 void GameWon::Draw()
 {
 	Renderer::GetInstance()->ClearRenderer();
 	m_backGroundImage->DrawNoCamOffset();
-	m_menuButton.Draw();
+	m_continueButton.Draw();
 	Renderer::GetInstance()->RenderScreen();
 }
 
@@ -33,23 +33,23 @@ int GameWon::Update(SDL_Event e)
 {
 	// Checks if mouse is over Menu button
 	#pragma region MenuButton
-	if (m_menuButton.IsOver(e.button.x, e.button.y))
+	if (m_continueButton.IsOver(e.button.x, e.button.y))
 	{
-		if (!m_overMenuBtn)
+		if (!m_overContinueBtn)
 		{
-			m_menuButton.Init(SDL_Rect{ m_menuButton.GetRectangle().x, m_menuButton.GetRectangle().y, m_menuButton.GetRectangle().w, m_menuButton.GetRectangle().h },
-				SDL_Rect{ 0, 0, 191, 46 }, "Images/Menu/MainMenuOver.png");
+			m_continueButton.Init(SDL_Rect{ m_continueButton.GetRectangle().x, m_continueButton.GetRectangle().y, m_continueButton.GetRectangle().w, m_continueButton.GetRectangle().h },
+				SDL_Rect{ 0, 0, 191, 46 }, "Images/Menu/ContinueBtnOver.png");
 		}
-		m_overMenuBtn = true;
+		m_overContinueBtn = true;
 	}
 	else
 	{
-		if (m_overMenuBtn)
+		if (m_overContinueBtn)
 		{
-			m_menuButton.Init(SDL_Rect{ m_menuButton.GetRectangle().x, m_menuButton.GetRectangle().y, m_menuButton.GetRectangle().w, m_menuButton.GetRectangle().h },
-				SDL_Rect{ 0, 0, 191, 46 }, "Images/Menu/MainMenuNotOver.png");
+			m_continueButton.Init(SDL_Rect{ m_continueButton.GetRectangle().x, m_continueButton.GetRectangle().y, m_continueButton.GetRectangle().w, m_continueButton.GetRectangle().h },
+				SDL_Rect{ 0, 0, 191, 46 }, "Images/Menu/ContinueBtnNotOver.png");
 		}
-		m_overMenuBtn = false;
+		m_overContinueBtn = false;
 	}
 	#pragma endregion
 
@@ -65,7 +65,7 @@ int GameWon::Update(SDL_Event e)
 			int mouse_y = e.button.y;
 
 			// Check if button clicked
-			if (m_menuButton.IsClicked(mouse_x, mouse_y))
+			if (m_continueButton.IsClicked(mouse_x, mouse_y))
 			{
 				return MENU;
 			}

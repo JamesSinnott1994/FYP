@@ -108,8 +108,6 @@ map<string, int> HighScoreScreen::HandleData(std::string data)
 	// Iterate through all characters in string
 	for (int x = 0; data.at(x) != '}'; x++)
 	{
-		//std::cout << data.at(x) << std::endl;
-
 		if (isalpha(data.at(x))) // Letter
 		{
 			if (addToName)
@@ -164,7 +162,7 @@ void HighScoreScreen::GetServerData()
 	std::string readBuffer;
 
 	// URL
-	string url = "http://52.50.238.27:443/score";
+	string url = "http://52.51.47.149:443/score";
 
 	// Sets URL
 	curl_easy_setopt(myHandle, CURLOPT_URL, url.c_str());
@@ -202,7 +200,7 @@ void HighScoreScreen::PostServerData(string pName, int pScore)
 	postMessage = "name=Test&name=" + name + "&score=" + score;
 
 	// URL
-	string url = "http://52.50.238.27:443/score";
+	string url = "http://52.51.47.149:443/score";
 
 	// Sets URL
 	curl_easy_setopt(myHandle, CURLOPT_URL, url.c_str());
@@ -259,8 +257,6 @@ void HighScoreScreen::LoadTable(SDL_Color textColor, TTF_Font* gFont2)
 	int count = 0;
 	for (std::vector<std::pair<std::string, int>>::iterator it = highscoreVector.begin(); it != highscoreVector.end(); ++it)
 	{
-		cout << (it->first) << ", " << (it->second) << endl;
-
 		string temp = it->first + ": " + to_string(it->second);
 		if (count == 0)
 		{

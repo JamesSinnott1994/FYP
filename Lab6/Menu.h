@@ -11,7 +11,7 @@ public:
 	Menu(int, int);
 
 	void Draw();
-	int Update(SDL_Event e);
+	int Update(SDL_Event e, bool highscoreEnabled);
 
 	// Menu states for buttons
 	const int MENU = 0;

@@ -59,7 +59,7 @@ void Menu::Draw()
 	Renderer::GetInstance()->RenderScreen();
 }
 
-int Menu::Update(SDL_Event e)
+int Menu::Update(SDL_Event e, bool highscoreEnabled)
 {
 	SoundManager::GetInstance()->play(SoundManager::GetInstance()->MENU_MUSIC);
 
@@ -172,7 +172,8 @@ int Menu::Update(SDL_Event e)
 				// Check if button clicked
 				if (m_playButton.IsClicked(mouse_x, mouse_y))
 				{
-					SoundManager::GetInstance()->stopMusic();
+					if (!highscoreEnabled)
+						SoundManager::GetInstance()->stopMusic();
 					return PLAY;
 				}
 				else if (m_optionsButton.IsClicked(mouse_x, mouse_y))

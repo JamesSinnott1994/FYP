@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "Text.h"
 #include "KeyBoardInput.h"
+#include "SoundManager.h"
 
 class EnterNameScreen
 {

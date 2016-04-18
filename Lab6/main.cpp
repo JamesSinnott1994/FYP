@@ -47,7 +47,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	srand(time(NULL));
 
 	// Enable highscore table
-	bool highscoreEnabled = false;
+	bool highscoreEnabled = true;
 
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);
@@ -100,13 +100,13 @@ int _tmain(int argc, _TCHAR* argv[])
 				{
 				case MENU:
 					menu->Draw();
-					if (menu->Update(e) == 4)
+					if (menu->Update(e, highscoreEnabled) == 4)
 						gameState = TUTORIAL;
-					else if (menu->Update(e) == 3)// Exit button clicked
+					else if (menu->Update(e, highscoreEnabled) == 3)// Exit button clicked
 						quit = true;
-					else if (menu->Update(e) == 2)// Options button clicked
+					else if (menu->Update(e, highscoreEnabled) == 2)// Options button clicked
 						gameState = OPTIONS;
-					else if (menu->Update(e) == 1)// Play button clicked
+					else if (menu->Update(e, highscoreEnabled) == 1)// Play button clicked
 					{
 						if (highscoreEnabled)
 							gameState = ENTER_NAME_SCREEN;// ********************************
@@ -168,7 +168,10 @@ int _tmain(int argc, _TCHAR* argv[])
 					if (gameWon->Update(e) == 1)
 					{
 						e.button.x = 50;
-						gameState = MENU;
+						if (!highscoreEnabled)
+							gameState = MENU;
+						else
+							gameState = HIGH_SCORE_SCREEN;
 					}
 					break;
 

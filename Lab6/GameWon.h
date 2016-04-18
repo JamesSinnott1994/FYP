@@ -11,10 +11,10 @@ private:
 	Sprite* m_backGroundImage;
 
 	// Buttons
-	Button m_menuButton;
+	Button m_continueButton;
 
 	// Prevents constant draw when over buttons
-	bool m_overMenuBtn;
+	bool m_overContinueBtn;
 public:
 	GameWon(int windowWidth, int windowHeight);
 
