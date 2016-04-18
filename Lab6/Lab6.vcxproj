@@ -101,6 +101,7 @@
     <ClCompile Include="PlatformManager.cpp" />
     <ClCompile Include="Play.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Raycast.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Robot.cpp" />
     <ClCompile Include="RobotBullet.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="PlatformManager.h" />
     <ClInclude Include="Play.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Raycast.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Robot.h" />
     <ClInclude Include="RobotBullet.h" />

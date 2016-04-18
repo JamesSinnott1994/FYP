@@ -70,7 +70,7 @@ void Renderer::DrawImageNoOffset(SDL_Rect *source, SDL_Rect *dest, SDL_Texture *
 void Renderer::ClearRenderer()
 {
 	// Sets colour that we're clearing the screen with
-	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
+	SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 0);
 
 	// This clears the screen
 	SDL_RenderClear(gRenderer);

@@ -16,6 +16,10 @@ public:
 
 	SDL_Rect* GetRect();
 
+	b2Body* getBody();
+	int id;
+
+
 private:
 	b2Body* m_body;
 	b2BodyDef m_bodyDef;

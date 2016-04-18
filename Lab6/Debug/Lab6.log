@@ -1,26 +1,14 @@
-﻿Build started 16/04/2016 20:28:18.
-     1>Project "C:\Users\Windows 8\Desktop\new master\FYP\Lab6\Lab6.vcxproj" on node 2 (Build target(s)).
+﻿Build started 18/04/2016 16:20:27.
+     1>Project "C:\Users\Windows 8\Desktop\raycasting\FYP\Lab6\Lab6.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I./ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CURL_STATICLIB /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Player.cpp
-         Player.cpp
-     1>c:\users\windows 8\desktop\new master\fyp\lab6\player.cpp(18): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
-     1>c:\users\windows 8\desktop\new master\fyp\lab6\player.cpp(129): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\new master\fyp\lab6\player.cpp(127): warning C4101: 'bloodRect' : unreferenced local variable
-     1>c:\users\windows 8\desktop\new master\fyp\lab6\player.cpp(356): warning C4244: '=' : conversion from 'const float32' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\new master\fyp\lab6\player.cpp(357): warning C4244: '=' : conversion from 'const float32' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\new master\fyp\lab6\player.cpp(542): warning C4244: 'argument' : conversion from 'const float32' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\new master\fyp\lab6\player.cpp(611): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
-     1>c:\users\windows 8\desktop\new master\fyp\lab6\player.cpp(627): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
-     1>c:\users\windows 8\desktop\new master\fyp\lab6\player.cpp(682): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
-     1>c:\users\windows 8\desktop\new master\fyp\lab6\player.cpp(755): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\new master\fyp\lab6\player.cpp(757): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\new master\fyp\lab6\player.cpp(762): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\new master\fyp\lab6\player.cpp(764): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\new master\fyp\lab6\player.cpp(776): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
-     1>c:\users\windows 8\desktop\new master\fyp\lab6\player.cpp(794): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
-     1>c:\users\windows 8\desktop\new master\fyp\lab6\player.cpp(806): warning C4244: 'argument' : conversion from 'int' to 'float32', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I./ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CURL_STATICLIB /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt PlatformManager.cpp
+         PlatformManager.cpp
+     1>c:\users\windows 8\desktop\raycasting\fyp\lab6\platformmanager.cpp(103): warning C4244: '=' : conversion from 'const float32' to 'int', possible loss of data
+     1>c:\users\windows 8\desktop\raycasting\fyp\lab6\platformmanager.cpp(104): warning C4244: '=' : conversion from 'const float32' to 'int', possible loss of data
+     1>c:\users\windows 8\desktop\raycasting\fyp\lab6\platformmanager.cpp(208): warning C4172: returning address of local variable or temporary
+     1>c:\users\windows 8\desktop\raycasting\fyp\lab6\platformmanager.cpp(117): warning C4715: 'PlatformManager::IsLeftRight' : not all control paths return a value
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Windows 8\Desktop\new master\FYP\Debug\Lab6.exe" /INCREMENTAL /NOLOGO /LIBPATH:./lib Box2D.lib SDL2main.lib SDL2_image.lib SDL2_mixer.lib SDL2.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libcurl.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Windows 8\Desktop\new master\FYP\Debug\Lab6.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Windows 8\Desktop\new master\FYP\Debug\Lab6.lib" /MACHINE:X86 Debug\Ammo.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Windows 8\Desktop\raycasting\FYP\Debug\Lab6.exe" /INCREMENTAL /NOLOGO /LIBPATH:./lib Box2D.lib SDL2main.lib SDL2_image.lib SDL2_mixer.lib SDL2.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libcurl.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Windows 8\Desktop\raycasting\FYP\Debug\Lab6.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Windows 8\Desktop\raycasting\FYP\Debug\Lab6.lib" /MACHINE:X86 Debug\Ammo.obj
          Debug\Bullet.obj
          Debug\Button.obj
          Debug\ElectricBarrier.obj
@@ -49,6 +37,7 @@
          Debug\PlatformManager.obj
          Debug\Play.obj
          Debug\Player.obj
+         Debug\Raycast.obj
          Debug\Renderer.obj
          Debug\Robot.obj
          Debug\RobotBullet.obj
@@ -63,9 +52,9 @@
          Debug\Tutorial.obj
          Debug\Wall.obj
          Debug\WallManager.obj
-         Lab6.vcxproj -> C:\Users\Windows 8\Desktop\new master\FYP\Debug\Lab6.exe
-     1>Done Building Project "C:\Users\Windows 8\Desktop\new master\FYP\Lab6\Lab6.vcxproj" (Build target(s)).
+         Lab6.vcxproj -> C:\Users\Windows 8\Desktop\raycasting\FYP\Debug\Lab6.exe
+     1>Done Building Project "C:\Users\Windows 8\Desktop\raycasting\FYP\Lab6\Lab6.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:05.65
+Time Elapsed 00:00:07.31

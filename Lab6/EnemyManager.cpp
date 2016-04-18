@@ -52,7 +52,7 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 		{
 			if ((*m_gruntIterator)->GetAlive())
 			{
-				(*m_gruntIterator)->Update(playerRect, m_gruntBullets.size(), m_grunts.size() * 1);
+				(*m_gruntIterator)->Update(playerRect, m_gruntBullets.size(), m_grunts.size() * 1, playerBody);
 
 				if ((*m_gruntIterator)->CanCreateBullet())
 				{
@@ -75,7 +75,7 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 		{
 			if ((*m_robotIterator)->GetAlive())
 			{
-				(*m_robotIterator)->Update(playerRect, m_robotBullets.size(), m_robots.size() * 1);
+				(*m_robotIterator)->Update(playerRect, m_robotBullets.size(), m_robots.size() * 1, playerBody);
 			}
 			else if (!(*m_robotIterator)->GetAlive() && !(*m_robotIterator)->GetScoreAdded())
 			{

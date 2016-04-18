@@ -116,6 +116,98 @@ bool PlatformManager::IsLeftRight()
 	}
 }
 
+b2Vec2 *PlatformManager::getRayIntersectionPoint(b2RayCastOutput output, b2RayCastInput input, bool playerAbove, bool playerToLeft, float gruntXPos, float gruntYPos)
+{
+	float closestFraction = 1;
+	b2Vec2 intersectionNormal(0, 0);
+	for each(Platform* plat in m_platforms)
+	{
+		// Only check platforms ABOVE_LEFT
+		if (playerAbove && playerToLeft)
+		{
+			if (plat->getBody()->GetPosition().y <= gruntYPos && plat->getBody()->GetPosition().x - 96 <= gruntXPos)
+			{
+				if (plat->getBody()->GetPosition().x )
+				for (b2Fixture* f = plat->getBody()->GetFixtureList(); f; f = f->GetNext())
+				{
+					if (!f->RayCast(&output, input, 0))
+					{
+						continue;
+					}
+					if (output.fraction < closestFraction)
+					{
+						closestFraction = output.fraction;
+						intersectionNormal = output.normal;
+					}
+				}
+			}
+		}
+		// Only check platforms ABOVE_RIGHT
+		else if (playerAbove && !playerToLeft)
+		{
+			if (plat->getBody()->GetPosition().y <= gruntYPos && plat->getBody()->GetPosition().x >= gruntXPos)
+			{
+				//return plat->getBody()->GetFixtureList();
+				for (b2Fixture* f = plat->getBody()->GetFixtureList(); f; f = f->GetNext())
+				{
+					if (!f->RayCast(&output, input, 0))
+					{
+						continue;
+					}
+					if (output.fraction < closestFraction)
+					{
+						closestFraction = output.fraction;
+						intersectionNormal = output.normal;
+					}
+				}
+			}
+		}
+		// Only check platforms BELOW_LEFT
+		else if (!playerAbove && playerToLeft)
+		{
+			if (plat->getBody()->GetPosition().y >= gruntYPos && plat->getBody()->GetPosition().x-96 <= gruntXPos)
+			{
+				//return plat->getBody()->GetFixtureList();
+				for (b2Fixture* f = plat->getBody()->GetFixtureList(); f; f = f->GetNext())
+				{
+					if (!f->RayCast(&output, input, 0))
+					{
+						continue;
+					}
+					if (output.fraction < closestFraction)
+					{
+						closestFraction = output.fraction;
+						intersectionNormal = output.normal;
+					}
+				}
+			}
+		}
+		// Only check platforms BELOW_RIGHT
+		else if (!playerAbove && !playerToLeft)
+		{
+			if (plat->getBody()->GetPosition().y >= gruntYPos && plat->getBody()->GetPosition().x >= gruntXPos)
+			{
+				//return plat->getBody()->GetFixtureList();
+				for (b2Fixture* f = plat->getBody()->GetFixtureList(); f; f = f->GetNext())
+				{
+					if (!f->RayCast(&output, input, 0))
+					{
+						continue;
+					}
+					if (output.fraction < closestFraction)
+					{
+						closestFraction = output.fraction;
+						intersectionNormal = output.normal;
+					}
+				}
+			}
+		}
+	}// End outer for loop
+
+	b2Vec2 intersectionPoint = input.p1 + closestFraction * (input.p2 - input.p1);
+	return &intersectionPoint;
+}
+
 void PlatformManager::Destroy()
 {
 	for each(Platform* plat in m_platforms)

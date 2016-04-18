@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "GruntBullet.h"
 #include "PickupManager.h"
+#include "PlatformManager.h"
 #include <list>
 
 class Grunt
@@ -80,6 +81,16 @@ private:
 	float angle;
 	bool angleOkToShoot;
 
+	// Raycasting
+	b2Vec2 p1;
+	b2Vec2 p2;
+	float rayLength;
+	b2RayCastInput input;
+	b2RayCastOutput output;
+	bool cantFire;
+	b2Vec2 intersectionPoint;
+	bool playerAbove;
+
 public:
 	Grunt();
 
@@ -93,10 +104,12 @@ public:
 	State FiniteStateMachine();
 
 	void Draw();
-	void Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets);
+	void Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets, b2Body* playerBody);
 	void Reset();
 	void ResetTimer();
 	void Destroy();
+
+	void CastRay();
 
 	void Animation();
 	void Running();

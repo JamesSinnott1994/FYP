@@ -56,3 +56,8 @@ SDL_Rect* Platform::GetRect()
 {
 	return &m_sprite->getDestRect();
 }
+
+b2Body *Platform::getBody()
+{
+	return m_body;
+}

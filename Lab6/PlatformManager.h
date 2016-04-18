@@ -28,6 +28,8 @@ public:
 
 	std::vector<int>CheckStaticPlatCollision(b2Body*);
 
+	b2Vec2* getRayIntersectionPoint(b2RayCastOutput output, b2RayCastInput input, bool playerAbove, bool playerToLeft, float gruntXPos, float gruntYPos);
+
 	int xSpeedOfMovingPlatform;
 	int ySpeedOfMovingPlatform;
 

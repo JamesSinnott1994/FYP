@@ -17,6 +17,15 @@ Grunt::Grunt(SDL_Rect pRect, b2World* wWorld, int color, int direction, string s
 	m_rect.w = 58;
 	m_rect.h = 80;
 
+	// Raycasting
+	p1.x = m_rect.x;
+	p1.y = m_rect.y;
+	p2.x = 0;
+	p2.y = 0;
+	rayLength = 0;
+	cantFire = false;
+	playerAbove = false;
+
 	m_resetRect = m_rect;
 
 	// Health
@@ -196,11 +205,8 @@ void Grunt::Draw()
 	}
 }
 
-void Grunt::Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets)
+void Grunt::Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets, b2Body* playerBody)
 {
-	// NEED TO GET PLATFORM THAT PLAYER IS ON
-	// GET THE BODY OF THE PLATFORM THAT THE PLAYER IS ON
-
 	// Update time to shoot
 	if (m_shootTimer <= m_shootTimerLimit && m_inRange)
 		m_shootTimer++;
@@ -225,11 +231,41 @@ void Grunt::Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets)
 		break;
 	}
 
+	// Check if player is above or below grunt
+	if (playerBody->GetPosition().y >= m_body->GetPosition().y)
+	{
+		playerAbove = false;
+	}
+	else
+	{
+		playerAbove = true;
+	}
+
+	// Check if player is left or right of grunt
+	if (playerBody->GetPosition().x >= m_body->GetPosition().x)
+	{
+		m_playerToTheLeft = false;
+	}
+	else
+	{
+		m_playerToTheLeft = true;
+	}
+
 	ChangeDirection(playerRect.x);
 	GetDirectionToPlayer(&playerRect);
 
-	//m_inRange = InRangeOfPlayer(playerRect);
-	m_inRange = true;
+	// Cast our ray to determine if object is in front of player which prevents firing
+	if (angleOkToShoot)
+	{
+		CastRay();
+	}
+	else
+	{
+		cantFire = false;
+	}
+
+	// Get range
+	m_inRange = InRangeOfPlayer(playerRect);
 
 	//Animation();
 
@@ -238,6 +274,8 @@ void Grunt::Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets)
 	// Update sprite position
 	m_rect.x = m_body->GetPosition().x;
 	m_rect.y = m_body->GetPosition().y;
+	p1.x = m_body->GetPosition().x;
+	p1.y = m_body->GetPosition().y;
 	m_idleSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 	m_runningSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 }
@@ -249,12 +287,34 @@ Grunt::State Grunt::FiniteStateMachine()
 		s = IDLE;
 	if (m_running)
 		s = RUNNING;
-	if (m_inRange)
+	if (m_inRange && cantFire)
 		s = SHOOTING;
 	if (m_dead)
 		s = DEAD;
 
 	return s;
+}
+
+void Grunt::CastRay()
+{
+	// Raycasting
+	input.p1 = p1;
+	input.p2 = p2;
+	input.maxFraction = 1;
+
+	b2Vec2* vec = PlatformManager::GetInstance()->getRayIntersectionPoint(output, input, playerAbove, m_playerToTheLeft, m_body->GetPosition().x, m_body->GetPosition().y);
+	intersectionPoint.x = vec->x;
+	intersectionPoint.y = vec->y;
+
+	// Check if intersection point is within confines of player
+	if (intersectionPoint.x == p2.x && intersectionPoint.y == p2.y)
+	{
+		cantFire = true;
+	}
+	else
+	{
+		cantFire = false;
+	}
 }
 
 void Grunt::Animation()
@@ -325,7 +385,7 @@ void Grunt::Running()
 
 void Grunt::Shoot(int noOfBullets, int maxBullets)
 {
-	if (m_shootTimer >= m_shootTimerLimit && noOfBullets <= maxBullets && angleOkToShoot)
+	if (m_shootTimer >= m_shootTimerLimit && noOfBullets <= maxBullets)
 	{
 		m_canCreateBullet = true;
 		m_shootTimer = 0;
@@ -377,6 +437,15 @@ void Grunt::Reset()
 	angle = 0;
 	angleOkToShoot = false;
 
+	// Raycasting
+	p1.x = m_resetRect.x;
+	p1.y = m_resetRect.y;
+	p2.x = 0;
+	p2.y = 0;
+	rayLength = 0;
+	cantFire = false;
+	playerAbove = false;
+
 	m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y - 0.000001f));
 }
 
@@ -424,16 +493,16 @@ void Grunt::GetDirectionToPlayer(SDL_Rect* playerRect)
 	angleOkToShoot = false;
 	if (m_facingRight)// RIGHT
 	{
-		if ((angle >= -45 && angle <= 0)
-			|| (angle >= 0 && angle <= 45))
+		if ((angle >= -75 && angle <= 0)
+			|| (angle >= 0 && angle <= 75))
 		{
 			angleOkToShoot = true;
 		}
 	}
 	else // LEFT
 	{
-		if ((angle <= -135 && angle >= -180)
-			|| (angle >= 135 && angle <= 180))
+		if ((angle <= -105 && angle >= -180)
+			|| (angle >= 105 && angle <= 180))
 		{
 			angleOkToShoot = true;
 		}
@@ -441,10 +510,16 @@ void Grunt::GetDirectionToPlayer(SDL_Rect* playerRect)
 
 	// Normalize
 	float length = sqrt((bulletDirX*bulletDirX) + (bulletDirY*bulletDirY));
+	rayLength = length;
+
+
 	if (length > 0)
 	{
 		bulletDirX = bulletDirX / length;
 		bulletDirY = bulletDirY / length;
+
+		p2.x = p1.x + rayLength * (float)cos(angle* 3.14159265 / 180);
+		p2.y = p1.y + rayLength * (float)sin(angle* 3.14159265 / 180);
 	}
 }
 
@@ -491,16 +566,10 @@ bool Grunt::InRangeOfPlayer(SDL_Rect &playerRect)
 	distanceX = gruntCentre.x - playerCentre.x;
 	distanceY = gruntCentre.y - playerCentre.y;
 
-	if (distanceX < 0)
-		distanceX *= -1;
-
-	if (distanceY < 0)
-		distanceY *= -1;
-
-	//cout << distanceY << endl;
+	float length = sqrt((distanceX*distanceX) + (distanceY*distanceY));
 
 	// Check if in range
-	if (distanceX <= (m_width * 0.75f) && distanceY <= (playerRect.h / 2))
+	if (length <= m_width)
 	{
 		return true;
 	}
