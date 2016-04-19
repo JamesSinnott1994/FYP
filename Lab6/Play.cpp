@@ -11,6 +11,10 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 	levelComplete = false;
 	world = w;
 
+	// Screen width and height
+	m_width = SCREEN_WIDTH;
+	m_height = SCREEN_HEIGHT;
+
 	// Splash screen object
 	splash = pSplash;
 
@@ -24,16 +28,16 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 	//whichSpeed = "labSpeed";
 	whichSpeed = "laptopSpeed";
 
+	// Load level
+	level = new Level();
+	SDL_Rect playerStartRect = level->LoadLevel("Text/Level1.txt", world, whichSpeed, m_width, m_height);
+
 	// Load player
 	m_player = new Player();
 	float playerScale = 0.9f;
-	m_player->Init(SDL_Rect{ 200, 500, 77 * playerScale, 107 * playerScale }, world, whichSpeed, playerScale);
+	m_player->Init(SDL_Rect{ playerStartRect.x, playerStartRect.y, 77 * playerScale, 107 * playerScale }, world, whichSpeed, playerScale);
 	m_healthBar = new HealthBar();
 	mgAmmo = 0;
-
-	// Screen width and height
-	m_width = SCREEN_WIDTH;
-	m_height = SCREEN_HEIGHT;
 
 	// Load background image
 	m_backGroundImage = new Sprite();
@@ -42,10 +46,6 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 	// HUD Ammo Image
 	m_ammoHUD = new Sprite();
 	m_ammoHUD->Init("Images/Player/AmmoHud.png", SDL_Rect{ 180, 15, 36, 21 }, SDL_Rect{ 0, 0, 36, 21 });
-
-	// Load level
-	level = new Level();
-	level->LoadLevel("Text/Level1.txt", world, whichSpeed, m_width, m_height);
 
 	// For text
 	initializeTTF();
@@ -398,7 +398,7 @@ void Play::HandleSplash()
 void Play::UpdateCameraPos()
 {
 	// Pass players position to Renderer::UpdateCameraPosition()
-	Renderer::GetInstance()->UpdateCameraPosition(m_player->getBody()->GetPosition().x);
+	Renderer::GetInstance()->UpdateCameraPosition(m_player->getBody()->GetPosition().x, m_player->getBody()->GetPosition().y);
 }
 
 int Play::GetScore()

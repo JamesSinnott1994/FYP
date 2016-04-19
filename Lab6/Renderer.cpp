@@ -29,7 +29,8 @@ bool Renderer::Init(SDL_Window* window ,int screen_Width, int screen_Height)
 	SCREEN_WIDTH = screen_Width;
 	SCREEN_HEIGHT = screen_Height;
 
-	startMovingCameraPos = 300;
+	startMovingCameraXPos = 300;
+	startMovingCameraYPos = 500;
 
 	if (gRenderer == NULL)
 	{
@@ -51,12 +52,13 @@ Draws images offset from the camera
 void Renderer::DrawImage(SDL_Rect *source, SDL_Rect *dest, SDL_Texture *text, double angle, SDL_Point* centre, float zIndex) 
 {
 	// Determines whether sprite rectangle is on screen
-	if ((dest->x + dest->w > cameraXOffSet) && (dest->x < cameraXOffSet + SCREEN_WIDTH))
+	if ((dest->x + dest->w > cameraXOffSet) && (dest->x < cameraXOffSet + SCREEN_WIDTH)
+		&& (dest->y + dest->h > cameraYOffSet) && (dest->y < cameraYOffSet + SCREEN_WIDTH))
 	{
 		SDL_RendererFlip flip = SDL_FLIP_NONE;
 
 		// Sprite rectangle position
-		SDL_Rect offSetRect = { dest->x - cameraXOffSet / zIndex, dest->y, dest->w, dest->h };
+		SDL_Rect offSetRect = { dest->x - cameraXOffSet / zIndex, dest->y - cameraYOffSet / zIndex, dest->w, dest->h };
 
 		SDL_RenderCopyEx(gRenderer, text, source, &offSetRect, angle, centre, flip);// Copy the image to the rendering object.
 	}
@@ -70,7 +72,7 @@ void Renderer::DrawImageNoOffset(SDL_Rect *source, SDL_Rect *dest, SDL_Texture *
 void Renderer::ClearRenderer()
 {
 	// Sets colour that we're clearing the screen with
-	SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 0);
+	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
 
 	// This clears the screen
 	SDL_RenderClear(gRenderer);
@@ -82,15 +84,24 @@ void Renderer::RenderScreen()
 	SDL_RenderPresent(gRenderer);
 }
 
-void Renderer::UpdateCameraPosition(int playerXPos)
+void Renderer::UpdateCameraPosition(int playerXPos, int playerYPos)
 {
-	if (playerXPos > startMovingCameraPos) // Move camera
+	if (playerXPos > startMovingCameraXPos) // Move camera
 	{
-		cameraXOffSet = playerXPos - startMovingCameraPos;
+		cameraXOffSet = playerXPos - startMovingCameraXPos;
 	}
 	else // Camera stays at it's initial position
 	{
 		cameraXOffSet = 1;
+	}
+
+	if (playerYPos > startMovingCameraYPos) // Move camera
+	{
+		cameraYOffSet = (playerYPos - startMovingCameraYPos)*0.5f;
+	}
+	else // Camera stays at it's initial position
+	{
+		cameraYOffSet = 1;
 	}
 }
 

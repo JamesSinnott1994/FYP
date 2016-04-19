@@ -20,6 +20,11 @@ Score::Score(SDL_Texture* text, SDL_Rect pRect, b2World *wWorld, SDL_Rect src, s
 	// The body is also added to the world.
 	myBody = wWorld->CreateBody(&myBodyDef);
 
+	// Collision Filtering
+	short GROUP_PLAYER = -2;
+
+	myBodyFixtureDef.filter.groupIndex = GROUP_PLAYER;
+
 	// Add the ground fixture to the ground body.
 	myBody->CreateFixture(&myBodyFixtureDef);
 

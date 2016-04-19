@@ -11,7 +11,7 @@ Level::Level()
 
 // This is where we load the various game entities
 // e.g. platforms, pickups etc
-void Level::LoadLevel(string name, b2World* world, string speedType, int width, int height)
+SDL_Rect Level::LoadLevel(string name, b2World* world, string speedType, int width, int height)
 {
 	vector<string> map = Level::loadALevelFromTextFile(name);
 	const int charactersAcross = map.begin()->size();
@@ -19,6 +19,8 @@ void Level::LoadLevel(string name, b2World* world, string speedType, int width, 
 
 	int barrierCounter = 0;
 	int switchCounter = 0;
+
+	SDL_Rect playerStartPos;
 
 	// Go through each each row
 	for (int y = 0; y < charactersDown; y++)
@@ -31,6 +33,11 @@ void Level::LoadLevel(string name, b2World* world, string speedType, int width, 
 			if (c == 'B')// 'B' for blank
 			{
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
+			}
+			else if (c == '1')// '1' for player start position
+			{
+				playerStartPos.x = x*SCALE;
+				playerStartPos.y = y*SCALE;
 			}
 			else if (c == 'P')// 'P' for top platform
 			{
@@ -142,6 +149,7 @@ void Level::LoadLevel(string name, b2World* world, string speedType, int width, 
 			}
 		}// End inner for loop
 	}// End outer for loop
+	return playerStartPos;
 }
 
 vector<string> Level::loadALevelFromTextFile(string name)
@@ -167,4 +175,14 @@ int Level::GetLevelNum()
 void Level::SetLevelNum(int nextLevel)
 {
 	currentlevel = nextLevel;
+}
+
+SDL_Rect Level::GetPlayerRect()
+{
+	return playerStartRect;
+}
+
+void Level::SetPlayerRect(SDL_Rect temp)
+{
+	playerStartRect = temp;
 }
