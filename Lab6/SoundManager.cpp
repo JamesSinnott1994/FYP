@@ -26,6 +26,7 @@ bool SoundManager::load_files()
 	levelOneMusic = Mix_LoadMUS("Sound/VelocityX.wav");
 	levelTwoMusic = Mix_LoadMUS("Sound/Eno.wav");
 	levelThreeMusic = Mix_LoadMUS("Sound/FastMusic.wav");
+	victory = Mix_LoadMUS("Sound/VICTORY.wav");
 
 	// Load sound effects
 	scorePickup = Mix_LoadWAV("Sound/Pickup.wav");
@@ -34,10 +35,12 @@ bool SoundManager::load_files()
 	mine = Mix_LoadWAV("Sound/MineExplosion.wav");
 	electrocuted = Mix_LoadWAV("Sound/Electrocuted.wav");
 	gunPickup = Mix_LoadWAV("Sound/GunPickup.wav");
+	switchSound = Mix_LoadWAV("Sound/Switch.wav");
 
 	//If there was a problem loading the sound effects
 	if (scorePickup == NULL || gunshot == NULL || health == NULL || mine == NULL || menuMusic == NULL
-		|| levelOneMusic == NULL || levelTwoMusic == NULL || levelThreeMusic == NULL || electrocuted == NULL || gunPickup == NULL)
+		|| levelOneMusic == NULL || levelTwoMusic == NULL || levelThreeMusic == NULL || electrocuted == NULL || gunPickup == NULL 
+		|| victory == NULL || switchSound == NULL)
 	{
 		return false;
 	}
@@ -57,18 +60,37 @@ void SoundManager::clean_up()
 	Mix_FreeChunk(mine);
 	Mix_FreeChunk(electrocuted);
 	Mix_FreeChunk(gunPickup);
+	Mix_FreeChunk(switchSound);
 
 	//Free the music
 	Mix_FreeMusic(menuMusic);
 	Mix_FreeMusic(levelOneMusic);
 	Mix_FreeMusic(levelTwoMusic);
 	Mix_FreeMusic(levelThreeMusic);
+	Mix_FreeMusic(victory);
 
 	//Quit SDL_mixer
 	Mix_CloseAudio();
 
 	//Quit SDL
 	SDL_Quit();
+}
+
+void SoundManager::PlayMusic(int levelNo)
+{
+	// Level 1
+	if (levelNo == 1)
+	{
+		play(LEVEL_ONE_MUSIC);
+	}
+	else if (levelNo == 2)
+	{
+		play(LEVEL_TWO_MUSIC);
+	}
+	else if (levelNo == 3)
+	{
+		play(LEVEL_THREE_MUSIC);
+	}
 }
 
 void SoundManager::play(int i)
@@ -93,6 +115,9 @@ void SoundManager::play(int i)
 		break;
 	case ELECTROCUTED:
 		Mix_PlayChannel(ELECTROCUTED, electrocuted, 0);
+		break;
+	case SWITCH:
+		Mix_PlayChannel(SWITCH, switchSound, 0);
 		break;
 	case MENU_MUSIC:
 		// If there is no music playing
@@ -183,6 +208,34 @@ void SoundManager::play(int i)
 		{
 			//Play the music
 			Mix_PlayMusic(levelThreeMusic, -1);
+
+		}
+
+		else
+		{
+			//If the music is paused
+			if (Mix_PausedMusic() == 1 && SoundOn())
+			{
+				//Resume the music
+				Mix_ResumeMusic();
+			}
+			//If the music is playing
+			else
+			{
+				if (!SoundOn())
+				{
+					//Pause the music
+					Mix_PauseMusic();
+				}
+			}
+		}
+		break;
+
+	case VICTORY:
+		if (Mix_PlayingMusic() == 0)
+		{
+			//Play the music
+			Mix_PlayMusic(victory, -1);
 
 		}
 

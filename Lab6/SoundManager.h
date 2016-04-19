@@ -12,9 +12,10 @@ using namespace std;
 class SoundManager
 {
 public:
-	static const int SCORE_PICKUP = 0, GUNSHOT = 1, HEALTH = 2, MINE = 3, MENU_MUSIC = 4, LEVEL_ONE_MUSIC = 5, ELECTROCUTED = 6, GUN_PICKUP = 7, LEVEL_TWO_MUSIC = 8, LEVEL_THREE_MUSIC = 9;
+	static const int SCORE_PICKUP = 0, GUNSHOT = 1, HEALTH = 2, MINE = 3, MENU_MUSIC = 4, LEVEL_ONE_MUSIC = 5, ELECTROCUTED = 6, GUN_PICKUP = 7, LEVEL_TWO_MUSIC = 8, LEVEL_THREE_MUSIC = 9, VICTORY = 10, SWITCH = 11;
 
 	static SoundManager* GetInstance();
+	void PlayMusic(int levelNo);
 	void play(int);
 	void stopMusic();
 	bool load_files();
@@ -41,17 +42,20 @@ private:
 			printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
 		}
 	}
+
 	Mix_Chunk* scorePickup = NULL;
 	Mix_Chunk* gunshot = NULL;
 	Mix_Chunk* health = NULL;
 	Mix_Chunk* mine = NULL;
 	Mix_Chunk* electrocuted = NULL;
 	Mix_Chunk* gunPickup = NULL;
+	Mix_Chunk* switchSound = NULL;
 
 	Mix_Music* menuMusic = NULL;
 	Mix_Music* levelOneMusic = NULL;
 	Mix_Music* levelTwoMusic = NULL;
 	Mix_Music* levelThreeMusic = NULL;
+	Mix_Music* victory = NULL;
 
 	static bool instanceFlag;
 	static SoundManager* instance;

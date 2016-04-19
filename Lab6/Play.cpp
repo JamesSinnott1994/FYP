@@ -142,7 +142,7 @@ bool Play::loadTTFMedia()
 int Play::Update(SDL_Event e)
 {
 	// Play music
-	SoundManager::GetInstance()->play(SoundManager::GetInstance()->LEVEL_THREE_MUSIC);
+	SoundManager::GetInstance()->PlayMusic(level->GetLevelNum());
 	
 	// Update Camera position
 	UpdateCameraPos();
@@ -179,7 +179,7 @@ int Play::Update(SDL_Event e)
 	else // Update game
 	{
 		// Not paused
-		if (!paused)
+		if (!paused && !splash->CanDraw())
 		{
 			m_player->Update();
 
@@ -291,6 +291,8 @@ void Play::Quit()
 
 int Play::LevelComplete()
 {
+	SoundManager::GetInstance()->stopMusic();
+
 	// Draw splash screen
 	splash->SetCanDraw(true);
 

@@ -124,7 +124,6 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 	// Clear grunt bullets if too many
 	if (m_gruntBullets.size() > m_grunts.size() * 2)
 	{
-		cout << "Too many bullets!!!" << endl;
 		while (m_gruntBullets.size() > m_grunts.size() * 2)
 		{
 			DestroyBullets();

@@ -106,7 +106,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 
 	// Health
 	m_health = 100;
-	m_lives = 1;
+	m_lives = 3;
 	m_alive = true;
 
 	// Machine gun
@@ -280,8 +280,9 @@ void Player::Update()
 	// Checks if killed
 	if (m_health <= 0)
 	{
+		if (m_alive)
+			m_bloodSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 		m_alive = false;
-		m_bloodSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 	}
 
 	// Can jump if y-velocity is 0
@@ -353,18 +354,21 @@ void Player::Update()
 	}
 	
 	// Update sprite positions
-	m_rect.x = m_body->GetPosition().x;
-	m_rect.y = m_body->GetPosition().y;
+	if (m_alive)
+	{
+		m_rect.x = m_body->GetPosition().x;
+		m_rect.y = m_body->GetPosition().y;
 
-	if (!m_machineGunEquipped)
-	{
-		m_playerIdleSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
-		m_playerRunningSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
-	}
-	else
-	{
-		m_playerIdleMachineGunSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
-		m_playerRunningMGSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+		if (!m_machineGunEquipped)
+		{
+			m_playerIdleSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+			m_playerRunningSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+		}
+		else
+		{
+			m_playerIdleMachineGunSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+			m_playerRunningMGSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+		}
 	}
 
 	UpdateAnimations();
@@ -552,8 +556,6 @@ bool Player::CheckMachineGunCollision()
 SDL_Rect* Player::CheckStaticPlatCollision()
 {
 	platformOn = PlatformManager::GetInstance()->CheckStaticPlatCollision(m_body);
-	///if (platformOn.size() > 0)
-		//cout << "{ " << platformOn.at(0) << ", " << platformOn.at(1) << ", " << platformOn.at(2) << ", " << platformOn.at(3) << " }" << endl;
 	return NULL;
 }
 #pragma endregion

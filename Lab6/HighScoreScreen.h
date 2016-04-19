@@ -4,8 +4,11 @@
 #include "Sprite.h"
 #include "Text.h"
 #include "KeyBoardInput.h"
+#include "Button.h"
 #include <vector>
 #include <map>
+#include "Timer.h"
+#include "SoundManager.h"
 
 class HighScoreScreen
 {
@@ -39,11 +42,13 @@ private:
 	bool tableLoaded;
 
 	int y = 0;
+
+	Timer* timer;
 public:
 	HighScoreScreen(int, int);
 
 	void Draw();
-	int Update();
+	int Update(SDL_Event e);
 
 	void GetServerData();
 	void PostServerData(string name, int score);

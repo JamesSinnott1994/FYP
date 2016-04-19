@@ -29,8 +29,10 @@ void GameWon::Draw()
 	Renderer::GetInstance()->RenderScreen();
 }
 
-int GameWon::Update(SDL_Event e)
+int GameWon::Update(SDL_Event e, bool highscoreEnabled)
 {
+	SoundManager::GetInstance()->play(SoundManager::GetInstance()->VICTORY);
+
 	// Checks if mouse is over Menu button
 	#pragma region MenuButton
 	if (m_continueButton.IsOver(e.button.x, e.button.y))
@@ -67,6 +69,8 @@ int GameWon::Update(SDL_Event e)
 			// Check if button clicked
 			if (m_continueButton.IsClicked(mouse_x, mouse_y))
 			{
+				if (!highscoreEnabled)
+					SoundManager::GetInstance()->stopMusic();
 				return MENU;
 			}
 		}

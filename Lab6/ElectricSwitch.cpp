@@ -66,6 +66,7 @@ bool ElectricSwitch::CheckCollision(b2Body* playerBody)
 		SDL_Rect m_source = { 0, 0, 180, 216 };
 		sprite.Init("Images/Obstacles/OffSwitch.png", myRect, m_source);
 		sprite.SetOffset(SDL_Point{ myRect.w / 2, myRect.h / 2 });
+		SoundManager::GetInstance()->play(SoundManager::GetInstance()->ELECTROCUTED);
 		m_on = false;
 	}
 	return collided;

@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "Button.h"
 #include "KeyBoardInput.h"
+#include "SoundManager.h"
 
 class GameWon
 {
@@ -19,7 +20,7 @@ public:
 	GameWon(int windowWidth, int windowHeight);
 
 	void Draw();
-	int Update(SDL_Event e);
+	int Update(SDL_Event e, bool highscoreEnabled);
 
 	const int MENU = 1;
 };

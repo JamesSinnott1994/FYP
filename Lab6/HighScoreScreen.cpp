@@ -18,9 +18,12 @@
 
 HighScoreScreen::HighScoreScreen(int windowWidth, int windowHeight)
 {
+	// Timer
+	timer = new Timer();
+
 	// Create background image
 	m_backGroundImage = new Sprite();
-	m_backGroundImage->Init("Images/Backgrounds/space2.png",
+	m_backGroundImage->Init("Images/Backgrounds/space.png",
 		SDL_Rect{ windowWidth / 2, windowHeight / 2, windowWidth, windowHeight }, SDL_Rect{ 0, 0, 2560, 1024 });
 	m_backGroundImage->SetOffset(SDL_Point{ windowWidth / 2, windowHeight / 2 });
 
@@ -162,7 +165,7 @@ void HighScoreScreen::GetServerData()
 	std::string readBuffer;
 
 	// URL
-	string url = "http://52.51.47.149:443/score";
+	string url = "http://52.49.239.214:443/score";
 
 	// Sets URL
 	curl_easy_setopt(myHandle, CURLOPT_URL, url.c_str());
@@ -200,7 +203,7 @@ void HighScoreScreen::PostServerData(string pName, int pScore)
 	postMessage = "name=Test&name=" + name + "&score=" + score;
 
 	// URL
-	string url = "http://52.51.47.149:443/score";
+	string url = "http://52.49.239.214:443/score";
 
 	// Sets URL
 	curl_easy_setopt(myHandle, CURLOPT_URL, url.c_str());
@@ -233,8 +236,14 @@ void HighScoreScreen::Draw()
 	Renderer::GetInstance()->RenderScreen();
 }
 
-int HighScoreScreen::Update()
+int HighScoreScreen::Update(SDL_Event e)
 {
+	// Start timer if not already started
+	if (!timer->isStarted())
+	{
+		timer->start();
+	}
+
 	if (!haveScores)
 		GetServerData();
 	if (haveScores && !tableLoaded)
@@ -245,7 +254,21 @@ int HighScoreScreen::Update()
 	{
 		haveScores = false;
 		tableLoaded = false;
+		SoundManager::GetInstance()->stopMusic();
 		return 1;
+	}
+
+	// Left mouse press
+	if (e.type == SDL_MOUSEBUTTONDOWN && timer->getTicks()/1000 > 0)
+	{
+		//If the left mouse button was pressed
+		if (e.button.button == SDL_BUTTON_LEFT)
+		{
+			haveScores = false;
+			tableLoaded = false;
+			SoundManager::GetInstance()->stopMusic();
+			return 1;
+		}
 	}
 	return 0;
 }

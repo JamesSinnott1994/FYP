@@ -37,17 +37,13 @@ bool playInitial = false;
 // Methods
 void Init();
 
-// I'm not entirely sure to be honest with you.
-// I'm working on a project where I have to determine the type of NAT that I'm behind by implementing STUN.
-// The question that I asked is one of the steps involved.
-
 int _tmain(int argc, _TCHAR* argv[])
 {
 	// initialize random seed
 	srand(time(NULL));
 
 	// Enable highscore table
-	bool highscoreEnabled = true;
+	bool highscoreEnabled = false;
 
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);
@@ -109,9 +105,17 @@ int _tmain(int argc, _TCHAR* argv[])
 					else if (menu->Update(e, highscoreEnabled) == 1)// Play button clicked
 					{
 						if (highscoreEnabled)
+						{
+							if (playInitial == true)
+								play = new Play(world, windowWidth, windowHeight, splash);
 							gameState = ENTER_NAME_SCREEN;// ********************************
+						}
 						else
+						{
+							if (playInitial == true)
+								play = new Play(world, windowWidth, windowHeight, splash);
 							gameState = PLAY;
+						}
 					}
 					break;
 
@@ -132,18 +136,22 @@ int _tmain(int argc, _TCHAR* argv[])
 				case PLAY:
 					play->Draw();
 					returnedType = play->Update(e);
-					if (returnedType == 2)
+					if (returnedType == 2)// Exit from in-game menu
 					{
 						play->Quit();
-						playInitial = true;// Used whenever we exit out of a game so that we can re-initialize the game
+						playInitial = true;
 						gameState = MENU;
 					}
 					if (returnedType == 3)// Lose game
 					{
+						play->Quit();
+						playInitial = true;
 						gameState = GAMEOVER;
 					}
-					if (returnedType == 4)
+					if (returnedType == 4)// Win game
 					{
+						play->Quit();
+						playInitial = true;
 						gameState = GAME_WON;
 					}
 					break;
@@ -153,11 +161,11 @@ int _tmain(int argc, _TCHAR* argv[])
 					if (gameOver->Update(enterNameScreen->GetName(), highScoreScreen, play->GetScore(), highscoreEnabled) == 1)
 					{
 						if (highscoreEnabled)
+						{
 							gameState = HIGH_SCORE_SCREEN;
+						}
 						else
 						{
-							play->Quit();
-							playInitial = true;// Used whenever we exit out of a game so that we can re-initialize the game
 							gameState = MENU;
 						}
 					}
@@ -165,13 +173,17 @@ int _tmain(int argc, _TCHAR* argv[])
 
 				case GAME_WON:
 					gameWon->Draw();
-					if (gameWon->Update(e) == 1)
+					if (gameWon->Update(e, highscoreEnabled) == 1)
 					{
 						e.button.x = 50;
 						if (!highscoreEnabled)
+						{
 							gameState = MENU;
+						}
 						else
+						{
 							gameState = HIGH_SCORE_SCREEN;
+						}
 					}
 					break;
 
@@ -185,10 +197,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
 				case HIGH_SCORE_SCREEN:
 					highScoreScreen->Draw();
-					if (highScoreScreen->Update() == 1)
+					if (highScoreScreen->Update(e) == 1)
 					{
-						play->Quit();
-						playInitial = true;// Used whenever we exit out of a game so that we can re-initialize the game
 						gameOver->SetScoreAddedToDatabase(false);
 						gameState = MENU;
 					}

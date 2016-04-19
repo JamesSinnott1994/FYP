@@ -125,7 +125,7 @@ b2Vec2 *PlatformManager::getRayIntersectionPoint(b2RayCastOutput output, b2RayCa
 		// Only check platforms ABOVE_LEFT
 		if (playerAbove && playerToLeft)
 		{
-			if (plat->getBody()->GetPosition().y <= gruntYPos && plat->getBody()->GetPosition().x - 96 <= gruntXPos)
+			if (plat->getBody()->GetPosition().y <= gruntYPos && plat->getBody()->GetPosition().x <= gruntXPos)
 			{
 				if (plat->getBody()->GetPosition().x )
 				for (b2Fixture* f = plat->getBody()->GetFixtureList(); f; f = f->GetNext())
