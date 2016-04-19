@@ -15,7 +15,7 @@ private:
 
 	SDL_Renderer* gRenderer = NULL;
 
-	int SCREEN_WIDTH, SCREEN_HEIGHT;
+	int SCREEN_WIDTH, SCREEN_HEIGHT, LEVEL_WIDTH, LEVEL_HEIGHT;
 	int startMovingCameraXPos;
 	int startMovingCameraYPos;
 
@@ -39,6 +39,12 @@ public:
 	void DrawImageNoOffset(SDL_Rect *source, SDL_Rect *dest, SDL_Texture *text, double angle, SDL_Point* centre);
 
 	void UpdateCameraPosition(int playerXPos, int playerYPos);
+
+	void SetLevelWidth(int width);
+	void SetLevelHeight(int height);
+
+	int GetLevelWidth();
+	int GetLevelHeight();
 
 	// Getter
 	SDL_Renderer* Get_SDL_RENDERER();

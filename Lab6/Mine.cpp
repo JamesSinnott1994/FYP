@@ -30,7 +30,7 @@ Mine::Mine(SDL_Texture* text, SDL_Rect pRect, b2World *wWorld, SDL_Rect src)
 	// Add the ground fixture to the ground body.
 	myBody->CreateFixture(&myBodyFixtureDef);
 	sprite.Init(text, pRect, src);
-	sprite.SetOffset(SDL_Point{ 16, 16 });
+	sprite.SetOffset(SDL_Point{ myRect.w / 2, myRect.h / 2 });
 
 	m_alive = true;
 	m_animationPlayed = false;

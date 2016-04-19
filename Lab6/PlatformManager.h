@@ -15,7 +15,7 @@ public:
 		instanceFlag = false;
 	}
 
-	void addPlatform(SDL_Rect pRect, b2World* world, string type);
+	void addPlatform(SDL_Rect pRect, b2World* world, string type, int upsideDown);
 	void addMovingPlatform(SDL_Rect pRect, b2World* world, string type, bool pLeftRight);
 	void addMovePlatSensor(SDL_Rect pRect, b2World* world, int dir);
 

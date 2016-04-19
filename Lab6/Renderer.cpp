@@ -30,7 +30,7 @@ bool Renderer::Init(SDL_Window* window ,int screen_Width, int screen_Height)
 	SCREEN_HEIGHT = screen_Height;
 
 	startMovingCameraXPos = 300;
-	startMovingCameraYPos = 500;
+	startMovingCameraYPos = 300;
 
 	if (gRenderer == NULL)
 	{
@@ -86,22 +86,29 @@ void Renderer::RenderScreen()
 
 void Renderer::UpdateCameraPosition(int playerXPos, int playerYPos)
 {
-	if (playerXPos > startMovingCameraXPos) // Move camera
+	if (playerXPos < (LEVEL_WIDTH - SCREEN_WIDTH + startMovingCameraXPos))
 	{
-		cameraXOffSet = playerXPos - startMovingCameraXPos;
-	}
-	else // Camera stays at it's initial position
-	{
-		cameraXOffSet = 1;
+		if (playerXPos > startMovingCameraXPos) // Move camera
+		{
+			//cout << cameraXOffSet << endl;
+			cameraXOffSet = playerXPos - startMovingCameraXPos;
+		}
+		else // Camera stays at it's initial position
+		{
+			cameraXOffSet = 1;
+		}
 	}
 
-	if (playerYPos > startMovingCameraYPos) // Move camera
+	if (playerYPos < (LEVEL_HEIGHT - SCREEN_HEIGHT + startMovingCameraYPos))
 	{
-		cameraYOffSet = (playerYPos - startMovingCameraYPos)*0.5f;
-	}
-	else // Camera stays at it's initial position
-	{
-		cameraYOffSet = 1;
+		if (playerYPos > startMovingCameraYPos) // Move camera
+		{
+			cameraYOffSet = (playerYPos - startMovingCameraYPos)*0.5f;
+		}
+		else // Camera stays at it's initial position
+		{
+			cameraYOffSet = 1;
+		}
 	}
 }
 
@@ -109,4 +116,21 @@ void Renderer::UpdateCameraPosition(int playerXPos, int playerYPos)
 SDL_Renderer* Renderer::Get_SDL_RENDERER()
 {
 	return gRenderer;
+}
+
+void Renderer::SetLevelWidth(int width)
+{
+	LEVEL_WIDTH = width;
+}
+void Renderer::SetLevelHeight(int height)
+{
+	LEVEL_HEIGHT = height;
+}
+int Renderer::GetLevelWidth()
+{
+	return LEVEL_WIDTH;
+}
+int Renderer::GetLevelHeight()
+{
+	return LEVEL_HEIGHT;
 }

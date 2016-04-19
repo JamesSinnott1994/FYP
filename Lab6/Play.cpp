@@ -30,7 +30,7 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 
 	// Load level
 	level = new Level();
-	SDL_Rect playerStartRect = level->LoadLevel("Text/Level1.txt", world, whichSpeed, m_width, m_height);
+	SDL_Rect playerStartRect = level->LoadLevel("Text/Level45.txt", world, whichSpeed, m_width, m_height);
 
 	// Load player
 	m_player = new Player();
@@ -41,7 +41,7 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 
 	// Load background image
 	m_backGroundImage = new Sprite();
-	m_backGroundImage->Init("Images/Backgrounds/space.png", SDL_Rect{ 0, 0, m_width * 2, m_height }, SDL_Rect{ 0, 0, 600, 360 });
+	m_backGroundImage->Init("Images/Backgrounds/space.png", SDL_Rect{ 0, 0, Renderer::GetInstance()->GetLevelWidth(), Renderer::GetInstance()->GetLevelHeight() }, SDL_Rect{ 0, 0, 600, 360 });
 
 	// HUD Ammo Image
 	m_ammoHUD = new Sprite();
@@ -321,7 +321,7 @@ int Play::LevelComplete()
 	level->LoadLevel(levelText, world, whichSpeed, m_width, m_height);
 
 	string imagePath = "Images/Backgrounds/space" + to_string(level->GetLevelNum()) + ".png";
-	m_backGroundImage->Init(imagePath, SDL_Rect{ 0, 0, m_width * 2, m_height }, SDL_Rect{ 0, 0, 2560, 1024 });
+	m_backGroundImage->Init(imagePath, SDL_Rect{ 0, 0, Renderer::GetInstance()->GetLevelWidth(), Renderer::GetInstance()->GetLevelHeight() }, SDL_Rect{ 0, 0, 2560, 1024 });
 
 	m_player->SetReachedTeleporter(false);
 	levelComplete = false;

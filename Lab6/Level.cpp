@@ -22,6 +22,9 @@ SDL_Rect Level::LoadLevel(string name, b2World* world, string speedType, int wid
 
 	SDL_Rect playerStartPos;
 
+	Renderer::GetInstance()->SetLevelWidth(charactersAcross*SCALE);
+	Renderer::GetInstance()->SetLevelHeight(charactersDown*SCALE);
+
 	// Go through each each row
 	for (int y = 0; y < charactersDown; y++)
 	{
@@ -42,12 +45,17 @@ SDL_Rect Level::LoadLevel(string name, b2World* world, string speedType, int wid
 			else if (c == 'P')// 'P' for top platform
 			{
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE*3, SCALE };
-				PlatformManager::GetInstance()->addPlatform(temp, world, "topPlatform");
+				PlatformManager::GetInstance()->addPlatform(temp, world, "topPlatform", 1);
 			}
 			else if (c == 'p')// 'p' for bottom platform
 			{
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE*3, SCALE };
-				PlatformManager::GetInstance()->addPlatform(temp, world, "bottomPlatform");
+				PlatformManager::GetInstance()->addPlatform(temp, world, "bottomPlatform", 0);
+			}
+			else if (c == '2')// '2' for top platform upside down
+			{
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE * 3, SCALE };
+				PlatformManager::GetInstance()->addPlatform(temp, world, "topPlatform", 2);
 			}
 			else if (c == 'm')// 'm' for moving platform LEFT & RIGHT
 			{
@@ -118,7 +126,7 @@ SDL_Rect Level::LoadLevel(string name, b2World* world, string speedType, int wid
 			}
 			else if (c == 'T')// 'T' for Teleporter
 			{
-				if (name == "Text/Level1.txt")
+				if (name == "Text/Level45.txt")
 				{
 					SDL_Rect temp = { x*SCALE, y*SCALE - 40, SCALE * 2 + 5, SCALE * 3 + 15 };
 					Teleporter::GetInstance()->Init(temp, world, speedType);

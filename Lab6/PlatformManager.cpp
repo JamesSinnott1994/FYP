@@ -18,12 +18,20 @@ PlatformManager* PlatformManager::GetInstance()
 	}
 }
 
-void PlatformManager::addPlatform(SDL_Rect pRect, b2World* world, string type)
+void PlatformManager::addPlatform(SDL_Rect pRect, b2World* world, string type, int upsideDown)
 {
 	if (type == "topPlatform")
 	{
-		m_platformTexture = Sprite::loadTexture("Images/LevelEntities/platform.png", Renderer::GetInstance()->Get_SDL_RENDERER());
-		m_platformSource = { 0, 0, 106, 29 };
+		if (upsideDown == 1)
+		{
+			m_platformTexture = Sprite::loadTexture("Images/LevelEntities/platform.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+			m_platformSource = { 0, 0, 106, 29 };
+		}
+		if (upsideDown == 2)
+		{
+			m_platformTexture = Sprite::loadTexture("Images/LevelEntities/platform2.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+			m_platformSource = { 0, 0, 106, 29 };
+		}
 	}
 	else
 	{
