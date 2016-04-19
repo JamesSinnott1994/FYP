@@ -179,7 +179,7 @@ int Play::Update(SDL_Event e)
 	else // Update game
 	{
 		// Not paused
-		if (!paused && !splash->CanDraw())
+		if (!paused)
 		{
 			m_player->Update();
 
@@ -201,15 +201,18 @@ int Play::Update(SDL_Event e)
 			Teleporter::GetInstance()->Update();
 			PickupManager::GetInstance()->Update();
 			PlatformManager::GetInstance()->Update();
-			// Checks if player collides with enemy bullets
-			if (EnemyManager::GetInstance()->Update(m_player->GetPosition(), m_player->getBody()))
+			if (!splash->CanDraw())
 			{
-				//m_player->SetHealth(m_player->GetHealth() - 10);
-			}
-			// Checks if player collides with robot bullets
-			if (EnemyManager::GetInstance()->UpdateRobotBullets(m_player->GetPosition(), m_player->getBody()))
-			{
-				//m_player->SetHealth(m_player->GetHealth() - 34);
+				// Checks if player collides with enemy bullets
+				if (EnemyManager::GetInstance()->Update(m_player->GetPosition(), m_player->getBody()))
+				{
+					//m_player->SetHealth(m_player->GetHealth() - 10);
+				}
+				// Checks if player collides with robot bullets
+				if (EnemyManager::GetInstance()->UpdateRobotBullets(m_player->GetPosition(), m_player->getBody()))
+				{
+					//m_player->SetHealth(m_player->GetHealth() - 34);
+				}
 			}
 			// Opens menu
 			if (KeyBoardInput::GetInstance()->isKeyPressed(SDLK_o) && !menuOpen)
