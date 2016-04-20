@@ -30,7 +30,7 @@ Tutorial::Tutorial(int windowWidth, int windowHeight)
 
 	// Screen Number
 	screenNo = 1;
-	noOfScreens = 6;
+	noOfScreens = 7;
 
 	// Screen Image
 	m_screenImage = new Sprite();

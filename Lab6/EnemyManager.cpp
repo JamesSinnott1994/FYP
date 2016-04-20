@@ -169,7 +169,6 @@ bool EnemyManager::UpdateRobotBullets(SDL_Rect &playerRect, b2Body* playerBody)
 	// Clear robot bullets if too many
 	if (m_robotBullets.size() > m_robots.size() * 2)
 	{
-		cout << "Too many bullets!!!" << endl;
 		while (m_robotBullets.size() > m_robots.size() * 2)
 		{
 			DestroyBullets();

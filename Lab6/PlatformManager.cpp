@@ -269,6 +269,10 @@ void PlatformManager::Destroy()
 	{
 		m_platforms.clear();
 	}
+	if (m_noRayPlatforms.size() > 0)
+	{
+		m_noRayPlatforms.clear();
+	}
 	if (m_movingPlatforms.size() > 0)
 	{
 		m_movingPlatforms.clear();

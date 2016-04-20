@@ -32,6 +32,9 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 	level = new Level();
 	SDL_Rect playerStartRect = level->LoadLevel("Text/Level1.txt", world, whichSpeed, m_width, m_height);
 
+	// Camera y
+	Renderer::GetInstance()->cameraYOffSet = 19;
+
 	// Load player
 	m_player = new Player();
 	float playerScale = 0.9f;

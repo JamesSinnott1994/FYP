@@ -34,7 +34,7 @@ MovingPlatform::MovingPlatform(SDL_Texture* text, SDL_Rect pRect, b2World* wWorl
 	m_sprite.Init(text, pRect, src);
 	m_sprite.SetOffset(SDL_Point{ 48, 16 });
 
-	m_body->SetLinearVelocity(b2Vec2{ -3.0f, 0.0f });
+	m_body->SetLinearVelocity(b2Vec2{ -2.0f, 0.0f });
 	type = "platform";
 
 	leftRight = pLeftRight;
@@ -89,7 +89,7 @@ void MovingPlatform::MoveLeftRightPlatform()
 		else
 			direction = 1;
 
-		m_body->SetLinearVelocity(b2Vec2(3 * direction, 0));
+		m_body->SetLinearVelocity(b2Vec2(2 * direction, 0));
 	}
 
 	//

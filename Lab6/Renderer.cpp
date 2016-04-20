@@ -104,7 +104,6 @@ void Renderer::UpdateCameraPosition(int playerXPos, int playerYPos)
 		if (playerYPos > startMovingCameraYPos) // Move camera
 		{
 			cameraYOffSet = (playerYPos - startMovingCameraYPos)*0.5f;
-			//cout << cameraYOffSet << endl;
 		}
 		else // Camera stays at it's initial position
 		{
