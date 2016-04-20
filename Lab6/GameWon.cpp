@@ -19,6 +19,9 @@ GameWon::GameWon(int windowWidth, int windowHeight)
 
 	// Prevents constant draw when over buttons
 	m_overContinueBtn = false;
+
+	// Boolean to prevent constantly adding to database
+	scoreAddedToDatabase = false;
 }
 
 void GameWon::Draw()
@@ -29,9 +32,15 @@ void GameWon::Draw()
 	Renderer::GetInstance()->RenderScreen();
 }
 
-int GameWon::Update(SDL_Event e, bool highscoreEnabled)
+int GameWon::Update(SDL_Event e, bool highscoreEnabled, string name, HighScoreScreen* highscore, int score)
 {
 	SoundManager::GetInstance()->play(SoundManager::GetInstance()->VICTORY);
+
+	if (highscoreEnabled && !scoreAddedToDatabase)
+	{
+		highscore->PostServerData(name, score);
+		scoreAddedToDatabase = true;
+	}
 
 	// Checks if mouse is over Menu button
 	#pragma region MenuButton
@@ -78,4 +87,9 @@ int GameWon::Update(SDL_Event e, bool highscoreEnabled)
 	#pragma endregion
 
 	return 0;
+}
+
+void GameWon::SetScoreAddedToDatabase(bool myScoreAddedToDatabase)
+{
+	scoreAddedToDatabase = myScoreAddedToDatabase;
 }

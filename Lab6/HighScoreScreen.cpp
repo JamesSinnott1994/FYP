@@ -257,19 +257,6 @@ int HighScoreScreen::Update(SDL_Event e)
 		SoundManager::GetInstance()->stopMusic();
 		return 1;
 	}
-
-	// Left mouse press
-	if (e.type == SDL_MOUSEBUTTONDOWN && timer->getTicks()/1000 > 0)
-	{
-		//If the left mouse button was pressed
-		if (e.button.button == SDL_BUTTON_LEFT)
-		{
-			haveScores = false;
-			tableLoaded = false;
-			SoundManager::GetInstance()->stopMusic();
-			return 1;
-		}
-	}
 	return 0;
 }
 

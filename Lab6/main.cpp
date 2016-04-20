@@ -43,7 +43,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	srand(time(NULL));
 
 	// Enable highscore table
-	bool highscoreEnabled = false;
+	bool highscoreEnabled = true;
 
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);
@@ -144,14 +144,10 @@ int _tmain(int argc, _TCHAR* argv[])
 					}
 					if (returnedType == 3)// Lose game
 					{
-						play->Quit();
-						playInitial = true;
 						gameState = GAMEOVER;
 					}
 					if (returnedType == 4)// Win game
 					{
-						play->Quit();
-						playInitial = true;
 						gameState = GAME_WON;
 					}
 					break;
@@ -168,12 +164,14 @@ int _tmain(int argc, _TCHAR* argv[])
 						{
 							gameState = MENU;
 						}
+						play->Quit();
+						playInitial = true;
 					}
 					break;
 
 				case GAME_WON:
 					gameWon->Draw();
-					if (gameWon->Update(e, highscoreEnabled) == 1)
+					if (gameWon->Update(e, highscoreEnabled, enterNameScreen->GetName(), highScoreScreen, play->GetScore()) == 1)
 					{
 						e.button.x = 50;
 						if (!highscoreEnabled)
@@ -184,6 +182,8 @@ int _tmain(int argc, _TCHAR* argv[])
 						{
 							gameState = HIGH_SCORE_SCREEN;
 						}
+						play->Quit();
+						playInitial = true;
 					}
 					break;
 
@@ -200,6 +200,7 @@ int _tmain(int argc, _TCHAR* argv[])
 					if (highScoreScreen->Update(e) == 1)
 					{
 						gameOver->SetScoreAddedToDatabase(false);
+						gameWon->SetScoreAddedToDatabase(false);
 						gameState = MENU;
 					}
 					break;

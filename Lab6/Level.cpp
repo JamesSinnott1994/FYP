@@ -20,7 +20,7 @@ SDL_Rect Level::LoadLevel(string name, b2World* world, string speedType, int wid
 	int barrierCounter = 0;
 	int switchCounter = 0;
 
-	SDL_Rect playerStartPos;
+	SDL_Rect playerStartPos = {0,0,0,0};
 
 	Renderer::GetInstance()->SetLevelWidth(charactersAcross*SCALE);
 	Renderer::GetInstance()->SetLevelHeight(charactersDown*SCALE);
@@ -126,7 +126,7 @@ SDL_Rect Level::LoadLevel(string name, b2World* world, string speedType, int wid
 			}
 			else if (c == 'T')// 'T' for Teleporter
 			{
-				if (name == "Text/Level45.txt")
+				if (name == "Text/Level5.txt")
 				{
 					SDL_Rect temp = { x*SCALE, y*SCALE - 40, SCALE * 2 + 5, SCALE * 3 + 15 };
 					Teleporter::GetInstance()->Init(temp, world, speedType);

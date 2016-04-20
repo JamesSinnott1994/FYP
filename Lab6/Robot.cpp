@@ -229,7 +229,7 @@ void Robot::Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets, b2Body
 	GetDirectionToPlayer(&playerRect);
 
 	// Cast our ray to determine if object is in front of player which prevents firing
-	if (angleOkToShoot)
+	if (angleOkToShoot && m_inRange)
 	{
 		CastRay();
 	}

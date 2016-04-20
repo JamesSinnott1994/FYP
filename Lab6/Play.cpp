@@ -22,7 +22,7 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 	timer = new Timer();
 
 	// Levels
-	noOfLevels = 3;
+	noOfLevels = 1;
 
 	// Which speed to use
 	//whichSpeed = "labSpeed";
@@ -30,7 +30,7 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 
 	// Load level
 	level = new Level();
-	SDL_Rect playerStartRect = level->LoadLevel("Text/Level45.txt", world, whichSpeed, m_width, m_height);
+	SDL_Rect playerStartRect = level->LoadLevel("Text/Level5.txt", world, whichSpeed, m_width, m_height);
 
 	// Load player
 	m_player = new Player();
@@ -41,7 +41,7 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 
 	// Load background image
 	m_backGroundImage = new Sprite();
-	m_backGroundImage->Init("Images/Backgrounds/space.png", SDL_Rect{ 0, 0, Renderer::GetInstance()->GetLevelWidth(), Renderer::GetInstance()->GetLevelHeight() }, SDL_Rect{ 0, 0, 600, 360 });
+	m_backGroundImage->Init("Images/Backgrounds/space.png", SDL_Rect{ 0, 0, Renderer::GetInstance()->GetLevelWidth(), Renderer::GetInstance()->GetLevelHeight() }, SDL_Rect{ 0, 0, 600, 300 });
 
 	// HUD Ammo Image
 	m_ammoHUD = new Sprite();
@@ -206,12 +206,12 @@ int Play::Update(SDL_Event e)
 				// Checks if player collides with enemy bullets
 				if (EnemyManager::GetInstance()->Update(m_player->GetPosition(), m_player->getBody()))
 				{
-					//m_player->SetHealth(m_player->GetHealth() - 10);
+					m_player->SetHealth(m_player->GetHealth() - 10);
 				}
 				// Checks if player collides with robot bullets
 				if (EnemyManager::GetInstance()->UpdateRobotBullets(m_player->GetPosition(), m_player->getBody()))
 				{
-					//m_player->SetHealth(m_player->GetHealth() - 34);
+					m_player->SetHealth(m_player->GetHealth() - 34);
 				}
 			}
 			// Opens menu

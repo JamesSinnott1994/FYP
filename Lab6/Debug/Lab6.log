@@ -1,54 +1,11 @@
-﻿Build started 19/04/2016 21:15:52.
+﻿Build started 20/04/2016 13:57:27.
      1>Project "C:\Users\Windows 8\Desktop\TEMP\FYP\Lab6\Lab6.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I./ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CURL_STATICLIB /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Ammo.cpp Bullet.cpp Button.cpp ElectricBarrier.cpp ElectricSwitch.cpp EnemyManager.cpp EnterNameScreen.cpp GameOver.cpp GameWon.cpp Grunt.cpp GruntBullet.cpp Health.cpp HealthBar.cpp HighScoreScreen.cpp InGameMenu.cpp Level.cpp MachineGun.cpp Menu.cpp Mine.cpp MovingPlatform.cpp ObstacleManager.cpp Options.cpp PickupManager.cpp Platform.cpp PlatformManager.cpp Play.cpp Player.cpp Renderer.cpp Robot.cpp RobotBullet.cpp Score.cpp Splash.cpp Sprite.cpp Teleporter.cpp Text.cpp Tutorial.cpp Wall.cpp WallManager.cpp main.cpp
-         Renderer.cpp
-     1>c:\users\windows 8\desktop\temp\fyp\lab6\renderer.cpp(61): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\temp\fyp\lab6\renderer.cpp(106): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-         Play.cpp
-     1>c:\users\windows 8\desktop\temp\fyp\lab6\level.h(9): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-     1>c:\users\windows 8\desktop\temp\fyp\lab6\button.h(26): warning C4091: 'static ' : ignored on left of 'Button' when no variable is declared
-     1>c:\users\windows 8\desktop\temp\fyp\lab6\play.cpp(38): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\temp\fyp\lab6\play.cpp(401): warning C4244: 'argument' : conversion from 'const float32' to 'int', possible loss of data
-         Generating Code...
-         Skipping... (no relevant changes detected)
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I./ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CURL_STATICLIB /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
          main.cpp
-         WallManager.cpp
-         Wall.cpp
-         Tutorial.cpp
-         Text.cpp
-         Teleporter.cpp
-         Sprite.cpp
-         Splash.cpp
-         Score.cpp
-         RobotBullet.cpp
-         Robot.cpp
-         Player.cpp
-         PlatformManager.cpp
-         Platform.cpp
-         PickupManager.cpp
-         Options.cpp
-         ObstacleManager.cpp
-         MovingPlatform.cpp
-         Mine.cpp
-         Menu.cpp
-         MachineGun.cpp
-         Level.cpp
-         InGameMenu.cpp
-         HighScoreScreen.cpp
-         HealthBar.cpp
-         Health.cpp
-         GruntBullet.cpp
-         Grunt.cpp
-         GameWon.cpp
-         GameOver.cpp
-         EnterNameScreen.cpp
-         EnemyManager.cpp
-         ElectricSwitch.cpp
-         ElectricBarrier.cpp
-         Button.cpp
-         Bullet.cpp
-         Ammo.cpp
+     1>c:\users\windows 8\desktop\temp\fyp\lab6\button.h(26): warning C4091: 'static ' : ignored on left of 'Button' when no variable is declared
+     1>c:\users\windows 8\desktop\temp\fyp\lab6\level.h(9): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>c:\users\windows 8\desktop\temp\fyp\lab6\main.cpp(43): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Windows 8\Desktop\TEMP\FYP\Debug\Lab6.exe" /INCREMENTAL /NOLOGO /LIBPATH:./lib Box2D.lib SDL2main.lib SDL2_image.lib SDL2_mixer.lib SDL2.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libcurl.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Windows 8\Desktop\TEMP\FYP\Debug\Lab6.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Windows 8\Desktop\TEMP\FYP\Debug\Lab6.lib" /MACHINE:X86 Debug\Ammo.obj
          Debug\Bullet.obj
@@ -99,4 +56,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:08.87
+Time Elapsed 00:00:06.03

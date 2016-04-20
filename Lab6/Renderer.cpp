@@ -86,7 +86,7 @@ void Renderer::RenderScreen()
 
 void Renderer::UpdateCameraPosition(int playerXPos, int playerYPos)
 {
-	if (playerXPos < (LEVEL_WIDTH - SCREEN_WIDTH + startMovingCameraXPos))
+	if (playerXPos < (LEVEL_WIDTH - 50 - SCREEN_WIDTH + startMovingCameraXPos))
 	{
 		if (playerXPos > startMovingCameraXPos) // Move camera
 		{
@@ -99,8 +99,8 @@ void Renderer::UpdateCameraPosition(int playerXPos, int playerYPos)
 		}
 	}
 
-	if (playerYPos < (LEVEL_HEIGHT - SCREEN_HEIGHT + startMovingCameraYPos))
-	{
+	//if (playerYPos < (LEVEL_HEIGHT - SCREEN_HEIGHT + startMovingCameraYPos))
+	//{
 		if (playerYPos > startMovingCameraYPos) // Move camera
 		{
 			cameraYOffSet = (playerYPos - startMovingCameraYPos)*0.5f;
@@ -109,7 +109,7 @@ void Renderer::UpdateCameraPosition(int playerXPos, int playerYPos)
 		{
 			cameraYOffSet = 1;
 		}
-	}
+	//}
 }
 
 // Getter
