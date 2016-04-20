@@ -9,7 +9,7 @@ Health::Health(SDL_Texture* text, SDL_Rect pRect, b2World *wWorld, SDL_Rect src)
 
 	// Define the ground body.
 	myBodyDef.position.Set(pRect.x, pRect.y);
-	myBodyDef.type = b2_staticBody;
+	myBodyDef.type = b2_dynamicBody;
 
 	// Define the ground box shape.
 	// The extents are the half-widths of the box.
@@ -27,8 +27,9 @@ Health::Health(SDL_Texture* text, SDL_Rect pRect, b2World *wWorld, SDL_Rect src)
 
 	// Add the ground fixture to the ground body.
 	myBody->CreateFixture(&myBodyFixtureDef);
-	sprite.Init(text, pRect, src);
-	sprite.SetOffset(SDL_Point{ pRect.w / 2, pRect.h / 2 });
+	sprite = new Sprite();
+	sprite->Init(text, pRect, src);
+	sprite->SetOffset(SDL_Point{ pRect.w / 2, pRect.h / 2 });
 
 	m_alive = true;
 }
@@ -36,7 +37,10 @@ Health::Health(SDL_Texture* text, SDL_Rect pRect, b2World *wWorld, SDL_Rect src)
 void Health::Draw()
 {
 	if (m_alive)
-		sprite.Draw(1);
+	{
+		sprite->SetPosition(myBody->GetPosition().x, myBody->GetPosition().y);
+		sprite->Draw(1);
+	}
 }
 
 void Health::Reset()

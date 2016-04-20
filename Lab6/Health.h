@@ -27,7 +27,7 @@ private:
 	b2Body* myBody;
 	b2BodyDef myBodyDef;
 	b2FixtureDef myBodyFixtureDef;
-	Sprite sprite;
+	Sprite* sprite;
 	b2PolygonShape myShape;
 	SDL_Texture* myTexture;
 

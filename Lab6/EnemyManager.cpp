@@ -50,7 +50,7 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 	{
 		for (m_gruntIterator = m_grunts.begin(); m_gruntIterator != m_grunts.end(); m_gruntIterator++)
 		{
-			if ((*m_gruntIterator)->GetAlive())
+			if ((*m_gruntIterator)->GetAlive() && (*m_gruntIterator)->OnScreen(playerBody->GetPosition().x, playerBody->GetPosition().y))
 			{
 				(*m_gruntIterator)->Update(playerRect, m_gruntBullets.size(), m_grunts.size() * 1, playerBody);
 
@@ -73,7 +73,7 @@ bool EnemyManager::Update(SDL_Rect &playerRect, b2Body* playerBody)
 	{
 		for (m_robotIterator = m_robots.begin(); m_robotIterator != m_robots.end(); m_robotIterator++)
 		{
-			if ((*m_robotIterator)->GetAlive())
+			if ((*m_robotIterator)->GetAlive() && (*m_robotIterator)->OnScreen(playerBody->GetPosition().x, playerBody->GetPosition().y))
 			{
 				(*m_robotIterator)->Update(playerRect, m_robotBullets.size(), m_robots.size() * 1, playerBody);
 			}

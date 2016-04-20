@@ -175,6 +175,14 @@ void Robot::Draw()
 			m_runningSprite->SetSourceRect(*currentRunnerClip);
 			m_runningSprite->Draw(1);
 		}
+
+		// Update sprite position
+		m_rect.x = m_body->GetPosition().x;
+		m_rect.y = m_body->GetPosition().y;
+		p1.x = m_body->GetPosition().x;
+		p1.y = m_body->GetPosition().y;
+		m_idleSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
+		m_runningSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 	}
 }
 
@@ -241,12 +249,6 @@ void Robot::Update(SDL_Rect &playerRect, int noOfBullets, int maxBullets, b2Body
 	m_inRange = InRangeOfPlayer(playerRect);
 
 	//Animation();
-
-	// Update sprite position
-	m_rect.x = m_body->GetPosition().x;
-	m_rect.y = m_body->GetPosition().y;
-	m_idleSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
-	m_runningSprite->SetPosition(m_body->GetPosition().x, m_body->GetPosition().y);
 }
 
 Robot::State Robot::FiniteStateMachine()
@@ -544,7 +546,7 @@ bool Robot::InRangeOfPlayer(SDL_Rect &playerRect)
 	float length = sqrt((distanceX*distanceX) + (distanceY*distanceY));
 
 	// Check if in range
-	if (length <= m_width)
+	if (length <= (m_width/2)+100)
 	{
 		return true;
 	}
@@ -637,6 +639,28 @@ bool Robot::GetScoreAdded()
 void Robot::SetScoreAdded(bool myScoreAdded)
 {
 	m_scoreAdded = myScoreAdded;
+}
+
+bool Robot::OnScreen(float playerXPos, float playerYPos)
+{
+	// Get distance
+	float distanceX;
+	float distanceY;
+
+	distanceX = m_body->GetPosition().x - playerXPos;
+	distanceY = m_body->GetPosition().y - playerYPos;
+
+	float length = sqrt((distanceX*distanceX) + (distanceY*distanceY));
+
+	// Check if in range
+	if (length <= 500)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 #pragma endregion

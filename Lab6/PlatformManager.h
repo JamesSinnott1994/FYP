@@ -5,6 +5,7 @@
 #include <vector>
 #include "Platform.h"
 #include "MovingPlatform.h"
+#include "NoRayPlatform.h"
 
 class PlatformManager
 {
@@ -16,6 +17,7 @@ public:
 	}
 
 	void addPlatform(SDL_Rect pRect, b2World* world, string type, int upsideDown);
+	void addNoRayPlatform(SDL_Rect pRect, b2World* world, string type, int upsideDown);
 	void addMovingPlatform(SDL_Rect pRect, b2World* world, string type, bool pLeftRight);
 	void addMovePlatSensor(SDL_Rect pRect, b2World* world, int dir);
 
@@ -41,6 +43,9 @@ private:
 
 		// Moving platforms
 		m_movingPlatforms = list<MovingPlatform*>();
+
+		// No Ray platforms
+		m_noRayPlatforms = list<NoRayPlatform*>();
 	}
 
 	static bool instanceFlag;
@@ -51,6 +56,11 @@ private:
 	SDL_Texture* m_platformTexture;
 	SDL_Rect m_platformSource;
 	vector<int> platformOn;
+
+	// No Ray platform
+	list<NoRayPlatform*> m_noRayPlatforms;
+	SDL_Texture* m_noRayPlatformTexture;
+	SDL_Rect m_noRayPlatformSource;
 
 	// Moving platforms
 	list<MovingPlatform*> m_movingPlatforms;

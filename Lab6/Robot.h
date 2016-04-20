@@ -131,6 +131,8 @@ public:
 
 	bool GetScoreAdded();
 	void SetScoreAdded(bool myScoreAdded);
+
+	bool OnScreen(float playerXPos, float playerYPos);
 };
 
 #endif

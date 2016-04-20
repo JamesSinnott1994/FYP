@@ -171,6 +171,9 @@
     <ClCompile Include="Raycast.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NoRayPlatform.cpp">
+      <Filter>Source Files\Platform/Wall</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -304,6 +307,9 @@
     </ClInclude>
     <ClInclude Include="Raycast.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NoRayPlatform.h">
+      <Filter>Header Files\Platform/Wall</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

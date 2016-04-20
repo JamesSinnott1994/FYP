@@ -44,6 +44,32 @@ void PlatformManager::addPlatform(SDL_Rect pRect, b2World* world, string type, i
 	m_platforms.push_back(temp);
 }
 
+void PlatformManager::addNoRayPlatform(SDL_Rect pRect, b2World* world, string type, int upsideDown)
+{
+	if (type == "topPlatform")
+	{
+		if (upsideDown == 1)
+		{
+			m_platformTexture = Sprite::loadTexture("Images/LevelEntities/platform.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+			m_platformSource = { 0, 0, 106, 29 };
+		}
+		if (upsideDown == 2)
+		{
+			m_platformTexture = Sprite::loadTexture("Images/LevelEntities/platform2.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+			m_platformSource = { 0, 0, 106, 29 };
+		}
+	}
+	else
+	{
+		m_platformTexture = Sprite::loadTexture("Images/LevelEntities/bottomPlatform.png", Renderer::GetInstance()->Get_SDL_RENDERER());
+		m_platformSource = { 0, 0, 106, 29 };
+	}
+
+	NoRayPlatform* temp = new NoRayPlatform(m_platformTexture, pRect, world, m_platformSource);
+
+	m_noRayPlatforms.push_back(temp);
+}
+
 void PlatformManager::addMovingPlatform(SDL_Rect pRect, b2World* world, string type, bool pLeftRight)
 {
 	m_movingPlatformTexture = Sprite::loadTexture("Images/LevelEntities/platform.png", Renderer::GetInstance()->Get_SDL_RENDERER());
@@ -64,6 +90,10 @@ void PlatformManager::addMovePlatSensor(SDL_Rect pRect, b2World  *world, int src
 void PlatformManager::Draw()
 {
 	for each(Platform* plat in m_platforms)
+	{
+		plat->Draw();
+	}
+	for each(NoRayPlatform* plat in m_noRayPlatforms)
 	{
 		plat->Draw();
 	}

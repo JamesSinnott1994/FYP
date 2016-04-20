@@ -33,11 +33,7 @@ SDL_Rect Level::LoadLevel(string name, b2World* world, string speedType, int wid
 		{
 			char c = (char)map[y][x];
 
-			if (c == 'B')// 'B' for blank
-			{
-				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE };
-			}
-			else if (c == '1')// '1' for player start position
+			if (c == '1')// '1' for player start position
 			{
 				playerStartPos.x = x*SCALE;
 				playerStartPos.y = y*SCALE;
@@ -51,6 +47,16 @@ SDL_Rect Level::LoadLevel(string name, b2World* world, string speedType, int wid
 			{
 				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE*3, SCALE };
 				PlatformManager::GetInstance()->addPlatform(temp, world, "bottomPlatform", 0);
+			}
+			else if (c == 'V')// 'V' for no ray top platform
+			{
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE * 3, SCALE };
+				PlatformManager::GetInstance()->addNoRayPlatform(temp, world, "topPlatform", 1);
+			}
+			else if (c == 'v')// 'v' for no ray bottom platform
+			{
+				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE * 3, SCALE };
+				PlatformManager::GetInstance()->addNoRayPlatform(temp, world, "bottomPlatform", 0);
 			}
 			else if (c == '2')// '2' for top platform upside down
 			{
@@ -115,7 +121,7 @@ SDL_Rect Level::LoadLevel(string name, b2World* world, string speedType, int wid
 			else if (c == 'E')// 'E' for Electric Barrier
 			{
 				barrierCounter += 1;
-				SDL_Rect temp = { x*SCALE, y*SCALE, SCALE, SCALE*3 };
+				SDL_Rect temp = { x*SCALE, y*SCALE+48, SCALE, SCALE*4 };
 				ObstacleManager::GetInstance()->addElectricBarriers(temp, world, speedType, barrierCounter);
 			}
 			else if (c == 'e')// 'e' for Electric Switch
@@ -126,7 +132,7 @@ SDL_Rect Level::LoadLevel(string name, b2World* world, string speedType, int wid
 			}
 			else if (c == 'T')// 'T' for Teleporter
 			{
-				if (name == "Text/Level5.txt")
+				if (name == "Text/Level1.txt")
 				{
 					SDL_Rect temp = { x*SCALE, y*SCALE - 40, SCALE * 2 + 5, SCALE * 3 + 15 };
 					Teleporter::GetInstance()->Init(temp, world, speedType);
