@@ -30,7 +30,7 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 
 	// Load level
 	level = new Level();
-	SDL_Rect playerStartRect = level->LoadLevel("Text/Level1.txt", world, whichSpeed, m_width, m_height);
+	SDL_Rect playerStartRect = level->LoadLevel("Text/Level2.txt", world, whichSpeed, m_width, m_height);
 
 	// Camera y
 	Renderer::GetInstance()->cameraYOffSet = 19;
@@ -276,6 +276,12 @@ void Play::Reset()
 		EnemyManager::GetInstance()->DestroyBullets();
 		paused = false;
 		menuOpen = false;
+
+		// Set Renderer Y Offset
+		if (level->GetLevelNum() == 4)
+		{
+			Renderer::GetInstance()->cameraYOffSet = 83;
+		}
 	}
 }
 

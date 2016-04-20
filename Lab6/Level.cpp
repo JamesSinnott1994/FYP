@@ -130,6 +130,11 @@ SDL_Rect Level::LoadLevel(string name, b2World* world, string speedType, int wid
 				SDL_Rect temp = { x*SCALE, y*SCALE+32, SCALE, SCALE * 3 };
 				ObstacleManager::GetInstance()->addElectricBarriers(temp, world, speedType, barrierCounter);
 			}
+			else if (c == '4')// '4' for small Electric Barrier with NO ID
+			{
+				SDL_Rect temp = { x*SCALE, y*SCALE + 32, SCALE, SCALE * 3 };
+				ObstacleManager::GetInstance()->addElectricBarriers(temp, world, speedType, 0);
+			}
 			else if (c == 'e')// 'e' for Electric Switch
 			{
 				switchCounter += 1;
@@ -138,7 +143,7 @@ SDL_Rect Level::LoadLevel(string name, b2World* world, string speedType, int wid
 			}
 			else if (c == 'T')// 'T' for Teleporter
 			{
-				if (name == "Text/Level1.txt")
+				if (name == "Text/Level2.txt")
 				{
 					SDL_Rect temp = { x*SCALE, y*SCALE - 40, SCALE * 2 + 5, SCALE * 3 + 15 };
 					Teleporter::GetInstance()->Init(temp, world, speedType);

@@ -1,14 +1,12 @@
-﻿Build started 20/04/2016 19:31:28.
+﻿Build started 20/04/2016 21:56:25.
      1>Project "C:\Users\Windows 8\Desktop\TEMP\FYP\Lab6\Lab6.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I./ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CURL_STATICLIB /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Level.cpp Tutorial.cpp
-         Tutorial.cpp
-     1>c:\users\windows 8\desktop\temp\fyp\lab6\tutorial.cpp(38): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\temp\fyp\lab6\tutorial.cpp(190): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\temp\fyp\lab6\tutorial.cpp(203): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\temp\fyp\lab6\tutorial.cpp(216): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\temp\fyp\lab6\tutorial.cpp(269): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\windows 8\desktop\temp\fyp\lab6\tutorial.cpp(289): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I./ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CURL_STATICLIB /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Level.cpp Play.cpp
+         Play.cpp
+     1>c:\users\windows 8\desktop\temp\fyp\lab6\level.h(9): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>c:\users\windows 8\desktop\temp\fyp\lab6\button.h(26): warning C4091: 'static ' : ignored on left of 'Button' when no variable is declared
+     1>c:\users\windows 8\desktop\temp\fyp\lab6\play.cpp(41): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\windows 8\desktop\temp\fyp\lab6\play.cpp(421): warning C4244: 'argument' : conversion from 'const float32' to 'int', possible loss of data
          Level.cpp
      1>c:\users\windows 8\desktop\temp\fyp\lab6\level.h(9): warning C4067: unexpected tokens following preprocessor directive - expected a newline
      1>c:\users\windows 8\desktop\temp\fyp\lab6\level.cpp(98): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
@@ -64,4 +62,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:09.17
+Time Elapsed 00:00:09.33
