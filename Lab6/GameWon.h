@@ -6,6 +6,7 @@
 #include "KeyBoardInput.h"
 #include "SoundManager.h"
 #include "HighScoreScreen.h"
+#include "Text.h"
 class GameWon
 {
 private:
@@ -18,6 +19,11 @@ private:
 	bool m_overContinueBtn;
 
 	bool scoreAddedToDatabase;
+
+	TTF_Font *gFont = NULL;
+	Text winTextTexture;
+
+	string name2;
 public:
 	GameWon(int windowWidth, int windowHeight);
 
@@ -27,6 +33,9 @@ public:
 	const int MENU = 1;
 
 	void SetScoreAddedToDatabase(bool myScoreAddedToDatabase);
+
+	bool initializeTTF();
+	bool loadTTFMedia();
 };
 
 #endif

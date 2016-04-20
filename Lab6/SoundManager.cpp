@@ -25,8 +25,8 @@ bool SoundManager::load_files()
 	menuMusic = Mix_LoadMUS("Sound/EvilGenius.wav");
 	levelOneMusic = Mix_LoadMUS("Sound/Eno.wav");
 	levelTwoMusic = Mix_LoadMUS("Sound/VelocityX.wav");
-	levelThreeMusic = Mix_LoadMUS("Sound/FastMusic.wav");
-	levelFourMusic = Mix_LoadMUS("Sound/TechyMusic.wav");
+	levelThreeMusic = Mix_LoadMUS("Sound/TechyMusic.wav");
+	levelFourMusic = Mix_LoadMUS("Sound/FastMusic.wav");
 	victory = Mix_LoadMUS("Sound/VICTORY.wav");
 
 	// Load sound effects

@@ -1,4 +1,4 @@
-ssh -l ubuntu -i jamessinnott2.pem 52.49.239.214
+ssh -l ubuntu -i jamessinnott2.pem 52.50.152.199
 
  http://glasnost.itcarlow.ie/~obroind/Online%20Gaming/Labs/Lab5/Setup%20EC2.html
 

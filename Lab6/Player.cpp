@@ -106,6 +106,7 @@ void Player::Init(SDL_Rect pRect, b2World *pWorld, string speedType, float scale
 
 	// Health
 	m_health = 100;
+	OldHealth = 100;
 	m_lives = 3;
 	m_alive = true;
 
@@ -780,8 +781,9 @@ void Player::Reset()
 	m_reachedTeleporter = false;
 	m_stopBloodAnimation = false;
 	collidingWithMovingPlat = false;
-	m_health = 100;
+	m_health = OldHealth;
 	m_score = OldScore;
+
 	m_body->SetLinearVelocity(b2Vec2(0, m_body->GetLinearVelocity().y - 0.000001f));
 
 	// Reset machine gun
@@ -795,6 +797,7 @@ void Player::LevelComplete()
 	// Reset variables
 	m_body->SetTransform(b2Vec2(m_startRect.x, m_startRect.y), 0);
 	OldScore = m_score;
+	OldHealth = m_health;
 	OldMachineGunAmmo = m_machineGunAmmo;
 	oldPickedUp = m_hasMachineGun;
 	m_alive = true;

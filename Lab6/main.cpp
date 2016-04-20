@@ -43,7 +43,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	srand(time(NULL));
 
 	// Enable highscore table
-	bool highscoreEnabled = false;
+	bool highscoreEnabled = true;
 
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);

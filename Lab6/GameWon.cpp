@@ -22,6 +22,58 @@ GameWon::GameWon(int windowWidth, int windowHeight)
 
 	// Boolean to prevent constantly adding to database
 	scoreAddedToDatabase = false;
+
+	initializeTTF();
+	loadTTFMedia();
+}
+
+bool GameWon::initializeTTF()
+{
+	//Loading success flag
+	bool success = true;
+
+	//Initialize PNG loading
+	int imgFlags = IMG_INIT_PNG;
+	if (!(IMG_Init(imgFlags) & imgFlags))
+	{
+		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+		success = false;
+	}
+
+	//Initialize SDL_ttf
+	if (TTF_Init() == -1)
+	{
+		printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+		success = false;
+	}
+
+	return success;
+}
+
+bool GameWon::loadTTFMedia()
+{
+	//Loading success flag
+	bool success = true;
+
+	//Open the font
+	gFont = TTF_OpenFont("Font/FORTE.ttf", 50);
+
+	if (gFont == NULL)
+	{
+		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
+		success = false;
+	}
+	else
+	{
+		//Render text
+		SDL_Color textColor = { 255, 165, 0 };
+		if (!winTextTexture.loadFromRenderedText("Good job " + name2 + "!", textColor, gFont))
+		{
+			printf("Failed to render text texture!\n");
+			success = false;
+		}
+	}
+	return success;
 }
 
 void GameWon::Draw()
@@ -29,6 +81,7 @@ void GameWon::Draw()
 	Renderer::GetInstance()->ClearRenderer();
 	m_backGroundImage->DrawNoCamOffset();
 	m_continueButton.Draw();
+	winTextTexture.render(40, 300);
 	Renderer::GetInstance()->RenderScreen();
 }
 
@@ -36,10 +89,12 @@ int GameWon::Update(SDL_Event e, bool highscoreEnabled, string name, HighScoreSc
 {
 	SoundManager::GetInstance()->play(SoundManager::GetInstance()->VICTORY);
 
+	name2 = name;
 	if (highscoreEnabled && !scoreAddedToDatabase)
 	{
 		highscore->PostServerData(name, score);
 		scoreAddedToDatabase = true;
+		loadTTFMedia();
 	}
 
 	// Checks if mouse is over Menu button

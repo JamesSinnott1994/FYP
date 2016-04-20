@@ -19,6 +19,7 @@ public:
 	Player();
 
 	int OldScore;
+	int OldHealth;
 	int OldMachineGunAmmo;
 
 	void Init(SDL_Rect, b2World*, string speedType, float scale);

@@ -165,7 +165,7 @@ void HighScoreScreen::GetServerData()
 	std::string readBuffer;
 
 	// URL
-	string url = "http://52.49.239.214:443/score";
+	string url = "http://52.50.152.199:443/score";
 
 	// Sets URL
 	curl_easy_setopt(myHandle, CURLOPT_URL, url.c_str());
@@ -203,7 +203,7 @@ void HighScoreScreen::PostServerData(string pName, int pScore)
 	postMessage = "name=Test&name=" + name + "&score=" + score;
 
 	// URL
-	string url = "http://52.49.239.214:443/score";
+	string url = "http://52.50.152.199:443/score";
 
 	// Sets URL
 	curl_easy_setopt(myHandle, CURLOPT_URL, url.c_str());

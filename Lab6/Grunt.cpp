@@ -569,7 +569,7 @@ bool Grunt::InRangeOfPlayer(SDL_Rect &playerRect)
 	float length = sqrt((distanceX*distanceX) + (distanceY*distanceY));
 
 	// Check if in range
-	if (length <= (m_width / 2))
+	if (length <= 600)
 	{
 		return true;
 	}
