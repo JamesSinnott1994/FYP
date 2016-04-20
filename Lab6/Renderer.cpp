@@ -99,17 +99,18 @@ void Renderer::UpdateCameraPosition(int playerXPos, int playerYPos)
 		}
 	}
 
-	//if (playerYPos < (LEVEL_HEIGHT - SCREEN_HEIGHT + startMovingCameraYPos))
-	//{
+	if (playerYPos < (LEVEL_HEIGHT - SCREEN_HEIGHT + startMovingCameraYPos))
+	{
 		if (playerYPos > startMovingCameraYPos) // Move camera
 		{
 			cameraYOffSet = (playerYPos - startMovingCameraYPos)*0.5f;
+			//cout << cameraYOffSet << endl;
 		}
 		else // Camera stays at it's initial position
 		{
 			cameraYOffSet = 1;
 		}
-	//}
+	}
 }
 
 // Getter

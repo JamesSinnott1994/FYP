@@ -252,6 +252,10 @@ void PlatformManager::Destroy()
 	{
 		plat->Destroy();
 	}
+	for each(NoRayPlatform* plat in m_noRayPlatforms)
+	{
+		plat->Destroy();
+	}
 	for each(MovingPlatform* mPlat in m_movingPlatforms)
 	{
 		mPlat->Destroy();

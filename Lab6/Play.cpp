@@ -22,7 +22,7 @@ void Play::Init(b2World* w, int SCREEN_WIDTH, int SCREEN_HEIGHT, Splash* pSplash
 	timer = new Timer();
 
 	// Levels
-	noOfLevels = 1;
+	noOfLevels = 4;
 
 	// Which speed to use
 	//whichSpeed = "labSpeed";
@@ -206,12 +206,12 @@ int Play::Update(SDL_Event e)
 				// Checks if player collides with enemy bullets
 				if (EnemyManager::GetInstance()->Update(m_player->GetPosition(), m_player->getBody()))
 				{
-					//m_player->SetHealth(m_player->GetHealth() - 10);
+					m_player->SetHealth(m_player->GetHealth() - 10);
 				}
 				// Checks if player collides with robot bullets
 				if (EnemyManager::GetInstance()->UpdateRobotBullets(m_player->GetPosition(), m_player->getBody()))
 				{
-					//m_player->SetHealth(m_player->GetHealth() - 34);
+					m_player->SetHealth(m_player->GetHealth() - 20);
 				}
 			}
 			// Opens menu
@@ -302,6 +302,12 @@ int Play::LevelComplete()
 	// Increment level
 	level->SetLevelNum(level->GetLevelNum() + 1);
 
+	// Set Renderer Y Offset
+	if (level->GetLevelNum() == 4)
+	{
+		Renderer::GetInstance()->cameraYOffSet = 83;
+	}
+
 	// DETERMINES IF YOU HAVE WON GAME
 	if (level->GetLevelNum() == noOfLevels + 1)
 	{
@@ -321,7 +327,12 @@ int Play::LevelComplete()
 	level->LoadLevel(levelText, world, whichSpeed, m_width, m_height);
 
 	string imagePath = "Images/Backgrounds/space" + to_string(level->GetLevelNum()) + ".png";
-	m_backGroundImage->Init(imagePath, SDL_Rect{ 0, 0, Renderer::GetInstance()->GetLevelWidth(), Renderer::GetInstance()->GetLevelHeight() }, SDL_Rect{ 0, 0, 2560, 1024 });
+	if (level->GetLevelNum() == 2)
+		m_backGroundImage->Init(imagePath, SDL_Rect{ 0, 0, Renderer::GetInstance()->GetLevelWidth(), Renderer::GetInstance()->GetLevelHeight() }, SDL_Rect{ 0, 0, 2560, 1024 });
+	if (level->GetLevelNum() == 3)
+		m_backGroundImage->Init(imagePath, SDL_Rect{ 0, 0, Renderer::GetInstance()->GetLevelWidth(), Renderer::GetInstance()->GetLevelHeight() }, SDL_Rect{ 0, 0, 1980, 1080 });
+	if (level->GetLevelNum() == 4)
+		m_backGroundImage->Init(imagePath, SDL_Rect{ 0, 0, Renderer::GetInstance()->GetLevelWidth(), Renderer::GetInstance()->GetLevelHeight() }, SDL_Rect{ 0, 0, 3840, 2400 });
 
 	m_player->SetReachedTeleporter(false);
 	levelComplete = false;

@@ -124,6 +124,12 @@ SDL_Rect Level::LoadLevel(string name, b2World* world, string speedType, int wid
 				SDL_Rect temp = { x*SCALE, y*SCALE+48, SCALE, SCALE*4 };
 				ObstacleManager::GetInstance()->addElectricBarriers(temp, world, speedType, barrierCounter);
 			}
+			else if (c == '3')// '3' for small Electric Barrier
+			{
+				barrierCounter += 1;
+				SDL_Rect temp = { x*SCALE, y*SCALE+32, SCALE, SCALE * 3 };
+				ObstacleManager::GetInstance()->addElectricBarriers(temp, world, speedType, barrierCounter);
+			}
 			else if (c == 'e')// 'e' for Electric Switch
 			{
 				switchCounter += 1;

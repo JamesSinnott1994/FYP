@@ -26,6 +26,7 @@ bool SoundManager::load_files()
 	levelOneMusic = Mix_LoadMUS("Sound/Eno.wav");
 	levelTwoMusic = Mix_LoadMUS("Sound/VelocityX.wav");
 	levelThreeMusic = Mix_LoadMUS("Sound/FastMusic.wav");
+	levelFourMusic = Mix_LoadMUS("Sound/TechyMusic.wav");
 	victory = Mix_LoadMUS("Sound/VICTORY.wav");
 
 	// Load sound effects
@@ -40,7 +41,7 @@ bool SoundManager::load_files()
 	//If there was a problem loading the sound effects
 	if (scorePickup == NULL || gunshot == NULL || health == NULL || mine == NULL || menuMusic == NULL
 		|| levelOneMusic == NULL || levelTwoMusic == NULL || levelThreeMusic == NULL || electrocuted == NULL || gunPickup == NULL 
-		|| victory == NULL || switchSound == NULL)
+		|| victory == NULL || switchSound == NULL || levelFourMusic == NULL)
 	{
 		return false;
 	}
@@ -67,6 +68,7 @@ void SoundManager::clean_up()
 	Mix_FreeMusic(levelOneMusic);
 	Mix_FreeMusic(levelTwoMusic);
 	Mix_FreeMusic(levelThreeMusic);
+	Mix_FreeMusic(levelFourMusic);
 	Mix_FreeMusic(victory);
 
 	//Quit SDL_mixer
@@ -90,6 +92,10 @@ void SoundManager::PlayMusic(int levelNo)
 	else if (levelNo == 3)
 	{
 		play(LEVEL_THREE_MUSIC);
+	}
+	else if (levelNo == 4)
+	{
+		play(LEVEL_FOUR_MUSIC);
 	}
 }
 
@@ -208,6 +214,34 @@ void SoundManager::play(int i)
 		{
 			//Play the music
 			Mix_PlayMusic(levelThreeMusic, -1);
+
+		}
+
+		else
+		{
+			//If the music is paused
+			if (Mix_PausedMusic() == 1 && SoundOn())
+			{
+				//Resume the music
+				Mix_ResumeMusic();
+			}
+			//If the music is playing
+			else
+			{
+				if (!SoundOn())
+				{
+					//Pause the music
+					Mix_PauseMusic();
+				}
+			}
+		}
+		break;
+
+	case LEVEL_FOUR_MUSIC:
+		if (Mix_PlayingMusic() == 0)
+		{
+			//Play the music
+			Mix_PlayMusic(levelFourMusic, -1);
 
 		}
 
